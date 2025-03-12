@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
-import { format } from 'date-fns';
 import type { Metadata } from 'next';
+import BlogPostClient from './BlogClientPage';
 
 // Fallback posts data
 const fallbackPosts = [
@@ -64,47 +64,12 @@ export async function generateMetadata({
   };
 }
 
-// Fix the type definition for the page component
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function BlogPostPage({ params }: PageProps) {
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = fallbackPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();
   }
 
-  // In a real app with Contentlayer properly set up, you'd use:
-  // const MDXContent = useMDXComponent(post.body.code);
-
-  return (
-    <div className="container mx-auto py-12">
-      <article className="prose dark:prose-invert max-w-none">
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-        <div className="flex items-center gap-4 mb-8 text-muted-foreground">
-          <time dateTime={post.date}>{format(new Date(post.date), 'MMMM d, yyyy')}</time>
-          <div className="flex gap-2">
-            {post.tags?.map((tag) => (
-              <span key={tag} className="bg-muted px-2 py-1 rounded-md text-xs">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Placeholder for MDX content */}
-        <div className="p-4 border border-border rounded-md bg-muted/20">
-          <p>This is a placeholder for the blog post content.</p>
-          <p>
-            In a real application with Contentlayer properly set up, this would render the MDX
-            content of the post.
-          </p>
-        </div>
-      </article>
-    </div>
-  );
+  return <BlogPostClient post={post} />;
 }
