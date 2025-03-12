@@ -1,0 +1,56 @@
+.qodo
+
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+yarn-error.log
+
+# Build
+/build
+/dist
+/out
+/.next/
+/.nuxt/
+/.vercel/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Coverage directory
+/coverage
+
+# Logs
+logs
+*.log
+
+# Cache directories
+.npm/
+.eslintcache
+.cache/
+.parcel-cache/
