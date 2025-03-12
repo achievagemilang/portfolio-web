@@ -3,7 +3,6 @@ import { withContentlayer } from 'next-contentlayer';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     domains: ['placeholder.com'],
   },
@@ -18,4 +17,3 @@ const nextConfig = {
 };
 
 export default withContentlayer(nextConfig);
-
