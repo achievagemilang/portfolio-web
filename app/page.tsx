@@ -3,6 +3,8 @@ import Experience from '@/components/home/experience';
 import Projects from '@/components/home/projects';
 import BlogPosts from '@/components/home/blog-posts';
 import { fallbackPosts } from './blogs/BlogClientPage';
+import PageTransition from '@/components/util/page-transition';
+import { getAllPosts } from '@/lib/mdx';
 
 // Create fallback data for when contentlayer hasn't generated content yet
 const fallbackExperiences = [
@@ -18,6 +20,8 @@ const fallbackExperiences = [
       'Implemented CI/CD pipeline reducing deployment time by 60%',
       'Mentored junior developers and conducted code reviews',
     ],
+    logoUrl: '/placeholder-logo.svg',
+    website: 'https://example.com',
   },
   {
     _id: 'exp-2',
@@ -31,13 +35,34 @@ const fallbackExperiences = [
       'Implemented state management using Redux',
       'Collaborated with design team to improve UX',
     ],
+    logoUrl: '/placeholder-logo.svg',
+    website: 'https://previouscompany.com',
+  },
+  {
+    _id: 'exp-3',
+    company: 'Previous Company',
+    position: 'Frontend Developer',
+    startDate: '2018-06-01',
+    endDate: '2020-12-31',
+    description: 'Developed responsive web applications using React and TypeScript.',
+    achievements: [
+      'Built reusable component library used across multiple projects',
+      'Implemented state management using Redux',
+      'Collaborated with design team to improve UX',
+    ],
+    logoUrl: '/placeholder-logo.svg',
+    website: 'https://anothercompany.com',
   },
 ];
 
-export default function Home() {
+export default async function Home() {
   // Try to import from contentlayer, but use fallback data if it fails
   const experiences = fallbackExperiences;
-  const recentPosts = fallbackPosts;
+
+  const posts = await getAllPosts();
+
+  // If we have actual posts, use them; otherwise fall back to our hardcoded ones
+  const recentPosts = posts.length > 0 ? posts : fallbackPosts;
 
   try {
     // Dynamic import to avoid build errors
@@ -85,11 +110,13 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen">
-      <Hero />
-      <Experience experiences={experiences} />
-      <Projects projects={featuredProjects} />
-      <BlogPosts posts={recentPosts} />
-    </main>
+    <PageTransition>
+      <main className="min-h-screen">
+        <Hero />
+        <Experience experiences={experiences} />
+        <Projects projects={featuredProjects} />
+        <BlogPosts posts={recentPosts} />
+      </main>
+    </PageTransition>
   );
 }

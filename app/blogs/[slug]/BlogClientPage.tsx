@@ -2,6 +2,7 @@
 
 import { format } from 'date-fns';
 import { MDXRenderer } from '@/components/mdx-renderer';
+import { Post } from '@/content-config';
 
 interface BlogPostClientProps {
   post: Post;

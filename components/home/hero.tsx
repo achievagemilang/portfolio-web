@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { TypeAnimation } from "react-type-animation"
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { TypeAnimation } from 'react-type-animation';
 
 export default function Hero() {
   return (
@@ -43,7 +43,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.7 }}
           >
-            Hi, I'm {" "}
+            Hi, I'm{' '}
             <>
               <TypeAnimation
                 sequence={['Achieva Gemilang']}
@@ -61,7 +61,8 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.7 }}
           >
-            A life-long learner <span className="text-red-800">Software Engineer</span> with a business-driven mindset, blending technical expertise with strategic thinking.
+            A life-long learner <span className="text-red-800">Software Engineer</span> with a
+            business-driven mindset, blending technical expertise with strategic thinking.
           </motion.p>
 
           <motion.div
@@ -71,7 +72,9 @@ export default function Hero() {
             transition={{ delay: 0.6, duration: 0.7 }}
           >
             <Button asChild size="lg">
-              <Link href="/resume.pdf">Resume/CV</Link>
+              <Link href="https://drive.google.com/file/d/1NNrYkp3NKc_8hQmRa0P4T0Ctt3Y-7QxN/view?usp=sharing">
+                Resume/CV
+              </Link>
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="/about">About Me</Link>
@@ -80,6 +83,5 @@ export default function Hero() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
-
