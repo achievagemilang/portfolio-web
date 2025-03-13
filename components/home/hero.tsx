@@ -5,20 +5,22 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { TypeAnimation } from 'react-type-animation';
+import SocialLinks from '@/components/shared/social-links';
 
 export default function Hero() {
+  const fadeInAnimation = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+  };
+
   return (
     <section className="relative py-20 md:py-32 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10 dark:to-primary/5" />
 
       <div className="container relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-3xl mx-auto text-center"
-        >
+        <motion.div {...fadeInAnimation} className="max-w-3xl mx-auto text-center">
           {/* Profile picture */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -44,19 +46,17 @@ export default function Hero() {
             transition={{ delay: 0.2, duration: 0.7 }}
           >
             Hi, I'm{' '}
-            <>
-              <TypeAnimation
-                sequence={['Achieva Gemilang']}
-                wrapper="span"
-                speed={40}
-                className="text-red-800"
-                cursor={true}
-              />
-            </>
+            <TypeAnimation
+              sequence={['Achieva Gemilang']}
+              wrapper="span"
+              speed={40}
+              className="text-red-800"
+              cursor={true}
+            />
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl text-muted-foreground mb-8"
+            className="text-xl md:text-2xl text-muted-foreground mb-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.7 }}
@@ -64,6 +64,16 @@ export default function Hero() {
             A life-long learner <span className="text-red-800">Software Engineer</span> with a
             business-driven mindset, blending technical expertise with strategic thinking.
           </motion.p>
+
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            className="mb-8"
+          >
+            <SocialLinks />
+          </motion.div>
 
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
