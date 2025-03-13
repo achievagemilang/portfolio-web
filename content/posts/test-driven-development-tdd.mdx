@@ -1,0 +1,88 @@
+---
+title: 'Test-Driven Development (TDD): a Cip Crash Course (3C) Series'
+date: '2023-07-10'
+excerpt: 'Exploring Test-Driven Development principles and implementation'
+tags: ['Testing', 'TDD', 'Software Development']
+---
+
+For me, as a student majoring in Computer Science, the importance of **Test-Driven Development (TDD)** often emerges as both an intriguing and essential topic. Moreover, in today’s fast-paced digital landscape, measures like quality, reliability, and functionality serve as the cornerstones of successful software applications, necessitating a robust framework for development, testing, and quality assurance. These goals can be achieved by applying TDD as our catalyst. This short article will take you through the essentials of software creation and dive deep into Test-Driven Development (TDD), a pivotal strategy in modern software engineering that ensures excellence from the ground up.
+
+## What Exactly is TDD?
+
+**Test-Driven Development (TDD) **is an innovative approach that reverses traditional development processes by insisting on test formulation before writing any production code. This means that before a single line of code is written, we must already have a series of failing tests, which will later guide us in developing the code to pass these tests. Robert Cecil Martin states that there are three **golden rules** of TDD — **_not writing production code before the test, not writing more tests than necessary, and not writing more production code than necessary to pass the test._**
+
+## Why Use TDD?
+
+![Image taken from [FreeCodeCamp](https://cdn-media-1.freecodecamp.org/images/0*m9IeLR30F2AAtlwu.jpg)](https://cdn-images-1.medium.com/max/2000/1*m5-elFkVFSTsx7lcs1OKkw.jpeg)*Image taken from [FreeCodeCamp](https://cdn-media-1.freecodecamp.org/images/0*m9IeLR30F2AAtlwu.jpg)\*
+
+Exploring Test-Driven Development (TDD) reveals a host of benefits that go well beyond its fundamental cycle. Let’s dive into some examples:
+
+- **Superior Code Quality:** With TDD, every piece of code is accompanied by a test, ensuring that every function works as expected. This approach reduces the likelihood of bugs and facilitates the debugging process.
+
+- **Early Detection of Side Effects**: Suppose, in the near future, we need to adjust features that have already been developed. Any code adjustments we make can be immediately tested, allowing for the early detection of side effects or bugs. These can then be corrected before escalating into more significant problems.
+
+- **Structured Development Process: **TDD encourages developers to take time to plan and think about their code design before beginning the implementation. This foresight can significantly reduce the time wasted on unnecessary revisions.
+
+- **Boosted Developer Confidence:** Who doesn’t appreciate validation? The reassurance that comes from passing tests can increase developers’ confidence in their code’s reliability and adherence to requirements.
+
+## Isn’t It Difficult to Use TDD?
+
+> “Basically, TDD is hard! It needs skill, and it needs practice.”
+> — **Holly K. Cummins on [Medium](https://holly-k-cummins.medium.com/when-tdd-gets-hard-fc14136c3f44)**
+
+_Well, yes.. but actually no_. Indeed, it’s true that there are challenges to overcome when using Test-Driven Development (TDD). However, on the flip side, developing with TDD becomes easier once you’ve adjusted to its workflow. The key takeaway is that we need to embrace this learning process to produce better end products, while also accepting that making mistakes along the way is perfectly okay. Let’s explore some of these challenges:
+
+- **Time for Creating Unit Tests: **Creating effective unit tests requires significant time and effort, especially when dealing with edge cases or integration with external components.
+
+- **Difficulty in Mocking: **Mocking is an essential technique in TDD to isolate a unit of code from its dependencies. However, this can be challenging when working with complex libraries or APIs. For example, when using a service that interacts with a payment processing API.
+
+- **Learning Curve: **For many developers, especially students like me, there is a learning curve to mastering TDD. This includes understanding how to write good and efficient tests, as well as getting to grips with testing tools and frameworks.
+
+## Introducing: Red-Green-Refactor (RGR)
+
+![Image taken from [Mobile App Circular](https://mobileappcircular.com/red-green-refactor-e2a1d7c287b3)](https://cdn-images-1.medium.com/max/2000/1*i2ssxfDUpr5iM5f-KR8uug.png)_Image taken from [Mobile App Circular](https://mobileappcircular.com/red-green-refactor-e2a1d7c287b3)_
+
+*Did I already mention TDD can be challenging? *Developing in TDD can be simplified once you know this key principle of TDD — **_red, green, refactor. _**If you’re just getting started with TDD, wrapping your head around this concept can transform the way you approach software development. Let’s break down this cornerstone principle in a way that’s easy to digest!
+
+- **The Red Phase:** **Starting at a Stoplight
+  **Picture yourself at a red light; it’s a signal to stop, right? In the world of TDD, hitting the red phase means you write a test for a feature that doesn’t exist yet. As expected, the test fails because, well, there’s no code to pass the test yet! This failure is your starting line — it sets a clear goal for what you need to achieve. Think of it as your development GPS giving you the first coordinates to your destination.
+
+- **The Green Phase: Go, Go, Go!**
+  Once you’re at red, you’re looking for that green light to move forward. In the green phase, your sole mission is to write just enough code to make that failing test pass. It doesn’t have to be pretty or final, it just has to work. This step is all about getting from point A to point B, ensuring that your test suite lights up green, signaling success. It’s like a quick sketch before the masterpiece, ensuring the basics are right before adding the finer details.
+
+- **The Refactor Phase: Polishing to Perfection
+  **Now, you’ve got a green light, but you’re not at your final destination yet. The refactor phase is where the magic happens. It’s your opportunity to clean up the code you just wrote, improving its structure, efficiency, and readability without changing its external behavior. This is like taking your quick sketch and turning it into a polished piece of art, making sure it’s as good as it can be. It’s about asking, *“Can I make this better?” *while ensuring everything still works perfectly.
+
+## Red-Green-Refactor: Jest Implementation on Nest
+
+Now that we know key concepts of RGR principle, let’s take a dive into a real-world example using TypeScript, Jest, and NestJS for our Red-Green-Refactor (RGR) cycle. We’ll create a service that focuses on a user management system, especially when adding a user. For simplicity, we’re not going to use external services or libraries. You can try to follow steps below:
+
+1. **Set up a NestJS Project with Jest**
+
+- **Install NestJS CLI**: First, you need to install the NestJS CLI globally if you haven’t already. Open your terminal and run:
+
+  npm i -g @nestjs/cli
+
+- **Create a New NestJS Project and Navigate Into It**: Generate a new project and navigate to the new project. Use npm as package manager.
+
+  nest new user-manager
+  cd user-manager
+
+- **Install Jest**: By default, NestJS projects utilize Jest for their testing framework. Should Jest be missing for any reason, you can easily include it by executing:
+
+  npm install --save-dev jest @types/jest ts-jest
+
+- **Create a Module and Service**: Generate the modules and service we’ll implement by using command below.
+
+  npx nest g module users
+  npx nest g service users
+
+which will automatically done this for you.
+
+    CREATE src/users/users.module.ts (82 bytes)
+    UPDATE src/app.module.ts (312 bytes)
+    CREATE src/users/users.service.spec.ts (453 bytes)
+    CREATE src/users/users.service.ts (89 bytes)
+    UPDATE src/users/users.module.ts (159 bytes)
+
+2. **RGR Cycle 1: Adding a User**
