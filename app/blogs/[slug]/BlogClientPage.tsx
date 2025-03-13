@@ -35,13 +35,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
         </div>
 
         {/* Placeholder for MDX content */}
-        <div className="p-4 border border-border rounded-md bg-muted/20">
-          <p>This is a placeholder for the blog post content.</p>
-          <p>
-            In a real application with Contentlayer properly set up, this would render the MDX
-            content of the post.
-          </p>
-        </div>
+        <div className="p-4 border border-border rounded-md bg-muted/20">{post.body?.code}</div>
       </article>
     </div>
   );

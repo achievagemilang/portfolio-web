@@ -1,18 +1,18 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { format } from "date-fns"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { format } from 'date-fns';
 
 interface Experience {
-  _id: string
-  company: string
-  position: string
-  startDate: string
-  endDate: string | null
-  description: string
-  achievements: string[]
+  _id: string;
+  company: string;
+  position: string;
+  startDate: string;
+  endDate: string | null;
+  description: string;
+  achievements: string[];
 }
 
 interface ExperienceProps {
-  experiences: Experience[]
+  experiences: Experience[];
 }
 
 export default function Experience({ experiences }: ExperienceProps) {
@@ -29,19 +29,21 @@ export default function Experience({ experiences }: ExperienceProps) {
             <div
               key={experience._id}
               className={`relative mb-12 ${
-                index % 2 === 0 ? "md:pr-12 md:ml-auto md:mr-1/2" : "md:pl-12 md:mr-auto md:ml-1/2"
+                index % 2 === 0 ? 'md:pr-12 md:ml-auto md:mr-1/2' : 'md:pl-12 md:mr-auto md:ml-1/2'
               }`}
             >
               {/* Timeline dot */}
               <div className="absolute left-0 md:left-1/2 top-6 w-4 h-4 rounded-full bg-primary -ml-2 md:-ml-2" />
 
-              <Card>
+              <Card className="hover:scale-[1.03] hover:shadow-lg">
                 <CardHeader>
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                     <CardTitle>{experience.position}</CardTitle>
                     <span className="text-sm text-muted-foreground">
-                      {format(new Date(experience.startDate), "MMM yyyy")} -
-                      {experience.endDate ? format(new Date(experience.endDate), " MMM yyyy") : " Present"}
+                      {format(new Date(experience.startDate), 'MMM yyyy')} -
+                      {experience.endDate
+                        ? format(new Date(experience.endDate), ' MMM yyyy')
+                        : ' Present'}
                     </span>
                   </div>
                   <div className="text-lg font-medium">{experience.company}</div>
@@ -60,6 +62,5 @@ export default function Experience({ experiences }: ExperienceProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

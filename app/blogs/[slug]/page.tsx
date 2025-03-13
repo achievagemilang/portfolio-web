@@ -37,7 +37,31 @@ const fallbackPosts = [
       code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
     },
   },
+  {
+    _id: 'post-4',
+    title: 'Building a Portfolio with Next.js',
+    date: '2023-04-20',
+    excerpt: 'Step-by-step guide to creating a developer portfolio with Next.js',
+    slug: 'portfolio-with-nextjs',
+    tags: ['Next.js', 'Portfolio', 'Career'],
+    body: {
+      code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
+    },
+  },
+  {
+    _id: 'post-5',
+    title: 'Introduction to TypeScript',
+    date: '2023-05-15',
+    excerpt: 'Why TypeScript is becoming essential for modern web development',
+    slug: 'intro-to-typescript',
+    tags: ['TypeScript', 'JavaScript', 'Web Development'],
+    body: {
+      code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
+    },
+  },
 ];
+
+type tParams = Promise<{ slug: string }>;
 
 export async function generateStaticParams() {
   return fallbackPosts.map((post) => ({
@@ -45,12 +69,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const post = fallbackPosts.find((post) => post.slug === params.slug);
+export async function generateMetadata({ params }: { params: tParams }): Promise<Metadata> {
+  const { slug }: { slug: string } = await params;
+  const post = fallbackPosts.find((post) => post.slug === slug);
 
   if (!post) {
     return {
@@ -64,8 +85,9 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = fallbackPosts.find((post) => post.slug === params.slug);
+export default async function BlogPostPage({ params }: { params: tParams }) {
+  const { slug }: { slug: string } = await params;
+  const post = fallbackPosts.find((post) => post.slug === slug);
 
   if (!post) {
     notFound();
