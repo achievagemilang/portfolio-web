@@ -5,9 +5,20 @@ import BlogCard from '@/components/blogs/blog-card';
 import SearchBar from '@/components/blogs/search-bar';
 import TagFilter from '@/components/blogs/tag-filter';
 import { Button } from '@/components/ui/button';
+import { getAllPosts } from '@/lib/mdx';
+import { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { Post } from '@/content-config';
 
 // Fallback posts data
-export const fallbackPosts = [
+export const fallbackPosts: {
+  _id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  slug: string;
+  tags: string[];
+  mdxSource: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
+}[] = [
   {
     _id: 'post-1',
     title: 'Getting Started with Next.js',
@@ -15,9 +26,12 @@ export const fallbackPosts = [
     excerpt: 'Learn how to build modern web applications with Next.js',
     slug: 'getting-started-with-nextjs',
     tags: ['Next.js', 'React', 'Web Development'],
-    body: {
-      code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
-    },
+    mdxSource: {
+      compiledSource:
+        'function _createMdxContent(props) { return _jsx("p", { children: "This is a placeholder for the MDX content." }); }',
+      frontmatter: {},
+      scope: {},
+    } as MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>,
   },
   {
     _id: 'post-2',
@@ -26,9 +40,12 @@ export const fallbackPosts = [
     excerpt: 'How to use Tailwind CSS to create beautiful, responsive designs',
     slug: 'styling-with-tailwind-css',
     tags: ['CSS', 'Tailwind', 'Design'],
-    body: {
-      code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
-    },
+    mdxSource: {
+      compiledSource:
+        'function _createMdxContent(props) { return _jsx("p", { children: "This is a placeholder for the MDX content." }); }',
+      frontmatter: {},
+      scope: {},
+    } as MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>,
   },
   {
     _id: 'post-3',
@@ -37,9 +54,12 @@ export const fallbackPosts = [
     excerpt: 'Understanding the power of React Server Components in Next.js',
     slug: 'server-components-nextjs',
     tags: ['Next.js', 'React', 'Server Components'],
-    body: {
-      code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
-    },
+    mdxSource: {
+      compiledSource:
+        'function _createMdxContent(props) { return _jsx("p", { children: "This is a placeholder for the MDX content." }); }',
+      frontmatter: {},
+      scope: {},
+    } as MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>,
   },
   {
     _id: 'post-4',
@@ -48,9 +68,12 @@ export const fallbackPosts = [
     excerpt: 'Step-by-step guide to creating a developer portfolio with Next.js',
     slug: 'portfolio-with-nextjs',
     tags: ['Next.js', 'Portfolio', 'Career'],
-    body: {
-      code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
-    },
+    mdxSource: {
+      compiledSource:
+        'function _createMdxContent(props) { return _jsx("p", { children: "This is a placeholder for the MDX content." }); }',
+      frontmatter: {},
+      scope: {},
+    } as MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>,
   },
   {
     _id: 'post-5',
@@ -59,15 +82,22 @@ export const fallbackPosts = [
     excerpt: 'Why TypeScript is becoming essential for modern web development',
     slug: 'intro-to-typescript',
     tags: ['TypeScript', 'JavaScript', 'Web Development'],
-    body: {
-      code: 'This is a placeholder for the MDX content. In a real application, this would be rendered using the MDX component.',
-    },
+    mdxSource: {
+      compiledSource:
+        'function _createMdxContent(props) { return _jsx("p", { children: "This is a placeholder for the MDX content." }); }',
+      frontmatter: {},
+      scope: {},
+    } as MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>,
   },
 ];
 
-export default function BlogClientPage() {
+interface PostsProps {
+  posts: Post[];
+}
+
+export default function BlogClientPage({ posts }: PostsProps) {
   // Use fallback posts data
-  const allPosts = fallbackPosts;
+  const allPosts = posts.length > 0 ? posts : fallbackPosts;
   const [filteredPosts, setFilteredPosts] = useState(allPosts);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);

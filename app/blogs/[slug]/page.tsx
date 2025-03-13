@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import BlogPostClient from './BlogClientPage';
+import { getPostBySlug, getAllPosts } from '@/lib/mdx';
 
 // Fallback posts data
 const fallbackPosts = [
@@ -64,34 +65,49 @@ const fallbackPosts = [
 type tParams = Promise<{ slug: string }>;
 
 export async function generateStaticParams() {
-  return fallbackPosts.map((post) => ({
-    slug: post.slug,
+  const posts = await getAllPosts();
+
+  // If we have actual posts, use them; otherwise fall back to our hardcoded ones
+  const allPosts = posts.length > 0 ? posts : fallbackPosts;
+
+  return allPosts.map((post) => ({
+    slug: post!.slug,
   }));
 }
 
 export async function generateMetadata({ params }: { params: tParams }): Promise<Metadata> {
   const { slug }: { slug: string } = await params;
-  const post = fallbackPosts.find((post) => post.slug === slug);
 
-  if (!post) {
+  // Try to get the real post first
+  const post = await getPostBySlug(slug);
+
+  // Fall back to hardcoded data if needed
+  const finalPost = post || fallbackPosts.find((p) => p.slug === slug);
+
+  if (!finalPost) {
     return {
       title: 'Post Not Found',
     };
   }
 
   return {
-    title: `${post.title} | Your Name`,
-    description: post.excerpt,
+    title: `${finalPost.title} | Your Name`,
+    description: finalPost.excerpt,
   };
 }
 
 export default async function BlogPostPage({ params }: { params: tParams }) {
   const { slug }: { slug: string } = await params;
-  const post = fallbackPosts.find((post) => post.slug === slug);
 
-  if (!post) {
+  // Try to get the real post first
+  const post = await getPostBySlug(slug);
+
+  // Fall back to hardcoded data if needed
+  const finalPost = post || fallbackPosts.find((p) => p.slug === slug);
+
+  if (!finalPost) {
     notFound();
   }
 
-  return <BlogPostClient post={post} />;
+  return <BlogPostClient post={finalPost} />;
 }
