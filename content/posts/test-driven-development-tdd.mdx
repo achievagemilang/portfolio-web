@@ -1,6 +1,6 @@
 ---
 title: 'Test-Driven Development (TDD): a Cip Crash Course (3C) Series'
-date: '2023-07-10'
+date: '2024-08-02'
 excerpt: 'Exploring Test-Driven Development principles and implementation'
 tags: ['Testing', 'TDD', 'Software Development']
 ---
@@ -9,19 +9,30 @@ For me, as a student majoring in Computer Science, the importance of **Test-Driv
 
 ## What Exactly is TDD?
 
-**Test-Driven Development (TDD) **is an innovative approach that reverses traditional development processes by insisting on test formulation before writing any production code. This means that before a single line of code is written, we must already have a series of failing tests, which will later guide us in developing the code to pass these tests. Robert Cecil Martin states that there are three **golden rules** of TDD — **_not writing production code before the test, not writing more tests than necessary, and not writing more production code than necessary to pass the test._**
+**Test-Driven Development (TDD)** is an innovative approach that reverses traditional development processes by insisting on test formulation before writing any production code. This means that before a single line of code is written, we must already have a series of failing tests, which will later guide us in developing the code to pass these tests. Robert Cecil Martin states that there are three **golden rules** of TDD — **_not writing production code before the test, not writing more tests than necessary, and not writing more production code than necessary to pass the test._**
 
 ## Why Use TDD?
 
-![Image taken from [FreeCodeCamp](https://cdn-media-1.freecodecamp.org/images/0*m9IeLR30F2AAtlwu.jpg)](https://cdn-images-1.medium.com/max/2000/1*m5-elFkVFSTsx7lcs1OKkw.jpeg)*Image taken from [FreeCodeCamp](https://cdn-media-1.freecodecamp.org/images/0*m9IeLR30F2AAtlwu.jpg)\*
+<figure className="text-center mx-auto max-w-full">
+  <img
+    src="https://cdn-media-1.freecodecamp.org/images/0*m9IeLR30F2AAtlwu.jpg"
+    alt="Image taken from [FreeCodeCamp]"
+    className="mx-auto max-w-full h-auto rounded-xl"
+    width="624"
+    height="376"
+  />
+  <figcaption className="text-sm text-gray-500 mt-1">
+    <em>Image taken from [FreeCodeCamp](https://cdn-media-1.freecodecamp.org/images/0*m9IeLR30F2AAtlwu.jpg)</em>
+  </figcaption>
+</figure>
 
 Exploring Test-Driven Development (TDD) reveals a host of benefits that go well beyond its fundamental cycle. Let’s dive into some examples:
 
 - **Superior Code Quality:** With TDD, every piece of code is accompanied by a test, ensuring that every function works as expected. This approach reduces the likelihood of bugs and facilitates the debugging process.
 
-- **Early Detection of Side Effects**: Suppose, in the near future, we need to adjust features that have already been developed. Any code adjustments we make can be immediately tested, allowing for the early detection of side effects or bugs. These can then be corrected before escalating into more significant problems.
+- **Early Detection of Side Effects:** Suppose, in the near future, we need to adjust features that have already been developed. Any code adjustments we make can be immediately tested, allowing for the early detection of side effects or bugs. These can then be corrected before escalating into more significant problems.
 
-- **Structured Development Process: **TDD encourages developers to take time to plan and think about their code design before beginning the implementation. This foresight can significantly reduce the time wasted on unnecessary revisions.
+- **Structured Development Process:** TDD encourages developers to take time to plan and think about their code design before beginning the implementation. This foresight can significantly reduce the time wasted on unnecessary revisions.
 
 - **Boosted Developer Confidence:** Who doesn’t appreciate validation? The reassurance that comes from passing tests can increase developers’ confidence in their code’s reliability and adherence to requirements.
 
@@ -32,57 +43,417 @@ Exploring Test-Driven Development (TDD) reveals a host of benefits that go well 
 
 _Well, yes.. but actually no_. Indeed, it’s true that there are challenges to overcome when using Test-Driven Development (TDD). However, on the flip side, developing with TDD becomes easier once you’ve adjusted to its workflow. The key takeaway is that we need to embrace this learning process to produce better end products, while also accepting that making mistakes along the way is perfectly okay. Let’s explore some of these challenges:
 
-- **Time for Creating Unit Tests: **Creating effective unit tests requires significant time and effort, especially when dealing with edge cases or integration with external components.
+- **Time for Creating Unit Tests:** Creating effective unit tests requires significant time and effort, especially when dealing with edge cases or integration with external components.
 
-- **Difficulty in Mocking: **Mocking is an essential technique in TDD to isolate a unit of code from its dependencies. However, this can be challenging when working with complex libraries or APIs. For example, when using a service that interacts with a payment processing API.
+- **Difficulty in Mocking:** Mocking is an essential technique in TDD to isolate a unit of code from its dependencies. However, this can be challenging when working with complex libraries or APIs. For example, when using a service that interacts with a payment processing API.
 
-- **Learning Curve: **For many developers, especially students like me, there is a learning curve to mastering TDD. This includes understanding how to write good and efficient tests, as well as getting to grips with testing tools and frameworks.
+- **Learning Curve:** For many developers, especially students like me, there is a learning curve to mastering TDD. This includes understanding how to write good and efficient tests, as well as getting to grips with testing tools and frameworks.
 
 ## Introducing: Red-Green-Refactor (RGR)
+<figure className="text-center mx-auto max-w-full">
+  <img
+    src="https://cdn-images-1.medium.com/max/2000/1*i2ssxfDUpr5iM5f-KR8uug.png"
+    alt="Image taken from [Mobile App Circular]"
+    className="mx-auto max-w-full h-auto rounded-xl"
+    width="624"
+    height="376"
+  />
+  <figcaption className="text-sm text-gray-500 mt-1">
+    <em>Image taken from [Mobile App Circular](https://mobileappcircular.com/red-green-refactor-e2a1d7c287b3)</em>
+  </figcaption>
+</figure>
 
-![Image taken from [Mobile App Circular](https://mobileappcircular.com/red-green-refactor-e2a1d7c287b3)](https://cdn-images-1.medium.com/max/2000/1*i2ssxfDUpr5iM5f-KR8uug.png)_Image taken from [Mobile App Circular](https://mobileappcircular.com/red-green-refactor-e2a1d7c287b3)_
+*Did I already mention TDD can be challenging?* Developing in TDD can be simplified once you know this key principle of TDD — _**red, green, refactor.**_ If you’re just getting started with TDD, wrapping your head around this concept can transform the way you approach software development. Let’s break down this cornerstone principle in a way that’s easy to digest!
 
-*Did I already mention TDD can be challenging? *Developing in TDD can be simplified once you know this key principle of TDD — **_red, green, refactor. _**If you’re just getting started with TDD, wrapping your head around this concept can transform the way you approach software development. Let’s break down this cornerstone principle in a way that’s easy to digest!
-
-- **The Red Phase:** **Starting at a Stoplight
-  **Picture yourself at a red light; it’s a signal to stop, right? In the world of TDD, hitting the red phase means you write a test for a feature that doesn’t exist yet. As expected, the test fails because, well, there’s no code to pass the test yet! This failure is your starting line — it sets a clear goal for what you need to achieve. Think of it as your development GPS giving you the first coordinates to your destination.
+- **The Red Phase:** **Starting at a Stoplight**
+  
+  Picture yourself at a red light; it’s a signal to stop, right? In the world of TDD, hitting the red phase means you write a test for a feature that doesn’t exist yet. As expected, the test fails because, well, there’s no code to pass the test yet! This failure is your starting line — it sets a clear goal for what you need to achieve. Think of it as your development GPS giving you the first coordinates to your destination.
 
 - **The Green Phase: Go, Go, Go!**
+  
   Once you’re at red, you’re looking for that green light to move forward. In the green phase, your sole mission is to write just enough code to make that failing test pass. It doesn’t have to be pretty or final, it just has to work. This step is all about getting from point A to point B, ensuring that your test suite lights up green, signaling success. It’s like a quick sketch before the masterpiece, ensuring the basics are right before adding the finer details.
 
-- **The Refactor Phase: Polishing to Perfection
-  **Now, you’ve got a green light, but you’re not at your final destination yet. The refactor phase is where the magic happens. It’s your opportunity to clean up the code you just wrote, improving its structure, efficiency, and readability without changing its external behavior. This is like taking your quick sketch and turning it into a polished piece of art, making sure it’s as good as it can be. It’s about asking, *“Can I make this better?” *while ensuring everything still works perfectly.
+- **The Refactor Phase: Polishing to Perfection**
+  
+  Now, you’ve got a green light, but you’re not at your final destination yet. The refactor phase is where the magic happens. It’s your opportunity to clean up the code you just wrote, improving its structure, efficiency, and readability without changing its external behavior. This is like taking your quick sketch and turning it into a polished piece of art, making sure it’s as good as it can be. It’s about asking, *“Can I make this better?” *while ensuring everything still works perfectly.
 
-## Red-Green-Refactor: Jest Implementation on Nest
+## Red-Green-Refactor: Jest Implementation on NestJS
 
 Now that we know key concepts of RGR principle, let’s take a dive into a real-world example using TypeScript, Jest, and NestJS for our Red-Green-Refactor (RGR) cycle. We’ll create a service that focuses on a user management system, especially when adding a user. For simplicity, we’re not going to use external services or libraries. You can try to follow steps below:
 
 1. **Set up a NestJS Project with Jest**
 
 - **Install NestJS CLI**: First, you need to install the NestJS CLI globally if you haven’t already. Open your terminal and run:
-
+  
+  ```bash
   npm i -g @nestjs/cli
+  ```
 
-- **Create a New NestJS Project and Navigate Into It**: Generate a new project and navigate to the new project. Use npm as package manager.
-
+- **Create a New NestJS Project and Navigate Into It**: Generate a new project and navigate to the new project. Use `npm` as package manager.
+  ```
   nest new user-manager
   cd user-manager
+  ```
 
 - **Install Jest**: By default, NestJS projects utilize Jest for their testing framework. Should Jest be missing for any reason, you can easily include it by executing:
-
+  ```bash
   npm install --save-dev jest @types/jest ts-jest
+  ```
 
 - **Create a Module and Service**: Generate the modules and service we’ll implement by using command below.
-
+  ```bash
   npx nest g module users
   npx nest g service users
+  ```
 
-which will automatically done this for you.
-
+  which will automatically done this for you:
+    ```bash
     CREATE src/users/users.module.ts (82 bytes)
     UPDATE src/app.module.ts (312 bytes)
     CREATE src/users/users.service.spec.ts (453 bytes)
     CREATE src/users/users.service.ts (89 bytes)
     UPDATE src/users/users.module.ts (159 bytes)
+    ```
 
 2. **RGR Cycle 1: Adding a User**
+
+- **Red Phase**
+
+  First, we start by writing a test for adding a new user. In `src/users/users.service.spec.ts`:
+    ```ts
+    import { UsersService } from './users.service';
+    
+    describe('UsersService', () => {
+      let service: UsersService;
+      beforeEach(() => {
+        service = new UsersService();
+      });
+      describe('addUser', () => {
+        it('should successfully add a user', async () => {
+          const mockUser = {
+            name: 'Alice',
+            email: 'alice@example.com',
+            status: 'active',
+          };
+          const result = await service.addUser(mockUser);
+          expect(result).toEqual({ id: expect.any(Number), ...mockUser });
+        });
+      });
+    });
+    ```
+
+  Running npm test now will fail because `addUser` doesn’t exist.
+
+- **Green Phase**
+
+  Implement the `addUser` method in `src/users/users.service.ts`:
+  ```ts
+  import { Injectable } from '@nestjs/common';
+
+  interface User {
+    id: number;
+    name: string;
+    email: string;
+    status: string;
+  }
+
+  @Injectable()
+  export class UsersService {
+    private users: User[] = [];
+    private idCounter = 1;
+    async addUser(user: Omit<User, 'id'>): Promise<User> {
+      const newUser = { id: this.idCounter++, ...user };
+      this.users.push(newUser);
+      return newUser;
+    }
+  }
+  ```
+
+  Run tests again, and they should pass, indicating the green phase is successful.
+
+- **Refactor Phase**
+
+  Refactor by adding a **DTO (Data Transfer Object)** for adding users for type checking and validation, although for simplicity, we’ll skip validation here. Create `create-user.dto.ts` in `src/dto`:
+  ```ts
+  export class CreateUserDto {
+    name: string;
+    email: string;
+    status: string;
+  }
+  ```
+
+  Then, refactor `users.service.ts` to use `CreateUserDto`.
+
+  ```ts
+  async addUser(user: CreateUserDto): Promise<User> {
+    const newUser = { id: this.idCounter++, ...user };
+    this.users.push(newUser);
+    return newUser;
+  }
+  ```
+
+3. **RGR Cycle 2: Adding a User**
+
+- **Red Phase**
+
+  In `users.service.spec.ts`, add a test for the failure scenario:
+  ```ts
+  import { UsersService } from './users.service';
+  
+  describe('UsersService', () => {
+    let service: UsersService;
+    beforeEach(() => {
+      service = new UsersService();
+    });
+
+    describe('addUser', () => {
+      it('should successfully add a user', async () => {
+        const mockUser = {
+          name: 'Alice',
+          email: 'alice@example.com',
+          status: 'active',
+        };
+        const result = await service.addUser(mockUser);
+        expect(result).toEqual({ id: expect.any(Number), ...mockUser });
+      });
+
+      // New negative test
+      it('should fail to add a user with an existing email', async () => {
+        const duplicateEmail = 'john@example.com';
+        // Assume addUser is a method that adds a user and throws an exception for duplicate emails
+        await service.addUser({
+          name: 'John Doe',
+          email: duplicateEmail,
+          status: 'active',
+        });
+        await expect(
+          service.addUser({
+            name: 'Another John',
+            email: duplicateEmail,
+            status: 'active',
+          }),
+        ).rejects.toThrow('Email already exists');
+      });
+    }); 
+  });
+  ```
+
+- **Green Phase**
+
+  Now, update the `addUser` method in `users.service.ts` to check for an existing user with the given email and throw an exception if found:
+
+  ```ts
+  async addUser(user: CreateUserDto): Promise<User> {
+    // New logic to add.
+    const existingUser = this.users.find(u => u.email === user.email);
+    if (existingUser) {
+      throw new Error('Email already exists');
+    }
+    // Logic to add the user to the repository
+    const newUser = { id: this.idCounter++, ...user };
+    this.users.push(newUser);
+    return newUser;
+  }
+  ```
+
+  Now, run `npm test` again to ensure it’s passed. Until this step, your test results should look something like this:
+
+<figure className="text-center mx-auto max-w-full">
+  <img
+    src="https://cdn-images-1.medium.com/max/2000/1*i9828YNqFepAhAZIAs--Bw.png"
+    alt="Test Results"
+    className="mx-auto max-w-full h-auto rounded-xl"
+    width="524"
+    height="376"
+  />
+  <figcaption className="text-sm text-gray-500 mt-1">
+    <em>Test Results</em>
+  </figcaption>
+</figure>
+
+- **Refactor Phase**
+
+  Check if there’s any part of the code that can be improved for readability, performance, or maintainability without changing its behavior. 
+  
+  For example, you might refactor to use a repository pattern for database operations using `Prisma` or other dependencies. You can also separate the `User` interface into another folder.
+
+Hurray! You’ve successfully implemented basic TDD with the RGR principle. _It seems easy, doesn’t it?_ Try to implement it on your next project and see how it goes! But for the moment, let’s move on and dive into some more intriguing concepts.
+
+## Corner Case: What Exactly Is It?
+
+A **corner case** (also known as an _“edge case”_) refers to a problem or situation that occurs only outside of normal operating parameters — specifically at the extreme ends of the ranges of input and output. In software development, corner cases represent unusual situations that are not the common path of execution but are valid scenarios that the application could encounter. Handling corner cases is crucial for developing robust and reliable software because these situations, though rare, can lead to unexpected behavior or bugs if not properly addressed.
+
+To give you a practical example, let’s revisit our `user-manager` project. Imagine we have the following criteria for adding a new user:
+
+- **Name Validation:** The name must not include any numeric characters or special symbols, with the exception of common separators such as spaces, hyphens, and apostrophes, which are frequently present in names.
+
+- **Email Validation:** We will use a basic pattern to ensure the email format is correct.
+
+Now, to incorporate these corner validations, we’ll return to our **RGR (Red-Green-Refactor)** principle. Try to follow the steps outlined below.
+
+- **Red Phase**
+
+  Let’s add the corner case test into your `users.service.spec.ts`:
+  ```ts
+  // Previous positive and negative tests
+  // New corner tests
+    it('should throw an error for an invalid name with special characters', async () => {
+      const invalidNameUser = {
+        name: 'John@Doe',
+        email: 'johndoe@example.com',
+        status: 'active',
+      };
+      await expect(service.addUser(invalidNameUser)).rejects.toThrow(
+        new Error('Validation failed: User input is not valid.'),
+      );
+    });
+    it('should throw an error for an invalid email format', async () => {
+      const invalidEmailUser = {
+        name: 'Jane Doe',
+        email: 'janedoeatexampledotcom',
+        status: 'active',
+      };
+      await expect(service.addUser(invalidEmailUser)).rejects.toThrow(
+        new Error('Validation failed: User input is not valid.'),
+      );
+    });
+  ```
+
+- **Green Phase**
+  
+  Now, to ensure names are sanitized or formatted correctly, we’d implement those checks or transformations in the `addUser` method. We’ll use **RegEx** to validate the input.
+  ```ts
+  async addUser(user: CreateUserDto): Promise<User> {
+    let inputStatus = false;
+    // Name Validation: Allow letters, spaces, hyphens, and apostrophes only
+    const nameIsValid = /^[A-Za-z\s\-']+$/i.test(user.name);
+
+    // Basic Email Validation: Simple pattern for demonstration purposes
+    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(user.email);
+    inputStatus = nameIsValid && emailIsValid;
+    if (!inputStatus) {
+      throw new Error('Validation failed: User input is not valid.');
+    }
+    // Previous logic
+    const existingUser = this.users.find((u) => u.email === user.email);
+    if (existingUser) {
+      throw new Error('Email already exists');
+    }
+    const newUser = { id: this.idCounter++, ...user };
+    this.users.push(newUser);
+    return newUser;
+  }
+  ```
+
+  Try to run the tests to ensure it works perfectly.
+
+- **Refactor Phase**
+  
+  You can consider extracting the validation logic into its own method to adhere to the _**Single Responsibility Principle (SRP)**_. Adjust your code to reflect a structure similar to this:
+  ```ts
+  async addUser(user: CreateUserDto): Promise<User> {
+    if (!this.validateUserInput(user)) {
+      throw new Error('Validation failed: User input is not valid.');
+    }
+  
+    // Previous logic
+    const existingUser = this.users.find((u) => u.email === user.email);
+    if (existingUser) {
+      throw new Error('Email already exists');
+    }
+    const newUser = { id: this.idCounter++, ...user };
+    this.users.push(newUser);
+    return newUser;
+  }
+
+  private validateUserInput = (user: {
+    name: string;
+    email: string;
+  }): boolean => {
+    // Name Validation: Allow letters, spaces, hyphens, and apostrophes only
+    const nameIsValid = /^[A-Za-z\s\-']+$/i.test(user.name);
+    // Basic Email Validation: Simple pattern for demonstration purposes
+    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(user.email);
+    return nameIsValid && emailIsValid;
+  };
+  ```
+
+  That’s it! You’ve successfully managed corner cases to align with user input validation.
+
+## Code Coverage and CI/CD: Is It Important?
+
+**Code Coverage**
+
+First off, let’s talk about code coverage. **Code coverage** is a metric used to measure the extent to which your source code is tested by your suite of tests. It’s like checking how much of the map you’ve explored in a video game — except here, the map is your codebase, and your explorers are your tests. High code coverage is important, because it means that a large portion of your code has been “touched” by tests, suggesting that bugs are less likely to hide in untested corners.
+
+When utilizing Jest, as mentioned previously, you can manually verify coverage by executing the npm run test:cov command in the terminal. Attempting this with our user-manager should yield information akin to the following:
+
+![Code Coverage Results](https://cdn-images-1.medium.com/max/2500/1*GaTrWN68NrAadhlzVaLwBQ.png)
+
+You’ll notice there are still lines within our tests that remain uncovered. It’s understandable because we’ve only implemented tests for `users.service`. It’s considered a best practice to aim for at least 90% coverage of your codebase to minimize the chances of bugs and other issues. Now, it’s your turn to put this into practice and enhance the tests on your own. 😊
+
+**CI/CD**
+
+Okay, now what even is this? Sounds like complicated abbrevations for something. But don’t worry, it’s not as complex as it might seem. **CI/CD stands for Continuous Integration and Continuous Deployment**. Think of it like a super-efficient conveyor belt for your code. Every time someone adds new code, this system automatically checks if it fits well with the old code and then smoothly moves it out for people to use.
+
+Let’s break it down a bit. **Continuous Integration (CI)** is all about merging all developers’ working copies to a shared mainline several times a day and automatically testing them every time. This ensures that the new code plays nicely with the existing codebase. **Continuous Deployment (CD)** takes this a step further by automatically deploying the code to production after it passes all tests, ensuring that your application is always up-to-date with the latest changes.
+
+When we talk about code coverage in the CI/CD pipelines, such as with tools like **SonarCloud**, it becomes even more powerful. In CI/CD, code coverage can be automatically calculated every time changes are made and pushed. This setup provides immediate feedback on whether new code could potentially introduce defects, ensuring that every piece of code deployed to production is tested and meets quality standards. We’ll **not** cover how to setup SonarCloud using CI/CD as it goes beyond our main discussion on TDD. But, for the curious minds, the [official documentation](https://docs.sonarsource.com/sonarcloud/getting-started/overview/) is a great resource
+
+![Example on SonarCloud Code Measurements](https://cdn-images-1.medium.com/max/6840/1*05YQ4i6c5JgOSAQyCY6Qcw.png)
+
+Without CI/CD, you’d manually run tests and calculate coverage, which can be time-consuming and prone to human error. Integrating code coverage into your CI/CD pipeline automates this process, offering a seamless way to maintain high code quality and reliability throughout the development lifecycle. It’s like having an automatic map update every time you explore a new area, ensuring you always know how much of your code terrain is covered.
+
+Here’s how it practically plays out: You push your latest code changes to your repository. CI kicks in, building the project and running all tests in a pipeline. Then, SonarCloud steps up, analyzing the code to calculate coverage and assess quality. If everything checks out, CD takes the baton, deploying your tested and inspected code to production. This seamless process ensures that your application is not only constantly updated but also maintains a high standard of quality and security.
+
+![Example of CI/CD Pipelines](https://cdn-images-1.medium.com/max/4636/1*dNw69DdLrqlkOaRQ1rEM0g.png)
+
+## Current Trends of TDD
+
+Ever since its founding in the late 1990s, the practice of Test-Driven Development (TDD) has significantly evolved, integrating with newer methodologies and technologies to enhance both software quality and development efficiency. In 2024, current trends continue to enrich the testing ecosystem with innovative approaches and tools. Let’s dive into them:
+
+* **Integration with Behavior-Driven Development (BDD)**
+
+![BDD Example. Image taken from Testomat.](https://cdn-images-1.medium.com/max/2582/1*a6ijNnkFewZbgBmZES7i2w@2x.png)
+
+BDD extends TDD by specifying software behaviors in English-like sentences, making tests understandable to non-technical stakeholders. It’s usually uses narrative form, often expressed as “Given-When-Then” scenarios, allows for a shared understanding of the software’s functionality and the behavior it should exhibit. Tools like [**Cucumber**](https://cucumber.io/docs/cucumber/) and [SpecFlow](https://docs.specflow.org/projects/specflow/en/latest/) allow developers to write tests in a way that describes how software should behave, bridging the gap between technical and business perspectives. Integrating TDD with BDD ensures that development focuses not only on technical correctness but also on fulfilling user expectations and business requirements.
+
+* **Monitoring and Observability**
+
+![Example on Signoz Overview](https://cdn-images-1.medium.com/max/2800/1*fFJl4CWV7di2gtVX3Ws8zA.png)
+
+While not directly related to testing, the roles of monitoring and observability in production environments really do complement TDD. They help illuminate how applications perform in the real world. Using tools like Prometheus for monitoring and Grafana/SigNoz for data visualization, developers can gain insights into application behavior, guiding future development and testing efforts based on actual usage patterns. You can find out more using their official documentation on [Prometheus](https://prometheus.io/docs/introduction/overview/), [Grafana](https://grafana.com/docs/), and [SigNoz](https://signoz.io/docs/).
+
+* **AI-driven Quality Assurance (QA) Transformation**
+
+The swift advancements in AI are totally transforming our approach to automated testing, making everything much sharper and way more efficient. This evolution is shaking up traditional automated testing methods, empowering teams to automate their workflows better and manage test assets more effectively. Thanks to AI-driven analytics and traceability, designing automated test cases for Test-Driven Development (TDD) has gotten a major upgrade. We’re talking about higher coverage rates, less grunt work in maintenance, and spot-on code accuracy.
+
+![Sapiens Generated Test. Taken from [Sapient AI](https://assets-global.website-files.com/644c54b9f870d8f15c27f21a/645f6d9c4f8e6541f34bd025_Left-F3_Rezised-min.png).](https://cdn-images-1.medium.com/max/6540/1*8PZZqTdFzDPkoIoKLXQqFw.png)
+
+**ChatGPT and Sapiens AI** are examples of how AI technologies are being applied to improve QA processes. **ChatGPT**, with its advanced natural language processing capabilities, can be used to automate the generation of test cases from plain English descriptions of software features. This not only speeds up the test creation process but also makes it more accessible to team members who may not have technical backgrounds. For me, ChatGPT is a huge help in defining tests because it saves time by quickly sketching out what needs to be done or improved in the code. On the other hand, **Sapiens AI** focuses on applying AI to the entire testing lifecycle, from test design and creation to execution and maintenance. By leveraging machine learning algorithms, Sapiens AI can provide unit tests at enterprise scale, freeing your creativity for development and enlightening your code’s testability.
+
+## My Closing Statements
+
+![Image taken from [InfoLytx](https://www.infolytx.com/wp-content/uploads/2018/04/tdd-cover.png)](https://cdn-images-1.medium.com/max/2400/1*3voPEUvLJOs3IrQNEVLn_A.png)
+
+That wraps it up! Thank you for taking the time and interest in reading my article. I hope it has provided you with valuable insights, especially regarding TDD. Let’s conclude with an interesting quote by [Kent Beck](https://en.wikipedia.org/wiki/Kent_Beck):
+> *“If you’re happy slamming some code together that more or less works and you’re happy never looking at the result again, TDD is not for you. TDD rests on a charmingly naïve geekoid assumption that if you write better code, you’ll be more successful. TDD helps you to pay attention to the right issues at the right time so you can make your designs cleaner, you can refine your designs as you learn.”
+*― **Kent Beck on [Test-Driven Development: By Example](https://www.goodreads.com/work/quotes/376827)**
+
+**Keep learning and growing!** ✨✨
+
+## Main References
+
+1. **Martin, R. C. (2009)**. *Clean code: A Handbook of Agile Software Craftsmanship*. Prentice Hall.
+
+2. **Beck, K. (2015)**. *Test-Driven Development: By Example*. Addison-Wesley.
+
+3. [Test Driven Development](https://medium.com/@lanceharvieruntime/test-driven-development-1bb27bc3b8cb) by Lance Harvie
+
+4. [When TDD gets hard](https://holly-k-cummins.medium.com/when-tdd-gets-hard-fc14136c3f44) by Holly K. Cummins
+
+5. [Red, Green, Refactor](https://www.codecademy.com/article/tdd-red-green-refactor) by CodeAcademy
+
+6. [How and why I decided test driven development was worth my time](https://www.freecodecamp.org/news/test-driven-development-i-hated-it-now-i-cant-live-without-it-4a10b7ce7ed6/) by Ronauli Silva
+
+7. [What are the latest trends in test-driven development?](https://www.linkedin.com/advice/3/what-latest-trends-test-driven-development-skills-software-design-di0je?trk=clnk) by AI and the LinkedIn community
