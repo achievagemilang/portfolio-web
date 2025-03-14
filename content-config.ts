@@ -18,7 +18,7 @@ export interface Experience {
   achievements: string[];
   logoUrl: string;
   website: string;
-  category: 'professional' | 'education' | 'volunteer';
+  category: string;
 }
 
 export interface Project {
