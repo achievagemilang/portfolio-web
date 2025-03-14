@@ -5,7 +5,6 @@ import BlogCard from '@/components/blogs/blog-card';
 import SearchBar from '@/components/blogs/search-bar';
 import TagFilter from '@/components/blogs/tag-filter';
 import { Button } from '@/components/ui/button';
-import { getAllPosts } from '@/lib/mdx';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { Post } from '@/content-config';
 
@@ -138,7 +137,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
 
   return (
     <div className="container mx-auto py-12">
-      <h1 className="text-4xl font-bold mb-8">Blog Posts</h1>
+      <h1 className="text-4xl font-bold mb-8">All Writes</h1>
 
       <div className="mb-8 flex flex-col md:flex-row gap-4">
         <SearchBar onSearch={handleSearch} />

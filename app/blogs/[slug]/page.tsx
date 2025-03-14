@@ -91,7 +91,7 @@ export async function generateMetadata({ params }: { params: tParams }): Promise
   }
 
   return {
-    title: `${finalPost.title} | Your Name`,
+    title: `${finalPost.title} | Achieva Gemilang`,
     description: finalPost.excerpt,
   };
 }

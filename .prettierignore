@@ -10,3 +10,5 @@ node_modules
 # Ignore specific files
 .DS_Store
 .env
+
+*.mdx

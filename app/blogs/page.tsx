@@ -4,7 +4,7 @@ import PageTransition from '@/components/util/page-transition';
 import { getAllPosts } from '@/lib/mdx';
 
 export const metadata: Metadata = {
-  title: 'Blog | Achieva Gemilang',
+  title: 'Writes | Achieva Gemilang',
   description: 'Articles and thoughts on web development, design, and technology',
 };
 

@@ -42,16 +42,15 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           </div>
         </div>
 
-        {/* Render MDX content if available, otherwise fall back to the placeholder */}
-        {post.mdxSource ? (
-          <div className="mdx-content">
-            <MDXContent source={post.mdxSource} />
-          </div>
-        ) : (
-          <div className="p-4 border border-border rounded-md bg-muted/20">
-            {post.body?.code || 'No content available'}
-          </div>
-        )}
+        <div className="px-8 py-4 border border-border rounded-md">
+          {post.mdxSource ? (
+            <div className="mdx-content">
+              <MDXContent source={post.mdxSource} />
+            </div>
+          ) : (
+            <div className="bg-muted/20">{post.body?.code || 'No content available'}</div>
+          )}
+        </div>
       </article>
     </div>
   );

@@ -54,3 +54,5 @@ logs
 .eslintcache
 .cache/
 .parcel-cache/
+
+exported.md
