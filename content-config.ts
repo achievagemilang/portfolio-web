@@ -6,6 +6,7 @@ export interface Post {
   slug: string;
   tags?: string[];
   mdxSource?: any;
+  readingTime: number;
 }
 
 export interface Experience {

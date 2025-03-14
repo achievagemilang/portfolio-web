@@ -22,6 +22,14 @@ export async function getPostBySlug(slug: string) {
     // Serialize the MDX content for use with MDXRemote
     const mdxSource = await serialize(content);
 
+    const words = content.split(/\s+/).filter((word) => word.length > 0);
+    const wordCount = words.length;
+
+    const wordsPerMinute = 250;
+    const readingTimeMinutes = wordCount / wordsPerMinute;
+
+    const readingTime = Math.ceil(readingTimeMinutes);
+
     return {
       _id: slug,
       slug,
@@ -29,6 +37,7 @@ export async function getPostBySlug(slug: string) {
       date: data.date || new Date().toISOString().split('T')[0],
       excerpt: data.excerpt || '',
       tags: data.tags || [],
+      readingTime,
       mdxSource,
     };
   } catch (error) {

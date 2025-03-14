@@ -5,18 +5,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { useRef, useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-
-interface Post {
-  _id: string;
-  title: string;
-  date: string;
-  excerpt: string;
-  slug: string;
-  tags?: string[];
-}
+import { Post } from '@/content-config';
 
 interface BlogPostsProps {
   posts: Post[];
@@ -189,8 +181,12 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
               >
                 <Card className="min-w-[300px] max-w-[350px] h-[400px] flex-shrink-0 snap-start transition-all duration-200 hover:scale-[1.02] hover:shadow-lg flex flex-col">
                   <CardContent className="p-6 flex-grow flex flex-col">
-                    <div className="text-sm text-muted-foreground mb-2">
-                      {format(new Date(post.date), 'MMMM d, yyyy')}
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mb-2">
+                      <span>{format(new Date(post.date), 'MMMM d, yyyy')}</span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        <span>{post.readingTime} min read</span>
+                      </span>
                     </div>
                     <h3 className="text-xl font-semibold mb-3 line-clamp-2">{post.title}</h3>
 

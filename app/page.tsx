@@ -2,22 +2,17 @@ import Hero from '@/components/home/hero';
 import Experience from '@/components/home/experience';
 import Projects from '@/components/home/projects';
 import BlogPosts from '@/components/home/blog-posts';
-import { fallbackPosts } from './blogs/BlogClientPage';
 import PageTransition from '@/components/util/page-transition';
 import { getAllPosts } from '@/lib/mdx';
 import { experiencesList, projectList } from '@/constant/constant';
 
-// Create fallback data for when contentlayer hasn't generated content yet
-
 export default async function Home() {
-  // Try to import from contentlayer, but use fallback data if it fails
   const experiences = experiencesList;
 
   let posts = await getAllPosts();
   posts = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // If we have actual posts, use them; otherwise fall back to our hardcoded ones
-  const recentPosts = posts.length > 0 ? posts : fallbackPosts;
+  const recentPosts = posts;
 
   try {
     // Dynamic import to avoid build errors
