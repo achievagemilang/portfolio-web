@@ -60,7 +60,7 @@ export default function Experience({ experiences }: ExperienceProps) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
         >
-          Professional Experience
+          Experiences
         </motion.h2>
 
         <motion.div

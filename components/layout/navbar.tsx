@@ -1,36 +1,36 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { ModeToggle } from "@/components/mode-toggle"
-import { Menu, X } from "lucide-react"
-import { useState, useEffect } from "react"
-import { useMobile } from "@/hooks/use-mobile"
-import Image from "next/image"
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { ModeToggle } from '@/components/mode-toggle';
+import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useMobile } from '@/hooks/use-mobile';
+import Image from 'next/image';
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blogs", label: "Blogs" },
-  { href: "/about", label: "About" },
-]
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blogs', label: 'Writes' },
+  { href: '/about', label: 'About' },
+];
 
 export default function Navbar() {
-  const pathname = usePathname()
-  const isMobile = useMobile()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const pathname = usePathname();
+  const isMobile = useMobile();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Handle hydration by only running client-side logic after mount
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -57,8 +57,8 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  pathname === link.href ? "text-foreground" : "text-muted-foreground",
+                  'text-sm font-medium transition-colors hover:text-primary',
+                  pathname === link.href ? 'text-foreground' : 'text-muted-foreground'
                 )}
               >
                 {link.label}
@@ -88,8 +88,10 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-2 py-2 text-sm font-medium transition-colors hover:text-primary",
-                  pathname === link.href ? "text-foreground bg-muted rounded-md" : "text-muted-foreground",
+                  'px-2 py-2 text-sm font-medium transition-colors hover:text-primary',
+                  pathname === link.href
+                    ? 'text-foreground bg-muted rounded-md'
+                    : 'text-muted-foreground'
                 )}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -100,6 +102,5 @@ export default function Navbar() {
         </div>
       )}
     </header>
-  )
+  );
 }
-

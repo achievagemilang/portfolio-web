@@ -13,7 +13,8 @@ export default async function Home() {
   // Try to import from contentlayer, but use fallback data if it fails
   const experiences = experiencesList;
 
-  const posts = await getAllPosts();
+  let posts = await getAllPosts();
+  posts = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // If we have actual posts, use them; otherwise fall back to our hardcoded ones
   const recentPosts = posts.length > 0 ? posts : fallbackPosts;

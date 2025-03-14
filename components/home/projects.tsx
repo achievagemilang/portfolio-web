@@ -69,8 +69,8 @@ export default function Projects({ projects }: ProjectsProps) {
         >
           {projects.map((project) => (
             <motion.div key={project.id} variants={item}>
-              <Card className="overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-lg">
-                <div className="relative h-48 w-full">
+              <Card className="overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-lg h-[500px] flex flex-col">
+                <div className="relative h-48 w-full flex-shrink-0">
                   <Image
                     src={project.image || '/placeholder.svg'}
                     alt={project.title}
@@ -78,10 +78,10 @@ export default function Projects({ projects }: ProjectsProps) {
                     className="object-cover"
                   />
                 </div>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
+                <CardContent className="pt-6 flex-grow overflow-hidden">
+                  <h3 className="text-xl font-bold mb-2 line-clamp-1">{project.title}</h3>
+                  <p className="text-muted-foreground mb-4 line-clamp-3">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-4 max-h-[80px] overflow-y-auto">
                     {project.tags.map((tag) => (
                       <span key={tag} className="bg-muted px-2 py-1 rounded-md text-xs">
                         {tag}
@@ -89,7 +89,7 @@ export default function Projects({ projects }: ProjectsProps) {
                     ))}
                   </div>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="mt-auto border-t">
                   <Button asChild>
                     <a href={project.link} target="_blank" rel="noopener noreferrer">
                       View Project

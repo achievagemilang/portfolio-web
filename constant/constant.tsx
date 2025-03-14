@@ -46,7 +46,7 @@ export const experiencesList = [
   {
     _id: 'exp-4',
     company: 'Televisi Republik Indonesia (TVRI)',
-    position: 'Mobile Developer - Contract',
+    position: 'Mobile Engineer - Contract',
     startDate: '2024-07-01',
     endDate: '2024-09-31',
     description: `Indonesia's national public broadcasting service.`,

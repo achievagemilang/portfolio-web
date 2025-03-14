@@ -142,9 +142,9 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <h2 className="text-3xl font-bold">Latest Blog Posts</h2>
+          <h2 className="text-3xl font-bold">Latest Writes</h2>
           <Button asChild variant="outline">
-            <Link href="/blogs">View All Posts</Link>
+            <Link href="/blogs">View All Writes</Link>
           </Button>
         </motion.div>
 
@@ -197,7 +197,7 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
                     <p className="text-muted-foreground mb-6 line-clamp-3 text-sm flex-grow">
                       {post.excerpt}
                     </p>
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-2 mb-4 min-h-[28px]">
                       {post.tags?.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
@@ -207,16 +207,15 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
                         </span>
                       ))}
                     </div>
-                  </CardContent>
-                  <CardFooter className="px-6 pb-6 pt-0">
+
                     <Button
                       asChild
                       variant="outline"
-                      className="w-full justify-center rounded-md hover:bg-muted/50"
+                      className="w-full justify-center rounded-md hover:bg-muted/50 mt-auto"
                     >
                       <Link href={`/blogs/${post.slug}`}>Read More</Link>
                     </Button>
-                  </CardFooter>
+                  </CardContent>
                 </Card>
               </motion.div>
             ))}

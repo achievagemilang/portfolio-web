@@ -1,40 +1,35 @@
-import type React from "react";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/layout/navbar";
-import { ThemeProvider } from "@/components/theme-provider";
-import Footer from "@/components/layout/footer";
+import type React from 'react';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Navbar from '@/components/layout/navbar';
+import { ThemeProvider } from '@/components/theme-provider';
+import Footer from '@/components/layout/footer';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Achieva Gemilang",
-  description:
-    "Professional portfolio showcasing projects, experiences, and blog posts",
+  title: 'Home | Achieva Gemilang',
+  description: 'Professional portfolio showcasing projects, experiences, and blog posts',
   icons: {
     icon: [
       {
-        url: "/AG_logo.webp",
-        href: "/AG_logo.webp",
+        url: '/AG_logo.webp',
+        href: '/AG_logo.webp',
       },
     ],
     apple: {
-      url: "/AG_logo.webp",
-      href: "/AG_logo.webp",
+      url: '/AG_logo.webp',
+      href: '/AG_logo.webp',
     },
     shortcut: {
-      url: "/AG_logo.webp",
-      href: "/AG_logo.webp",
+      url: '/AG_logo.webp',
+      href: '/AG_logo.webp',
     },
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
