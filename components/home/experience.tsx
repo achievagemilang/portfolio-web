@@ -8,18 +8,9 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import { ExternalLink, Calendar } from 'lucide-react';
-
-interface Experience {
-  _id: string;
-  company: string;
-  position: string;
-  startDate: string;
-  endDate: string | null;
-  description: string;
-  achievements: string[];
-  logoUrl: string;
-  website: string;
-}
+import type { Experience } from '@/content-config';
+import { useState } from 'react';
+import { Briefcase, GraduationCap, Heart } from 'lucide-react';
 
 interface ExperienceProps {
   experiences: Experience[];
@@ -28,6 +19,15 @@ interface ExperienceProps {
 export default function Experience({ experiences }: ExperienceProps) {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const [activeFilter, setActiveFilter] = useState<'professional' | 'education' | 'volunteer'>(
+    'professional'
+  );
+
+  const filteredExperiences = experiences
+    .filter((exp) => exp.category === activeFilter)
+    .sort((a, b) => {
+      return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+    });
 
   const container = {
     hidden: { opacity: 0 },
@@ -55,13 +55,46 @@ export default function Experience({ experiences }: ExperienceProps) {
     >
       <div className="container px-4 sm:px-6">
         <motion.h2
-          className="text-3xl font-bold mb-12 text-center"
+          className="text-3xl font-bold mb-4 text-center"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
         >
           Experiences
         </motion.h2>
+
+        {/* Category Filter Tabs */}
+        <motion.div
+          className="flex justify-center gap-2 md:gap-4 mb-12"
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Button
+            variant={activeFilter === 'professional' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveFilter('professional')}
+            className="flex items-center gap-1.5"
+          >
+            <Briefcase size={14} /> Professional
+          </Button>
+          <Button
+            variant={activeFilter === 'education' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveFilter('education')}
+            className="flex items-center gap-1.5"
+          >
+            <GraduationCap size={14} /> Education
+          </Button>
+          <Button
+            variant={activeFilter === 'volunteer' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveFilter('volunteer')}
+            className="flex items-center gap-1.5"
+          >
+            <Heart size={14} /> Org/Volunteering
+          </Button>
+        </motion.div>
 
         <motion.div
           className="relative max-w-3xl mx-auto"
@@ -77,7 +110,7 @@ export default function Experience({ experiences }: ExperienceProps) {
             transition={{ duration: 1.5 }}
           />
 
-          {experiences.map((experience, index) => (
+          {filteredExperiences.map((experience, index) => (
             <motion.div
               key={experience._id}
               variants={item}
