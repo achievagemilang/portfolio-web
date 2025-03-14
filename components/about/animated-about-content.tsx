@@ -50,7 +50,7 @@ export default function AnimatedAboutContent() {
           >
             <Image
               src="/new_pas_foto.jpeg?height=160&width=160"
-              alt="Your Name"
+              alt="Achieva Gemilang"
               fill
               className="object-cover"
             />
@@ -58,9 +58,26 @@ export default function AnimatedAboutContent() {
         </motion.div>
 
         <motion.div variants={stagger} className="prose dark:prose-invert max-w-none">
+          <motion.p
+            variants={fadeInUp}
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+            className="text-2xl font-bold text-center lg:text-left"
+          >
+            Hi, Cip here!{' '}
+            <motion.span
+              animate={{ rotate: [0, 20, 0] }}
+              transition={{ repeat: Infinity, repeatDelay: 2, duration: 0.5 }}
+              className="inline-block"
+            >
+              👋🏻
+            </motion.span>
+          </motion.p>
+
           <motion.p variants={fadeInUp} className="text-lg mb-4">
-            Hi, I'm Cip, a Software Engineer with a business-driven mindset, blending technical
-            expertise with strategic thinking to build scalable, user-centric solutions.
+            I'm a software engineer with a business-driven mindset, blending technical expertise
+            with strategic thinking to build scalable, user-centric solutions.
           </motion.p>
 
           <motion.p variants={fadeInUp} className="mb-4">
