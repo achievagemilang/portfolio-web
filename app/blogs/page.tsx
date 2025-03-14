@@ -14,7 +14,7 @@ export default async function BlogsPage() {
 
   return (
     <PageTransition>
-      <Suspense fallback={<div>Loading posts...</div>}>
+      <Suspense fallback={<div>Loading writes...</div>}>
         <BlogClientPage posts={posts} />
       </Suspense>
     </PageTransition>

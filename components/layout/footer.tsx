@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import Image from "next/image"
-import { Github, Linkedin, Mail, ExternalLink, BookOpen } from "lucide-react"
+import Link from 'next/link';
+import Image from 'next/image';
+import { Github, Linkedin, Mail, ExternalLink, BookOpen, Instagram } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -32,15 +32,6 @@ export default function Footer() {
         {/* Social links on the right */}
         <div className="flex items-center space-x-4">
           <a
-            href="https://github.com/achievagemilang"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="GitHub"
-          >
-            <Github size={20} />
-          </a>
-          <a
             href="https://linkedin.com/in/achieva-futura-gemilang"
             target="_blank"
             rel="noopener noreferrer"
@@ -48,6 +39,24 @@ export default function Footer() {
             aria-label="LinkedIn"
           >
             <Linkedin size={20} />
+          </a>
+          <a
+            href="https://instagram.com/achieva17_"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Line"
+          >
+            <Instagram size={20} />
+          </a>
+          <a
+            href="https://github.com/achievagemilang"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="GitHub"
+          >
+            <Github size={20} />
           </a>
           <a
             href="mailto:achievafuturagemilang@gmail.com"
@@ -63,7 +72,9 @@ export default function Footer() {
             className="text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Line"
           >
-            <span className="flex items-center justify-center h-5 w-5 rounded-md font-bold text-xs">LINE</span>
+            <span className="flex items-center justify-center h-5 w-5 rounded-md font-bold text-xs">
+              LINE
+            </span>
           </a>
           <a
             href="https://medium.com/@achievafuturagemilang"
@@ -77,6 +88,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <PageTransition>
-      <Suspense fallback={<div>Loading posts...</div>}>
+      <Suspense fallback={<div>Loading projects...</div>}>
         <ProjectsClientPage />
       </Suspense>
     </PageTransition>

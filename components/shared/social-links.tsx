@@ -1,4 +1,4 @@
-import { BookOpen, Github, Linkedin, Mail } from 'lucide-react';
+import { BookOpen, Github, Instagram, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { JSX } from 'react';
@@ -13,15 +13,21 @@ type SocialLink = {
 export default function SocialLinks() {
   const socialLinks: SocialLink[] = [
     {
-      href: 'https://github.com/achievagemilang',
-      label: 'GitHub',
-      icon: <Github size={18} />,
-      external: true,
-    },
-    {
       href: 'https://linkedin.com/in/achieva-futura-gemilang',
       label: 'LinkedIn',
       icon: <Linkedin size={18} />,
+      external: true,
+    },
+    {
+      href: 'https://instagram.com/achieva17_',
+      label: 'Instagram',
+      icon: <Instagram size={18} />,
+      external: true,
+    },
+    {
+      href: 'https://github.com/achievagemilang',
+      label: 'GitHub',
+      icon: <Github size={18} />,
       external: true,
     },
     {
