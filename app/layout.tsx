@@ -14,17 +14,17 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/AG_logo.webp',
-        href: '/AG_logo.webp',
+        url: '/AGLogoRevamped.png',
+        href: '/AGLogoRevamped.png',
       },
     ],
     apple: {
-      url: '/AG_logo.webp',
-      href: '/AG_logo.webp',
+      url: '/AGLogoRevamped.png',
+      href: '/AGLogoRevamped.png',
     },
     shortcut: {
-      url: '/AG_logo.webp',
-      href: '/AG_logo.webp',
+      url: '/AGLogoRevamped.png',
+      href: '/AGLogoRevamped.png',
     },
   },
 };

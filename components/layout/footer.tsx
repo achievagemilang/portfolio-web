@@ -13,7 +13,7 @@ export default function Footer() {
           <Link href="/" className="flex items-center space-x-2">
             <div className="relative h-10 w-10 overflow-hidden">
               <Image
-                src="/AG_logo.webp?height=40&width=40"
+                src="/AGLogoRevamped.png?height=40&width=40"
                 alt="Logo"
                 width={40}
                 height={40}
@@ -26,7 +26,7 @@ export default function Footer() {
 
         {/* Copyright in the middle */}
         <div className="text-sm text-muted-foreground mb-4 md:mb-0">
-          © 2025 Achieva Gemilang. All rights reserved.
+          © 2025 Achieva Futura Gemilang. All rights reserved.
         </div>
 
         {/* Social links on the right */}
@@ -64,17 +64,6 @@ export default function Footer() {
             aria-label="Email"
           >
             <Mail size={20} />
-          </a>
-          <a
-            href="https://line.me/ti/p/thelbr_1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Line"
-          >
-            <span className="flex items-center justify-center h-5 w-5 rounded-md font-bold text-xs">
-              LINE
-            </span>
           </a>
           <a
             href="https://medium.com/@achievafuturagemilang"

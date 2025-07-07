@@ -36,14 +36,6 @@ export default function SocialLinks() {
       icon: <Mail size={18} />,
     },
     {
-      href: 'https://line.me/ti/p/thelbr_1',
-      label: 'LINE',
-      icon: (
-        <span className="flex items-center justify-center h-4 w-4 font-bold text-xs">LINE</span>
-      ),
-      external: true,
-    },
-    {
       href: 'https://medium.com/@achievafuturagemilang',
       label: 'Medium',
       icon: <BookOpen size={18} />,

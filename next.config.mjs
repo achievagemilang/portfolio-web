@@ -8,7 +8,21 @@ const nextConfig = {
     mdxRs: true,
   },
   images: {
-    domains: ['placeholder.com', 'images.unsplash.com', 'cdn-images-1.medium.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placeholder.com',
+        // pathname: '/path/**', // optional, use if you want to restrict to certain paths
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn-images-1.medium.com',
+      },
+    ],
   },
   // This is important for Contentlayer to work with Next.js
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

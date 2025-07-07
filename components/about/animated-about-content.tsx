@@ -49,8 +49,8 @@ export default function AnimatedAboutContent() {
             className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary/20"
           >
             <Image
-              src="/new_pas_foto.jpeg?height=160&width=160"
-              alt="Achieva Gemilang"
+              src="/pas_foto_new.png?height=160&width=160"
+              alt="Achieva Futura Gemilang"
               fill
               className="object-cover"
             />
@@ -87,11 +87,12 @@ export default function AnimatedAboutContent() {
           </motion.p>
 
           <motion.p variants={fadeInUp} className="mb-4">
-            I LOVE learning especially self improvement stuffs. In tech niche, I'm currently dive in
-            learning more about AI agents, Blockchain, and WEB3 to elevate my products.
-            Occasionally, I write blogs/threads to share my perspective and takeaways from my
-            learning journey just to document them in public. As they say, the most effective
-            learning technique is arguably learning in public 🚀.
+            True to my roots, I'm a lifelong learner. Right now, I'm captivated by the potential of
+            AI agents and am focused on applying them to build next-generation products. I also
+            document my learning journey through public writing, sharing both my thoughts,
+            successes, and failures. I believe the most effective learning technique is to do so in
+            public, contributing back to the incredibly supportive tech community along the way. I
+            hope it encourages others to achieve their goals, regardless of their origin.
           </motion.p>
 
           <motion.p variants={fadeInUp} className="mb-4">
@@ -99,7 +100,7 @@ export default function AnimatedAboutContent() {
           </motion.p>
 
           <motion.p variants={fadeInUp} className="mb-4">
-            Feel free to reach out if you'd like to collaborate or just chat!
+            Feel free to reach out. Let's talk! :{')'}
           </motion.p>
 
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 mt-6 mb-8">
