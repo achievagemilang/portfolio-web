@@ -82,7 +82,7 @@ export default function Hero() {
             transition={{ delay: 0.6, duration: 0.7 }}
           >
             <Button asChild size="lg">
-              <Link href="https://drive.google.com/file/d/1NNrYkp3NKc_8hQmRa0P4T0Ctt3Y-7QxN/view?usp=sharing">
+              <Link href="https://drive.google.com/drive/folders/1GJxg0jQSK2cSS-4r4W7QKeSIfZIAyRKB?usp=drive_link">
                 Resume/CV
               </Link>
             </Button>

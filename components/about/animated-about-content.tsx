@@ -89,10 +89,10 @@ export default function AnimatedAboutContent() {
           <motion.p variants={fadeInUp} className="mb-4">
             True to my roots, I'm a lifelong learner. Right now, I'm captivated by the potential of
             AI agents and am focused on applying them to build next-generation products. I also
-            document my learning journey through public writing, sharing both my thoughts,
-            successes, and failures. I believe the most effective learning technique is to do so in
-            public, contributing back to the incredibly supportive tech community along the way. I
-            hope it encourages others to achieve their goals, regardless of their origin.
+            document my learning journey through public writing, sharing my thoughts, successes, and
+            failures. I believe the most effective learning technique is to do so in public,
+            contributing back to the incredibly supportive tech community along the way. I hope it
+            encourages others to achieve their goals, regardless of their origin.
           </motion.p>
 
           <motion.p variants={fadeInUp} className="mb-4">
