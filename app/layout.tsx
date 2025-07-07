@@ -9,7 +9,7 @@ import Footer from '@/components/layout/footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Home | Achieva Gemilang',
+  title: 'Home | Achieva Futura Gemilang',
   description: 'Professional portfolio showcasing projects, experiences, and blog posts',
   icons: {
     icon: [

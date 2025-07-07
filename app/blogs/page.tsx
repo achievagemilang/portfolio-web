@@ -5,7 +5,7 @@ import { getAllPosts } from '@/lib/mdx';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Writes | Achieva Gemilang',
+  title: 'Writes | Achieva Futura Gemilang',
   description: 'Articles and thoughts on web development, design, and technology',
 };
 

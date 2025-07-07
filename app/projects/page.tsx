@@ -4,7 +4,7 @@ import ProjectsClientPage from './ProjectClientPage';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Projects | Achieva Gemilang',
+  title: 'Projects | Achieva Futura Gemilang',
   description: 'Showcase of my professional projects and work',
 };
 

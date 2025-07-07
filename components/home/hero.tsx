@@ -31,7 +31,7 @@ export default function Hero() {
             <div className="relative w-64 h-64 mx-auto rounded-full overflow-hidden border-4 border-primary/20">
               <Image
                 src="/profile-hero.jpeg?height=256&width=256"
-                alt="Achieva Gemilang"
+                alt="Achieva Futura Gemilang"
                 fill
                 className="object-cover"
                 priority

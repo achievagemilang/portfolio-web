@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: tParams }): Promise
   }
 
   return {
-    title: `${finalPost.title} | Achieva Gemilang`,
+    title: `${finalPost.title} | Achieva Futura Gemilang`,
     description: finalPost.excerpt,
   };
 }
