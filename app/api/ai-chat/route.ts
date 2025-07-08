@@ -37,6 +37,7 @@ Education: ${aiKnowledgeBase.education
     .join('')}
 Personal Interests: ${aiKnowledgeBase.interests.join(', ')}
 Honors/Achievements: ${aiKnowledgeBase.honors.join(', ')}
+Fun Facts: ${aiKnowledgeBase.funFacts.join(', ')}
 
 User: ${userMessage}
 AI:`;
