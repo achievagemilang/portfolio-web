@@ -27,31 +27,28 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('message', formData.message);
-
-      const response = await fetch('https://getform.io/f/bpjnxywb', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        body: formDataToSend,
         headers: {
-          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify(formData),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(result.error || 'Failed to send message');
       }
 
-      console.log('About to show toast');
       toast({
         title: 'Message sent!',
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
 
-      // setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', message: '' });
     } catch (error) {
+      console.error('Contact form error:', error);
       toast({
         title: 'Something went wrong',
         description: "Your message couldn't be sent. Please try again later.",
