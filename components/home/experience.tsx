@@ -80,7 +80,7 @@ export default function Experience({ experiences }: ExperienceProps) {
 
         {/* Category Filter Tabs */}
         <motion.div
-          className="flex justify-center gap-2 md:gap-4 mb-12"
+          className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-12 px-2 sm:px-4"
           initial={{ opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -89,25 +89,31 @@ export default function Experience({ experiences }: ExperienceProps) {
             variant={activeFilter === 'professional' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveFilter('professional')}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3 py-1.5 sm:py-2"
           >
-            <Briefcase size={14} /> Professional
+            <Briefcase size={12} className="sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline">Professional</span>
+            <span className="xs:hidden">Work</span>
           </Button>
           <Button
             variant={activeFilter === 'education' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveFilter('education')}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3 py-1.5 sm:py-2"
           >
-            <GraduationCap size={14} /> Education
+            <GraduationCap size={12} className="sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline">Education</span>
+            <span className="xs:hidden">Edu</span>
           </Button>
           <Button
             variant={activeFilter === 'volunteer' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveFilter('volunteer')}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3 py-1.5 sm:py-2"
           >
-            <Heart size={14} /> Org/Volunteering
+            <Heart size={12} className="sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline">Org/Volunteering</span>
+            <span className="xs:hidden">Volunteer</span>
           </Button>
         </motion.div>
 
