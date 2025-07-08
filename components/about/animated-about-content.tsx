@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import AnimatedContactForm from './animated-contact-form';
+import AIChat from './ai-chat';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -128,10 +128,16 @@ export default function AnimatedAboutContent() {
       </div>
 
       <motion.div variants={fadeInUp}>
-        <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-6">
-          Get in Touch
+        <motion.h2
+          variants={fadeInUp}
+          className="text-2xl ml-7 mt-4 font-bold text-center lg:text-left"
+        >
+          AchI: Ask Me Anything 🤔
         </motion.h2>
-        <AnimatedContactForm />
+        <motion.p variants={fadeInUp} className="ml-7 mb-4 text-center lg:text-left">
+          Experimental AI Chatbot to answer your questions about me.
+        </motion.p>
+        <AIChat />
       </motion.div>
     </motion.div>
   );

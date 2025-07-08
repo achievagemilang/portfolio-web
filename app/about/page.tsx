@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import AnimatedAboutContent from '@/components/about/animated-about-content';
+import AIChat from '@/components/about/ai-chat';
+import AnimatedContactForm from '@/components/about/animated-contact-form';
 
 export const metadata: Metadata = {
   title: 'About | Achieva Futura Gemilang',
@@ -31,8 +33,13 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto py-12">
-      <AnimatedAboutContent />
-    </div>
+    <main className="container mx-auto py-12 px-2 md:px-4">
+      <div className="container mx-auto py-12">
+        <AnimatedAboutContent />
+      </div>
+      <section className="max-w-2xl mx-auto rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 p-8">
+        <AnimatedContactForm />
+      </section>
+    </main>
   );
 }
