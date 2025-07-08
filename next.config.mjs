@@ -22,6 +22,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn-images-1.medium.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'achievagemilang.live',
+      },
     ],
   },
   // This is important for Contentlayer to work with Next.js

@@ -34,6 +34,26 @@ export async function generateMetadata({ params }: { params: tParams }): Promise
   return {
     title: `${finalPost.title} | Achieva Futura Gemilang`,
     description: finalPost.excerpt,
+    openGraph: {
+      title: `${finalPost.title} | Achieva Futura Gemilang`,
+      description: finalPost.excerpt,
+      url: 'https://achievagemilang.live/blogs/' + slug,
+      type: 'website',
+      images: [
+        {
+          url: 'https://achievagemilang.live/AGLogoRevamped.png',
+          width: 1200,
+          height: 630,
+          alt: 'Achieva Futura Gemilang',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${finalPost.title} | Achieva Futura Gemilang`,
+      description: finalPost.excerpt,
+      images: ['https://achievagemilang.live/AGLogoRevamped.png'],
+    },
   };
 }
 

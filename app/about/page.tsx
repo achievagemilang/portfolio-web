@@ -3,7 +3,30 @@ import AnimatedAboutContent from '@/components/about/animated-about-content';
 
 export const metadata: Metadata = {
   title: 'About | Achieva Futura Gemilang',
-  description: 'Learn more about me and my professional journey',
+  description:
+    'Learn more about Achieva Futura Gemilang, a software engineer and lifelong learner, who is passionate about building scalable and efficient systems.',
+  openGraph: {
+    title: 'About | Achieva Futura Gemilang',
+    description:
+      'Learn more about Achieva Futura Gemilang, a lifelong learner and software engineer, who is passionate about building scalable and efficient systems.',
+    url: 'https://achievagemilang.live/about',
+    type: 'website',
+    images: [
+      {
+        url: 'https://achievagemilang.live/AGLogoRevamped.png',
+        width: 1200,
+        height: 630,
+        alt: 'Achieva Futura Gemilang',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About | Achieva Futura Gemilang',
+    description:
+      'Learn more about Achieva Futura Gemilang, a lifelong learner and software engineer, who is passionate about building scalable and efficient systems.',
+    images: ['https://achievagemilang.live/AGLogoRevamped.png'],
+  },
 };
 
 export default function AboutPage() {

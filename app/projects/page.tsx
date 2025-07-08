@@ -5,7 +5,27 @@ import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Projects | Achieva Futura Gemilang',
-  description: 'Showcase of my professional projects and work',
+  description: "Showcase of Achieva Futura Gemilang's projects and work.",
+  openGraph: {
+    title: 'Projects | Achieva Futura Gemilang',
+    description: "Showcase of Achieva Futura Gemilang's projects and work.",
+    url: 'https://achievagemilang.live/about',
+    type: 'website',
+    images: [
+      {
+        url: 'https://achievagemilang.live/AGLogoRevamped.png',
+        width: 1200,
+        height: 630,
+        alt: 'Achieva Futura Gemilang',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Projects | Achieva Futura Gemilang',
+    description: "Showcase of Achieva Futura Gemilang's projects and work.",
+    images: ['https://achievagemilang.live/AGLogoRevamped.png'],
+  },
 };
 
 export default function ProjectsPage() {
