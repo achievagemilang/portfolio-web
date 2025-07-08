@@ -25,7 +25,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright in the middle */}
-        <div className="text-sm text-muted-foreground mb-4 md:mb-0">
+        <div className="text-sm text-muted-foreground mb-4 md:mb-0 text-center md:text-left w-full md:w-auto">
           © 2025 Achieva Futura Gemilang. All rights reserved.
         </div>
 
