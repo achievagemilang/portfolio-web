@@ -106,7 +106,7 @@ export default function AnimatedAboutContent() {
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 mt-6 mb-8">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Button asChild size="lg" className="w-full sm:w-auto">
-                <Link href="https://drive.google.com/file/d/1NNrYkp3NKc_8hQmRa0P4T0Ctt3Y-7QxN/view?usp=sharing">
+                <Link href="https://drive.google.com/drive/folders/1GJxg0jQSK2cSS-4r4W7QKeSIfZIAyRKB?usp=drive_link">
                   Resume/CV
                 </Link>
               </Button>
