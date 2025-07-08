@@ -16,16 +16,20 @@ const AIChat: React.FC = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, [messages]);
+    if (hasInteracted) {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [messages, hasInteracted]);
 
   const sendMessage = async () => {
     const trimmed = input.trim();
     if (!trimmed || loading) return;
     setMessages((prev) => [...prev, { sender: 'user', text: trimmed }]);
     setInput('');
+    setHasInteracted(true);
     setLoading(true);
     try {
       const res = await fetch('/api/ai-chat', {
@@ -75,11 +79,18 @@ const AIChat: React.FC = () => {
               </div>
             </div>
           ))}
+          {loading && (
+            <div className="mb-3 flex justify-start">
+              <div className="px-4 py-2 rounded-2xl max-w-[80%] text-sm bg-muted text-muted-foreground dark:bg-zinc-800 dark:text-zinc-100 rounded-bl-sm border border-zinc-200 dark:border-zinc-700 animate-pulse">
+                ...
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2 mt-auto">
           <input
             type="text"
-            className="flex-1 rounded-lg border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100"
+            className="flex-1 min-w-0 rounded-lg border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 text-sm"
             placeholder="Type your question..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -90,7 +101,7 @@ const AIChat: React.FC = () => {
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+            className="flex-shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md text-sm"
             aria-label="Send message"
           >
             {loading ? (
