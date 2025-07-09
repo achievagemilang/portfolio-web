@@ -19,6 +19,8 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [activeDot, setActiveDot] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
@@ -26,6 +28,15 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
   // Handle hydration by only running client-side logic after mount
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 640); // or your breakpoint
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const checkScrollPosition = () => {
@@ -45,14 +56,20 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
 
     setShowRightArrow(canScrollRight || forceShowRightArrow);
 
+    // NEW: Calculate active dot based on scroll position
+    const cardWidth = 330; // should match scroll amount
+    const page = Math.round(container.scrollLeft / (cardWidth * 2));
+    setActiveDot(page);
+
     // Debug info to console
-    console.log({
-      scrollLeft: container.scrollLeft,
-      scrollWidth: container.scrollWidth,
-      clientWidth: container.clientWidth,
-      canScrollRight,
-      showRightArrow: canScrollRight || forceShowRightArrow,
-    });
+    // console.log({
+    //   scrollLeft: container.scrollLeft,
+    //   scrollWidth: container.scrollWidth,
+    //   clientWidth: container.clientWidth,
+    //   canScrollRight,
+    //   showRightArrow: canScrollRight || forceShowRightArrow,
+    //   activeDot: page,
+    // });
   };
 
   useEffect(() => {
@@ -95,7 +112,7 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
         current.scrollBy({ left: cardWidth, behavior: 'smooth' });
       }
 
-      // Update arrow visibility after scrolling
+      // Update arrow visibility and active dot after scrolling
       setTimeout(checkScrollPosition, 500);
     }
   };
@@ -118,6 +135,10 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
       },
     }),
   };
+
+  const dotCount = isMobile
+    ? Math.ceil(posts.length / 2)
+    : Math.max(1, Math.ceil(posts.length / 2) - 1);
 
   return (
     <motion.section
@@ -246,24 +267,24 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.7 }}
         >
-          {posts.length > 3 &&
-            Array.from({ length: Math.ceil(posts.length / 2) }).map((_, i) => (
-              <button
-                key={i}
-                className="w-2 h-2 rounded-full bg-muted-foreground/30 hover:bg-muted-foreground/50 focus:bg-muted-foreground/50"
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => {
-                  if (scrollContainerRef.current) {
-                    const cardWidth = 330; // approximate width of card + gap
-                    scrollContainerRef.current.scrollTo({
-                      left: i * cardWidth * 2,
-                      behavior: 'smooth',
-                    });
-                    setTimeout(checkScrollPosition, 500);
-                  }
-                }}
-              />
-            ))}
+          {Array.from({ length: dotCount }).map((_, i) => (
+            <button
+              key={i}
+              className={`w-2 h-2 rounded-full transition-colors duration-200
+                ${activeDot === i ? 'bg-primary' : 'bg-muted-foreground/30 hover:bg-muted-foreground/50 focus:bg-muted-foreground/50'}`}
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => {
+                if (scrollContainerRef.current) {
+                  const cardWidth = 330; // approximate width of card + gap
+                  scrollContainerRef.current.scrollTo({
+                    left: i * cardWidth * 2,
+                    behavior: 'smooth',
+                  });
+                  setTimeout(checkScrollPosition, 500);
+                }
+              }}
+            />
+          ))}
         </motion.div>
       </div>
     </motion.section>
