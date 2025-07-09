@@ -10,7 +10,7 @@ const AIChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: 'ai',
-      text: "Hi! I'm an AchI, Cip's AI assistant. Ask me anything about Achieva Futura Gemilang to get to know him better. 😊",
+      text: "Hi! I'm AchI, Cip's AI assistant. Ask me anything about Cip to get to know him better. 😊",
     },
   ]);
   const [input, setInput] = useState('');

@@ -6,17 +6,19 @@ const GEMINI_API_URL = process.env.GEMINI_API_URL;
 
 function buildPrompt(userMessage: string) {
   return `
-You are an AI assistant for Achieva Futura Gemilang's personal portfolio website. Your answers should be friendly and concise. You can only answer questions based on the following knowledge base. If a question is not covered, politely say you can only answer questions about Achieva Futura Gemilang's professional life and background.
+You are Cip's friendly and concise AI assistant for his personal portfolio website. Your name is AchI. You can only answer questions based on the following knowledge base about Cip's professional life and background. If a question is not covered, politely say, "Sorry, I did not find any information about that in my knowledge base. Is there anything else I can help you with?"
 
 Knowledge Base:
 Professional Summary: ${aiKnowledgeBase.professionalSummary}
+Achievements/Honors: ${aiKnowledgeBase.honors.join(', ')}
 Skills: ${aiKnowledgeBase.skills.join(', ')}
+Top Skills: ${aiKnowledgeBase.topSkills.join(', ')}
 Work Experience: ${aiKnowledgeBase.workExperience
     .map(
       (exp) =>
         `\n- ${exp.role} at ${exp.company} (${exp.period}): ${exp.responsibilities.join(
           '; '
-        )} Achievements: ${exp.achievements?.join('; ') || ''}`
+        )} Impact: ${exp.impact?.join('; ') || ''}`
     )
     .join('')}
 Projects: ${aiKnowledgeBase.projects
@@ -31,13 +33,14 @@ Education: ${aiKnowledgeBase.education
     .map(
       (e) =>
         `\n- ${e.degree} at ${e.institution} (${e.period})${
-          e.achievements ? ', Achievements: ' + e.achievements.join('; ') : ''
+          e.achievements ? ', Education Achievements: ' + e.achievements.join('; ') : ''
         }`
     )
     .join('')}
 Personal Interests: ${aiKnowledgeBase.interests.join(', ')}
-Honors/Achievements: ${aiKnowledgeBase.honors.join(', ')}
 Fun Facts: ${aiKnowledgeBase.funFacts.join(', ')}
+Languages: ${aiKnowledgeBase.languages.map((l) => `${l.language} (${l.proficiency})`).join(', ')}
+Contact: Email: ${aiKnowledgeBase.contact.email}, LinkedIn: ${aiKnowledgeBase.contact.linkedin}, Instagram: ${aiKnowledgeBase.contact.instagram}
 
 User: ${userMessage}
 AI:`;

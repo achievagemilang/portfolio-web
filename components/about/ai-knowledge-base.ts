@@ -1,7 +1,7 @@
 export const aiKnowledgeBase = {
   professionalSummary: `
-    I am Achieva Futura Gemilang, a passionate lifelong learner and software engineer with a strong background in mobile and backend development. People also call me Cip, Acip, Asheva, or Shev. I am equipped with business-driven mindset and am specialized in building dynamic, user-centric applications and thrive in collaborative, fast-paced environments. My goal is to create impactful digital solutions that blend technical excellence with great user experience. True to my roots, I'm a lifelong learner. Right now, I'm captivated by the potential of AI agents and am focused on applying them to build next-generation products. I also document my learning journey through public writing, sharing my thoughts, successes, and failures. I believe the most effective learning technique is to do so in public, contributing back to the incredibly supportive tech community along the way. I hope it encourages others to achieve their goals, regardless of their origin.
-  `,
+    I'm Achieva Futura Gemilang (you can call me Cip or Acip), a software engineer with a business-driven mindset, specializing in mobile and backend development. I build dynamic, user-centric applications that blend technical excellence with great user experience. Currently, I'm focused on leveraging AI agents to create next-generation products. As a passionate lifelong learner, I publicly document my journey to contribute to the tech community and inspire others.`,
+  topSkills: ['Flutter', 'Golang', 'Next.js', 'Kotlin', 'Data Structures & Algorithms'],
   skills: [
     'Flutter',
     'Kotlin',
@@ -27,13 +27,12 @@ export const aiKnowledgeBase = {
     'Communication',
     'Team Leadership',
     'System Design',
-    'Data Structures',
-    'Algorithms',
+    'Data Structures & Algorithms',
     'Database',
     'API Design',
     'RESTful API',
-    'AWS',
-    'GCP',
+    'Amazon Web Services (AWS)',
+    'Google Cloud Platform (GCP)',
     'SQL',
     'MongoDB',
     'MySQL',
@@ -47,6 +46,8 @@ export const aiKnowledgeBase = {
     'Firebase',
     'Google API',
     'OpenAI',
+    'Gemini',
+    'Anthropic',
   ],
   workExperience: [
     {
@@ -54,7 +55,7 @@ export const aiKnowledgeBase = {
       role: 'Software Engineer Trainee',
       period: '2025 - Present',
       responsibilities: ['Learned full-stack web development using Go and React.'],
-      achievements: [
+      impact: [
         'Selected as one of 28+ trainees out of 1000+ applicants to attend twenty-week program held by Sea Labs Indonesia.',
       ],
     },
@@ -66,7 +67,7 @@ export const aiKnowledgeBase = {
         'Contributed to the RPA KCTT project using UiPath, automating the KCTT reject data recapitulation process, reducing manual effort by approximately 80%',
         'Developed automation solutions for IPA uploading, streamlining workflows to handle 30+ uploads with zero errors post-implementation.',
       ],
-      achievements: [
+      impact: [
         'Achieved recognition as one of the top interns in the IT School program, standing out among 3/4 sessions for exceptional performance and contributions.',
       ],
     },
@@ -115,6 +116,16 @@ export const aiKnowledgeBase = {
         'Thesis: Integration Between Product Line and Product Line Authentication Improvements After Dependency Changes in Prices-IDE (Grade: A)',
       ],
     },
+    {
+      institution: 'SMAS Al Kautsar',
+      degree: 'High School Student',
+      period: '2018 - 2021',
+      achievements: [
+        'Graduated as Top 5 Best Students academically in the school.',
+        'Participated as finalist in national-level Informatics Olympiad 2020.',
+        'Won various regional and national competitions in Informatics and Islamic competition.',
+      ],
+    },
   ],
   honors: [
     'Best Delegates Award Comparative Study Japan #2 - Leaders.id (2025)',
@@ -136,4 +147,13 @@ export const aiKnowledgeBase = {
     'I love to read, especially when I am alone. Right now, I have read more than 50+ books. My favorite genre to read is Self-Improvement and Business. My favorite book is "The Alchemist" by Paulo Coelho. The reason why I love to read is because I believe that reading is the best way to network with amazing authors and learn new things from it. It\'s like having coffee chat with them.',
     'I love playing games, especially Mobile Legends, I achieved the highest rank in the game: Mythical Immortal. My signature hero is "Beatrix" with 75%+ win rate with 440+ games played.',
   ],
+  languages: [
+    { language: 'Indonesian', proficiency: 'Native' },
+    { language: 'English', proficiency: 'Professional Working Proficiency' },
+  ],
+  contact: {
+    email: 'achievafuturagemilang@gmail.com',
+    linkedin: 'https://linkedin.com/in/achieva-futura-gemilang',
+    instagram: 'https://www.instagram.com/achieva17_/',
+  },
 };
