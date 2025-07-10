@@ -128,12 +128,18 @@ export default function AnimatedAboutContent() {
       </div>
 
       <motion.div variants={fadeInUp}>
-        <motion.h2
+        <motion.animate
           variants={fadeInUp}
-          className="text-2xl ml-7 mt-4 font-bold text-center lg:text-left"
+          className="flex items-center ml-7 justify-center lg:justify-start gap-3 mt-4"
         >
-          AchI: Ask Me Anything 🤔
-        </motion.h2>
+          <div className="relative">
+            <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse" />
+            <div className="absolute inset-0 h-3 w-3 bg-green-500 rounded-full animate-ping" />
+          </div>
+          <div className="text-2xl font-bold text-center lg:text-left">
+            AchI: Ask Me Anything 🤔
+          </div>
+        </motion.animate>
         <motion.p variants={fadeInUp} className="ml-7 mb-4 text-center lg:text-left">
           Experimental AI Chatbot to answer your questions about me.
         </motion.p>

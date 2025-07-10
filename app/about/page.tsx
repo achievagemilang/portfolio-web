@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import AnimatedAboutContent from '@/components/about/animated-about-content';
-import AIChat from '@/components/about/ai-chat';
 import AnimatedContactForm from '@/components/about/animated-contact-form';
 
 export const metadata: Metadata = {
