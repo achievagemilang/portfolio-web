@@ -49,6 +49,205 @@ export const aiKnowledgeBase = {
     'Gemini',
     'Anthropic',
   ],
+  services: [
+    {
+      name: 'Web Development',
+      description:
+        'Full-stack web applications using modern technologies like Next.js, React, and Node.js. I build scalable, performant websites and web applications with excellent user experience.',
+      technologies: ['Next.js', 'React', 'TypeScript', 'Node.js', 'Tailwind CSS'],
+      examples: [
+        'Portfolio websites',
+        'E-commerce platforms',
+        'SaaS applications',
+        'Corporate websites',
+      ],
+    },
+    {
+      name: 'Mobile Development',
+      description:
+        'Cross-platform and native mobile applications for iOS and Android. I specialize in Flutter for cross-platform development and Kotlin for Android native apps.',
+      technologies: ['Flutter', 'Kotlin', 'Swift', 'Dart', 'Firebase'],
+      examples: [
+        'Business apps',
+        'E-commerce mobile apps',
+        'Social media apps',
+        'Utility applications',
+      ],
+    },
+    {
+      name: 'AI Integration',
+      description:
+        'Integration of AI technologies into existing applications, including conversational AI, machine learning models, and automated workflows.',
+      technologies: ['OpenAI API', 'Google Gemini', 'Anthropic Claude', 'Custom AI models'],
+      examples: [
+        'AI chatbots',
+        'Voice assistants',
+        'Content generation',
+        'Data analysis automation',
+      ],
+    },
+    {
+      name: 'Backend Development',
+      description:
+        'Robust backend systems and APIs using Go, Java, and Python. I build scalable microservices and RESTful APIs.',
+      technologies: ['Golang', 'Java Spring Boot', 'Python Django', 'PostgreSQL', 'MongoDB'],
+      examples: [
+        'API development',
+        'Microservices architecture',
+        'Database design',
+        'Cloud deployment',
+      ],
+    },
+    {
+      name: 'Consulting',
+      description:
+        'Technical consulting for startups and businesses, including system architecture, technology selection, and development strategy.',
+      areas: [
+        'System Architecture',
+        'Technology Stack Selection',
+        'Development Process Optimization',
+        'Team Training',
+      ],
+      examples: [
+        'Startup technical guidance',
+        'Legacy system modernization',
+        'Development team setup',
+        'Code reviews',
+      ],
+    },
+  ],
+  pricing: {
+    models: [
+      {
+        type: 'Project-Based',
+        description: 'Fixed price for complete projects with defined scope and deliverables.',
+        bestFor: 'Well-defined projects with clear requirements',
+        advantages: ['Predictable cost', 'Clear deliverables', 'Timeline commitment'],
+      },
+      {
+        type: 'Hourly Rate',
+        description:
+          'Flexible hourly billing for ongoing work or projects with evolving requirements.',
+        bestFor: 'Ongoing development, maintenance, or projects with changing scope',
+        advantages: ['Flexibility', 'Pay only for work done', 'Easy to scale up or down'],
+      },
+      {
+        type: 'Retainer',
+        description: 'Monthly retainer for ongoing technical support and development work.',
+        bestFor: 'Long-term partnerships and ongoing technical needs',
+        advantages: [
+          'Priority support',
+          'Consistent availability',
+          'Cost-effective for ongoing work',
+        ],
+      },
+    ],
+    note: 'For detailed quotes and pricing, I recommend scheduling a consultation call to discuss your specific project requirements and timeline.',
+  },
+  process: {
+    phases: [
+      {
+        name: 'Discovery & Planning',
+        description:
+          'Understanding your requirements, goals, and technical constraints. Creating a detailed project plan and timeline.',
+        deliverables: [
+          'Project requirements document',
+          'Technical architecture plan',
+          'Timeline and milestones',
+          'Cost estimate',
+        ],
+      },
+      {
+        name: 'Design & Prototyping',
+        description:
+          'Creating wireframes, mockups, and prototypes to visualize the solution before development begins.',
+        deliverables: [
+          'UI/UX designs',
+          'Interactive prototypes',
+          'Technical specifications',
+          'Database schema',
+        ],
+      },
+      {
+        name: 'Development',
+        description:
+          'Building the application using best practices, clean code, and modern development methodologies.',
+        deliverables: [
+          'Working application',
+          'Code documentation',
+          'Testing suite',
+          'Deployment setup',
+        ],
+      },
+      {
+        name: 'Testing & Quality Assurance',
+        description:
+          'Comprehensive testing including unit tests, integration tests, and user acceptance testing.',
+        deliverables: ['Test reports', 'Bug fixes', 'Performance optimization', 'Security audit'],
+      },
+      {
+        name: 'Deployment & Launch',
+        description:
+          'Deploying the application to production and ensuring everything works smoothly.',
+        deliverables: [
+          'Production deployment',
+          'Monitoring setup',
+          'Launch support',
+          'Documentation',
+        ],
+      },
+      {
+        name: 'Post-Launch Support',
+        description:
+          'Ongoing maintenance, updates, and support to ensure your application continues to perform well.',
+        deliverables: [
+          'Bug fixes',
+          'Feature updates',
+          'Performance monitoring',
+          'Technical support',
+        ],
+      },
+    ],
+    methodology:
+      'I follow Agile development methodologies with regular check-ins, iterative development, and continuous feedback to ensure the final product meets your expectations.',
+  },
+  faqs: [
+    {
+      question: 'How long does a typical project take?',
+      answer:
+        "Project timelines vary based on complexity and scope. A simple website might take 2-4 weeks, while a complex web application could take 2-6 months. I'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: 'Do you provide ongoing support after project completion?',
+      answer:
+        'Yes, I offer ongoing support and maintenance packages. This includes bug fixes, updates, security patches, and feature additions. We can discuss support options that fit your needs and budget.',
+    },
+    {
+      question: 'What technologies do you specialize in?',
+      answer:
+        'I specialize in modern web technologies (Next.js, React, TypeScript), mobile development (Flutter, Kotlin), backend development (Golang, Java Spring Boot), and AI integration. I choose the best technology stack for each project based on requirements.',
+    },
+    {
+      question: 'How do you handle project communication and updates?',
+      answer:
+        "I maintain regular communication through scheduled check-ins, progress reports, and collaborative tools. You'll have access to project management tools to track progress and provide feedback throughout development.",
+    },
+    {
+      question: 'Do you work with international clients?',
+      answer:
+        "Yes, I work with clients globally. I'm comfortable with remote collaboration and can accommodate different time zones. I'm fluent in English and Indonesian.",
+    },
+    {
+      question: 'What is your approach to project pricing?',
+      answer:
+        'I offer flexible pricing models including project-based, hourly, and retainer options. Pricing depends on project scope, complexity, and timeline. I provide transparent quotes with no hidden costs.',
+    },
+    {
+      question: 'How can I schedule a meeting or consultation?',
+      answer:
+        "You can schedule a meeting directly through my Google Calendar Appointment page! Just let me know you'd like to book a consultation, and I'll provide you with my Google Calendar Appointment link. You can pick a time that works for you and book instantly. (Automated scheduling may be available in the future.)",
+    },
+  ],
   workExperience: [
     {
       company: 'Shopee - SEA Labs',
