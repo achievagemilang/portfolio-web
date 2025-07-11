@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Volume2, VolumeX } from 'lucide-react';
+import { X, Mic, MicOff, Phone, PhoneOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useConversation } from '@elevenlabs/react';
 import { useToast } from '@/hooks/use-toast';
@@ -43,33 +43,32 @@ export function FullscreenConversation({ isOpen, onClose }: FullscreenConversati
         setLoading(false);
       }
     };
-
     fetchConfig();
   }, []);
 
   const conversation = useConversation({
     onConnect: () => {
-      console.log('Connected to ElevenLabs');
+      console.log('Connected to AI Assistant');
       toast({
-        title: 'Connected!',
-        description: 'You can now speak naturally with the AI Assistant.',
+        title: 'Connected',
+        description: 'Voice assistant is ready',
       });
     },
     onDisconnect: () => {
-      console.log('Disconnected from ElevenLabs');
+      console.log('Disconnected from AI Assistant');
       toast({
         title: 'Disconnected',
-        description: 'Voice conversation has ended.',
+        description: 'Call ended',
       });
     },
     onMessage: (message: any) => {
       console.log('Message received:', message);
     },
     onError: (error: any) => {
-      console.error('ElevenLabs error:', error);
+      console.error('AI Assistant error:', error);
       toast({
-        title: 'Connection Error',
-        description: 'Failed to connect to AI Assistant. Please try again.',
+        title: 'Connection failed',
+        description: 'Please try again',
         variant: 'destructive',
       });
     },
@@ -78,18 +77,15 @@ export function FullscreenConversation({ isOpen, onClose }: FullscreenConversati
   const startConversation = useCallback(async () => {
     if (!config?.elevenLabsAgentId) {
       toast({
-        title: 'Configuration Error',
-        description: 'AI Assistant not properly configured.',
+        title: 'Configuration error',
+        description: 'AI Assistant not configured',
         variant: 'destructive',
       });
       return;
     }
 
     try {
-      // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
-
-      // Start the conversation with your agent
       await conversation.startSession({
         agentId: config.elevenLabsAgentId,
       });
@@ -97,8 +93,8 @@ export function FullscreenConversation({ isOpen, onClose }: FullscreenConversati
       console.error('Failed to start conversation:', error);
       if (!micErrorShown) {
         toast({
-          title: 'Microphone Error',
-          description: 'Please allow microphone access to use voice features.',
+          title: 'Microphone access required',
+          description: 'Please allow microphone access',
           variant: 'destructive',
         });
         setMicErrorShown(true);
@@ -121,20 +117,18 @@ export function FullscreenConversation({ isOpen, onClose }: FullscreenConversati
     onClose();
   };
 
-  // Auto-start conversation when modal opens
   useEffect(() => {
     if (isOpen && config && conversation.status !== 'connected') {
       startConversation();
     }
   }, [isOpen, config, conversation.status, startConversation]);
 
-  if (loading) {
+  if (loading || !config) {
     return null;
   }
 
-  if (!config) {
-    return null;
-  }
+  const isConnected = conversation.status === 'connected';
+  const isConnecting = conversation.status === 'connecting';
 
   return (
     <AnimatePresence>
@@ -143,114 +137,158 @@ export function FullscreenConversation({ isOpen, onClose }: FullscreenConversati
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md"
           onClick={handleClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            exit={{ scale: 0.95, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="absolute inset-4 bg-background rounded-lg shadow-2xl flex flex-col"
+            className="absolute inset-4 md:inset-8 lg:inset-16 bg-background/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-border/50 flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between p-6 border-b border-border/50">
+              <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="h-4 w-4 bg-green-500 rounded-full animate-pulse" />
-                  <div className="absolute inset-0 h-4 w-4 bg-green-500 rounded-full animate-ping" />
+                  <div
+                    className={`h-3 w-3 rounded-full transition-colors duration-300 ${
+                      isConnected ? 'bg-green-500' : isConnecting ? 'bg-yellow-500' : 'bg-gray-400'
+                    }`}
+                  />
+                  {isConnected && (
+                    <div className="absolute inset-0 h-3 w-3 bg-green-500 rounded-full animate-ping opacity-75" />
+                  )}
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold">AchI: Voice Assistant</h2>
+                  <h1 className="text-xl font-semibold">AchI: Voice Mode</h1>
                   <p className="text-sm text-muted-foreground">
-                    {conversation.status === 'connected'
-                      ? 'Connected • Ready to chat'
-                      : 'Connecting...'}
+                    {isConnected ? 'Connected' : isConnecting ? 'Connecting...' : 'Disconnected'}
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" onClick={handleClose} className="h-10 w-10 p-0">
-                  <X className="h-5 w-5" />
-                </Button>
-              </div>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleClose}
+                className="h-10 w-10 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </Button>
             </div>
 
-            {/* ElevenLabs Widget Container */}
-            <div className="flex-1 p-6">
-              <div className="h-full w-full bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 rounded-lg border-2 border-dashed border-blue-200 dark:border-blue-800 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="mb-6">
-                    <div className="h-24 w-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                      <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center">
-                        <div className="h-8 w-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full animate-ping" />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">
-                      {conversation.status === 'connected'
-                        ? 'Connected to AchI'
-                        : 'Connecting to AchI...'}
-                    </h3>
-                    <p className="text-muted-foreground mb-4">
-                      {conversation.status === 'connected'
-                        ? 'Speak naturally and the AI will respond with voice'
-                        : 'Please wait while we establish the connection'}
-                    </p>
-                  </div>
-
-                  {/* Connection Status */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-center gap-2">
-                      <div
-                        className={`h-3 w-3 rounded-full ${conversation.status === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`}
-                      />
-                      <span className="text-sm font-medium">
-                        {conversation.status === 'connected' ? 'Connected' : 'Connecting...'}
-                      </span>
-                    </div>
-
-                    {conversation.isSpeaking && (
-                      <div className="flex items-center justify-center gap-2 text-blue-600">
-                        <div className="h-3 w-3 bg-blue-500 rounded-full animate-pulse" />
-                        <span className="text-sm font-medium">AI Speaking</span>
-                      </div>
+            {/* Main Content */}
+            <div className="flex-1 flex items-center justify-center p-8">
+              <div className="text-center max-w-md mx-auto">
+                {/* Avatar/Status Circle */}
+                <div className="relative mb-8">
+                  <motion.div
+                    animate={isConnected ? { scale: [1, 1.05, 1] } : {}}
+                    transition={{
+                      duration: 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: 'easeInOut',
+                    }}
+                    className={`h-32 w-32 mx-auto rounded-full flex items-center justify-center transition-all duration-500 ${
+                      isConnected
+                        ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/25'
+                        : isConnecting
+                          ? 'bg-gradient-to-br from-yellow-500 to-orange-500 shadow-lg shadow-yellow-500/25'
+                          : 'bg-gradient-to-br from-gray-400 to-gray-600'
+                    }`}
+                  >
+                    {isConnected ? (
+                      <Mic className="h-12 w-12 text-white" />
+                    ) : isConnecting ? (
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 2,
+                          repeat: Number.POSITIVE_INFINITY,
+                          ease: 'linear',
+                        }}
+                      >
+                        <Phone className="h-12 w-12 text-white" />
+                      </motion.div>
+                    ) : (
+                      <MicOff className="h-12 w-12 text-white" />
                     )}
-                  </div>
+                  </motion.div>
 
-                  {/* Instructions */}
-                  <div className="mt-8 p-4 bg-white/50 dark:bg-black/20 rounded-lg">
-                    <h4 className="font-medium mb-2">How to use:</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      <li>• Speak naturally when you're connected</li>
-                      <li>• Wait for AchI to respond with voice</li>
-                      {/* <li>• Ask about services, pricing, or schedule a meeting</li> */}
-                      <li>• Click outside or the X button to end the call</li>
-                    </ul>
-                  </div>
+                  {/* Speaking indicator */}
+                  {conversation.isSpeaking && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -bottom-2 left-1/2 transform -translate-x-1/2"
+                    >
+                      <div className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full font-medium">
+                        Speaking...
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
+
+                {/* Status Text */}
+                <div className="space-y-2 mb-8">
+                  <h2 className="text-2xl font-bold">
+                    {isConnected
+                      ? 'Ready to chat'
+                      : isConnecting
+                        ? 'Connecting...'
+                        : 'Connection failed'}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {isConnected
+                      ? "Speak naturally and I'll respond with voice"
+                      : isConnecting
+                        ? 'Establishing secure connection'
+                        : 'Please try again or check your microphone'}
+                  </p>
+                </div>
+
+                {/* Action Button */}
+                {!isConnected && !isConnecting && (
+                  <Button onClick={startConversation} size="lg" className="rounded-full px-8">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Reconnect
+                  </Button>
+                )}
               </div>
             </div>
 
-            <div className="p-4 border-t bg-muted/50">
+            {/* Footer */}
+            <div className="p-6 border-t border-border/50 bg-muted/30">
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-4">
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 text-muted-foreground">
                     <div
-                      className={`h-2 w-2 rounded-full ${conversation.status === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`}
+                      className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`}
                     />
-                    {conversation.status === 'connected'
-                      ? 'Voice Call Active'
-                      : 'Establishing Connection...'}
+                    {isConnected ? 'Live call' : 'Not connected'}
                   </span>
                   {conversation.isSpeaking && (
-                    <span className="flex items-center gap-2 text-blue-600">
-                      <div className="h-2 w-2 bg-blue-500 rounded-full animate-pulse" />
-                      AI Speaking
+                    <span className="flex items-center gap-2 text-blue-600 font-medium">
+                      <motion.div
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
+                        className="h-2 w-2 bg-blue-500 rounded-full"
+                      />
+                      AI responding
                     </span>
                   )}
                 </div>
-                <div className="text-muted-foreground">Click outside to end call</div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClose}
+                  className="text-muted-foreground hover:text-destructive"
+                >
+                  <PhoneOff className="h-4 w-4 mr-2" />
+                  End call
+                </Button>
               </div>
             </div>
           </motion.div>
