@@ -1,7 +1,8 @@
 export const aiKnowledgeBase = {
   professionalSummary: `
-    I'm Achieva Futura Gemilang (you can call me Cip or Acip), a software engineer with a business-driven mindset, specializing in mobile and backend development. I build dynamic, user-centric applications that blend technical excellence with great user experience. Currently, I'm focused on leveraging AI agents to create next-generation products. As a passionate lifelong learner, I publicly document my journey to contribute to the tech community and inspire others.`,
+    I'm Achieva Futura Gemilang (you can call me Cip, Acip, or Achieva), a software engineer with a business-driven mindset, specializing in mobile and backend development. I build dynamic, user-centric applications that blend technical excellence with great user experience. Currently, I'm focused on leveraging AI agents to create next-generation products. As a passionate lifelong learner, I publicly document my journey to contribute to the tech community and inspire others.`,
   topSkills: ['Flutter', 'Golang', 'Next.js', 'Kotlin', 'Data Structures & Algorithms'],
+  nicknames: ['Cip', 'Acip', 'Achieva', 'Shev'],
   skills: [
     'Flutter',
     'Kotlin',
