@@ -47,7 +47,7 @@ export const experiencesList = [
     company: 'The Directorate General of Treasury (DJPb), Ministry of Finance',
     position: 'Mobile Developer - Contract',
     startDate: '2024-08-01',
-    endDate: '2024-09-31',
+    endDate: '2024-09-30',
     description: 'Government institution in Indonesia.',
     achievements: [
       'Engineered critical features including network state management, session validation, and search, increasing app performance and reducing data loading times by approximately 30%.',
@@ -63,7 +63,7 @@ export const experiencesList = [
     company: 'Televisi Republik Indonesia (TVRI)',
     position: 'Mobile Engineer - Contract',
     startDate: '2024-07-01',
-    endDate: '2024-09-31',
+    endDate: '2024-09-30',
     description: `Indonesia's national public broadcasting service.`,
     achievements: [
       'Engineered core app features using Flutter, including task management, task submission, and survey management, streamlining workflows and potentially boosting team productivity by an estimated 20%.',
@@ -95,7 +95,7 @@ export const experiencesList = [
     company: 'Faculty of Computer Science University of Indonesia',
     position: 'Teaching Assistant',
     startDate: '2022-08-01',
-    endDate: '2024-06-31',
+    endDate: '2024-06-30',
     description: 'Shaping excellence in computer science education and research.',
     achievements: [
       'Mentored 3 student groups (15+ students) in core HCI and user-centered design, driving enhanced project quality and academic alignment.',
