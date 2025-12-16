@@ -62,7 +62,7 @@
     "input-otp": "1.4.1",
     "install": "^0.13.0",
     "lucide-react": "^0.454.0",
-    "next": "15.1.0",
+    "next": "15.1.11",
     "next-contentlayer": "^0.3.4",
     "next-mdx-remote": "^5.0.0",
     "next-sitemap": "^4.2.3",
