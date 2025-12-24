@@ -2,11 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import ProjectCard from '@/components/projects/project-card';
 
 interface Project {
   id: number;
@@ -15,6 +14,7 @@ interface Project {
   image: string;
   link: string;
   tags: string[];
+  year?: number;
 }
 
 interface ProjectsProps {
@@ -68,36 +68,7 @@ export default function Projects({ projects }: ProjectsProps) {
           animate={isInView ? 'show' : 'hidden'}
         >
           {projects.map((project) => (
-            <motion.div key={project.id} variants={item}>
-              <Card className="overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-lg h-[500px] flex flex-col">
-                <div className="relative h-48 w-full flex-shrink-0">
-                  <Image
-                    src={project.image || '/placeholder.svg'}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <CardContent className="pt-6 flex-grow overflow-hidden">
-                  <h3 className="text-xl font-bold mb-2 line-clamp-1">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4 max-h-[80px] overflow-y-auto">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="bg-muted px-2 py-1 rounded-md text-xs">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </CardContent>
-                <CardFooter className="mt-auto border-t">
-                  <Button asChild>
-                    <a href={project.link} target="_blank" rel="noopener noreferrer">
-                      View Project
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
+            <ProjectCard key={project.id} project={project} />
           ))}
         </motion.div>
       </div>

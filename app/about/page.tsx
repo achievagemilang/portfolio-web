@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
 import AnimatedAboutContent from '@/components/about/animated-about-content';
 import AnimatedContactForm from '@/components/about/animated-contact-form';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About | Achieva Futura Gemilang',
   description:
-    'Learn more about Achieva Futura Gemilang, a software engineer and lifelong learner, who is passionate about building scalable and efficient systems.',
+    'Learn more about Achieva Futura Gemilang, a lifelong learner and software engineer, who is passionate about building scalable and efficient systems.',
   openGraph: {
     title: 'About | Achieva Futura Gemilang',
     description:

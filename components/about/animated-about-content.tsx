@@ -1,9 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 import AIChat from './ai-chat';
 
 const fadeInUp = {
@@ -48,7 +48,7 @@ export default function AnimatedAboutContent() {
             transition={{ type: 'spring', stiffness: 300 }}
             className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary/20"
           >
-            <Image
+            <ImageWithSkeleton
               src="/pas_foto_new.png?height=160&width=160"
               alt="Achieva Futura Gemilang"
               fill
@@ -76,14 +76,15 @@ export default function AnimatedAboutContent() {
           </motion.p>
 
           <motion.p variants={fadeInUp} className="text-lg mb-4">
-            I'm a software engineer with a business-driven mindset, blending technical expertise
-            with strategic thinking to build scalable, user-centric solutions.
+            I'm a software engineer with a product-driven mindset, blending technical expertise with
+            strategic thinking to build scalable, user-centric solutions.
           </motion.p>
 
           <motion.p variants={fadeInUp} className="mb-4">
-            With a strong foundation in mobile development (Flutter, Kotlin, Swift) and full-stack
-            technologies (Next.js, Go, Spring Boot, Django, etc.), I've built and delivered various
-            projects like Citizen Journalism, BikunTracker Mobile, Questify, and more!
+            With a strong foundation in backend engineering (Go, Spring Boot, Django, NestJS,
+            ExpressJS) and frontend (Flutter, Kotlin, Next.js, React) engineering, I've built and
+            delivered various projects like Citizen Journalism, BikunTracker Mobile, Questify, and
+            more!
           </motion.p>
 
           <motion.p variants={fadeInUp} className="mb-4">
@@ -105,19 +106,23 @@ export default function AnimatedAboutContent() {
 
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 mt-6 mb-8">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button asChild size="lg" className="w-full sm:w-auto">
-                <Link href="https://drive.google.com/drive/folders/1GJxg0jQSK2cSS-4r4W7QKeSIfZIAyRKB?usp=drive_link">
-                  Resume/CV
+              <Button asChild size="lg" className="w-full sm:w-auto no-underline">
+                <Link
+                  href="https://drive.google.com/drive/folders/1GJxg0jQSK2cSS-4r4W7QKeSIfZIAyRKB?usp=drive_link"
+                  className="no-underline"
+                >
+                  Resume
                 </Link>
               </Button>
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto no-underline">
                 <Link
                   href="https://linktr.ee/achieva.futura"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="no-underline"
                 >
                   My Socials
                 </Link>
@@ -128,7 +133,7 @@ export default function AnimatedAboutContent() {
       </div>
 
       <motion.div variants={fadeInUp}>
-        <motion.animate
+        <motion.div
           variants={fadeInUp}
           className="flex items-center ml-7 justify-center lg:justify-start gap-3 mt-4"
         >
@@ -139,7 +144,7 @@ export default function AnimatedAboutContent() {
           <div className="text-2xl font-bold text-center lg:text-left">
             AchI: Ask Me Anything 🤔
           </div>
-        </motion.animate>
+        </motion.div>
         <motion.p variants={fadeInUp} className="ml-7 mb-4 text-center lg:text-left">
           Experimental AI Chatbot to answer your questions about me.
         </motion.p>

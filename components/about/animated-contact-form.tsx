@@ -1,7 +1,8 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import ContactForm from '@/components/about/contact-form';
+import { Linkedin, Mail } from 'lucide-react';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -22,24 +23,52 @@ export default function AnimatedContactForm() {
         variants={fadeInUp}
         className="text-muted-foreground text-center mb-6 max-w-md mx-auto"
       >
-        <a
-          href="https://www.linkedin.com/in/achieva-futura-gemilang/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-primary/80 font-bold hover:underline hover:underline-offset-4 transition-all duration-200"
-        >
-          Direct message me on LinkedIn
-        </a>{' '}
-        or fill the form below.
+        Reach out to me via email or LinkedIn.
         <br />
-        <a className="italic">I'll get back to you as soon as possible.</a>
+        <span className="italic">I'll get back to you as soon as possible.</span>
       </motion.p>
+
+      {/* Contact Buttons */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.5 }}
+        variants={fadeInUp}
+        className="flex flex-col sm:flex-row gap-3 justify-center mb-6"
       >
-        <ContactForm />
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full sm:w-auto"
+        >
+          <Button
+            asChild
+            variant="outline"
+            className="w-full sm:w-auto gap-2 group transition-all duration-300 !text-foreground"
+          >
+            <a
+              href="mailto:achievafuturagemilang@gmail.com"
+              className="flex items-center justify-center w-full"
+            >
+              <Mail className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+              Email Me
+            </a>
+          </Button>
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full sm:w-auto"
+        >
+          <Button asChild className="w-full sm:w-auto gap-2 group">
+            <a
+              href="https://www.linkedin.com/in/achieva-futura-gemilang/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-full"
+            >
+              <Linkedin className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+              LinkedIn
+            </a>
+          </Button>
+        </motion.div>
       </motion.div>
     </motion.div>
   );

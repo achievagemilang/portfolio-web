@@ -1,10 +1,10 @@
-import Hero from '@/components/home/hero';
-import Experience from '@/components/home/experience';
-import Projects from '@/components/home/projects';
 import BlogPosts from '@/components/home/blog-posts';
+import Experience from '@/components/home/experience';
+import Hero from '@/components/home/hero';
+import Projects from '@/components/home/projects';
 import PageTransition from '@/components/util/page-transition';
-import { getAllPosts } from '@/lib/mdx';
 import { experiencesList, projectList } from '@/constant/constant';
+import { getAllPosts } from '@/lib/mdx';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -49,8 +49,14 @@ export default async function Home() {
     console.log('Using fallback data for experiences and posts');
   }
 
-  // Featured projects (limit to 4)
-  const featuredProjects = projectList.slice(0, 4);
+  // Featured projects (sorted by year descending, then by ID descending if year is same, limit to 4)
+  const featuredProjects = [...projectList]
+    .sort((a, b) => {
+      const yearDiff = (b.year || 0) - (a.year || 0);
+      if (yearDiff !== 0) return yearDiff;
+      return b.id - a.id;
+    })
+    .slice(0, 4);
 
   return (
     <PageTransition>
