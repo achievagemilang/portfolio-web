@@ -1,16 +1,14 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { format } from 'date-fns';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import Image from 'next/image';
-import { ExternalLink, Calendar } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
 import type { Experience } from '@/content-config';
-import { useState } from 'react';
-import { Briefcase, GraduationCap, Heart } from 'lucide-react';
+import { format } from 'date-fns';
+import { AnimatePresence, motion, useInView } from 'framer-motion';
+import { Briefcase, Calendar, ChevronDown, ExternalLink, GraduationCap, Heart } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 interface ExperienceProps {
   experiences: Experience[];
@@ -30,11 +28,13 @@ function groupExperiencesById(experiences: Experience[]) {
 }
 
 export default function Experience({ experiences }: ExperienceProps) {
-  const sectionRef = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
   const [activeFilter, setActiveFilter] = useState<'professional' | 'education' | 'volunteer'>(
     'professional'
   );
+  const [visibleCount, setVisibleCount] = useState(3);
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
   const filteredExperiences = experiences
     .filter((exp) => exp.category === activeFilter)
@@ -43,6 +43,47 @@ export default function Experience({ experiences }: ExperienceProps) {
     });
 
   const groupedExperiences = groupExperiencesById(filteredExperiences);
+  const visibleExperiences = groupedExperiences.slice(0, visibleCount);
+  const hasMore = groupedExperiences.length > visibleCount;
+
+  // Reset visible count and expanded cards when filter changes
+  useEffect(() => {
+    setVisibleCount(3);
+    setExpandedCards(new Set());
+  }, [activeFilter]);
+
+  const toggleCard = (cardId: string) => {
+    setExpandedCards((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(cardId)) {
+        newSet.delete(cardId);
+      } else {
+        newSet.add(cardId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleShowMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 3, groupedExperiences.length));
+  };
+
+  const handleCollapseAll = () => {
+    setVisibleCount(3);
+    // Smooth scroll to top of experience section after collapse animation
+    setTimeout(() => {
+      if (sectionRef.current) {
+        sectionRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest',
+        });
+      }
+    }, 350); // Delay to allow collapse animation to complete
+  };
+
+  // Only show "Collapse All" if we've expanded beyond the initial count (3) and all items are visible
+  const isAllExpanded = visibleCount > 3 && visibleCount >= groupedExperiences.length;
 
   const container = {
     hidden: { opacity: 0 },
@@ -131,191 +172,398 @@ export default function Experience({ experiences }: ExperienceProps) {
             transition={{ duration: 1.5 }}
           />
 
-          {groupedExperiences.map((group, groupIdx) =>
-            group.length === 1 ? (
-              <motion.div
-                key={group[0]._id}
-                variants={item}
-                className="relative mb-12 pl-12 md:pl-0"
-              >
-                {/* Timeline dot - with pulse animation */}
+          <AnimatePresence mode="popLayout">
+            {visibleExperiences.map((group, groupIdx) =>
+              group.length === 1 ? (
                 <motion.div
-                  className="absolute left-4 md:left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5 md:-ml-1.5"
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: [0, 1.2, 1] } : { scale: 0 }}
-                  transition={{ delay: 0.2 + groupIdx * 0.2, duration: 0.5 }}
-                />
-                <Card
-                  className={`transition-all duration-300 hover:scale-[1.03] hover:shadow-lg border-0 shadow-md overflow-hidden ${
-                    groupIdx % 2 === 0 ? 'md:ml-auto md:mr-16' : 'md:mr-auto md:ml-16'
-                  }`}
-                  style={{ minHeight: '320px' }}
+                  key={group[0]._id}
+                  variants={item}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                  transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                  className="relative mb-12 pl-12 md:pl-0"
                 >
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center gap-4 mb-1 flex-wrap sm:flex-nowrap">
-                      {group[0].logoUrl && (
-                        <div className="relative w-12 h-12 flex-shrink-0 overflow-hidden rounded-md border border-border/30 bg-background p-1">
-                          <Image
-                            src={group[0].logoUrl || '/placeholder.svg'}
-                            alt={`${group[0].company} logo`}
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <CardTitle className="text-xl line-clamp-2">{group[0].company}</CardTitle>
-                        <div className="text-lg font-medium text-muted-foreground mt-0.5 line-clamp-1">
-                          {group[0].description}
-                        </div>
-                        <div className="flex items-center mt-1.5 text-sm text-muted-foreground">
-                          <Calendar size={14} className="mr-1.5 flex-shrink-0" />
-                          <span>
-                            {format(new Date(group[group.length - 1].startDate), 'MMM yyyy')} -
-                            {group[0].endDate
-                              ? format(new Date(group[0].endDate), ' MMM yyyy')
-                              : ' Present'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardHeader>
-
-                  <CardContent>
-                    <div className="relative pl-8">
-                      {/* Timeline line */}
-                      <div className="absolute left-2 top-0 bottom-0 w-px bg-border" />
-                      {group.map((exp, idx) => (
-                        <div key={exp.position} className="relative mb-6">
-                          {/* Timeline dot */}
-                          <div className="absolute left-[-8px] top-2 w-2 h-2 rounded-full bg-primary" />
-                          <div className="pl-4">
-                            <div className="font-semibold">{exp.position}</div>
-                            <div className="text-sm text-muted-foreground">
-                              {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
-                              {exp.endDate ? format(new Date(exp.endDate), 'MMM yyyy') : 'Present'}
-                            </div>
-                            <ul className="list-disc pl-5 space-y-1">
-                              {exp.achievements.map((ach, i) => (
-                                <li key={i} className="text-sm">
-                                  {ach}
-                                </li>
-                              ))}
-                            </ul>
+                  {/* Timeline dot - with pulse animation */}
+                  <motion.div
+                    className="absolute left-4 md:left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5 md:-ml-1.5"
+                    initial={{ scale: 0 }}
+                    animate={isInView ? { scale: [0, 1.2, 1] } : { scale: 0 }}
+                    transition={{ delay: 0.2 + groupIdx * 0.2, duration: 0.5 }}
+                  />
+                  <Card
+                    className={`group transition-all duration-300 hover:shadow-xl border border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden ${
+                      groupIdx % 2 === 0 ? 'md:ml-auto md:mr-16' : 'md:mr-auto md:ml-16'
+                    }`}
+                  >
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        {group[0].logoUrl && (
+                          <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden rounded-xl border-2 border-border/50 bg-background p-2 shadow-sm group-hover:border-primary/30 transition-colors">
+                            <ImageWithSkeleton
+                              src={group[0].logoUrl || '/placeholder.svg'}
+                              alt={`${group[0].company} logo`}
+                              fill
+                              className="object-contain"
+                            />
                           </div>
+                        )}
+                        <div className="flex-1 min-w-0 space-y-2">
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex-1 min-w-0">
+                              <CardTitle className="text-xl font-bold mb-1.5 leading-tight">
+                                {group[0].company}
+                              </CardTitle>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Calendar size={14} className="flex-shrink-0" />
+                                <span className="font-medium">
+                                  {format(new Date(group[group.length - 1].startDate), 'MMM yyyy')}{' '}
+                                  -{' '}
+                                  {group[0].endDate
+                                    ? format(new Date(group[0].endDate), 'MMM yyyy')
+                                    : 'Present'}
+                                </span>
+                              </div>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="flex-shrink-0 h-9 w-9 p-0 rounded-lg hover:bg-muted self-center"
+                              onClick={() => toggleCard(group[0]._id)}
+                              aria-label={expandedCards.has(group[0]._id) ? 'Collapse' : 'Expand'}
+                            >
+                              <motion.div
+                                animate={{
+                                  rotate: expandedCards.has(group[0]._id) ? 180 : 0,
+                                }}
+                                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                              >
+                                <ChevronDown className="h-4 w-4" />
+                              </motion.div>
+                            </Button>
+                          </div>
+                          <p className="text-base leading-relaxed text-muted-foreground">
+                            {group[0].description}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-
-                    {group[0].website && (
-                      <div className="flex justify-end mt-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="flex items-center gap-1 text-primary hover:text-primary/80 hover:bg-primary/5 -mr-2"
-                          onClick={() => window.open(group[0].website, '_blank')}
-                        >
-                          Visit company <ExternalLink size={14} className="flex-shrink-0" />
-                        </Button>
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ) : (
-              <motion.div
-                key={group[0]._id}
-                variants={item}
-                className="relative mb-12 pl-12 md:pl-0"
-              >
-                {/* Timeline dot - with pulse animation */}
+                    </CardHeader>
+
+                    <AnimatePresence>
+                      {expandedCards.has(group[0]._id) && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                          style={{ overflow: 'hidden' }}
+                        >
+                          <CardContent className="pt-0 pb-6">
+                            <div className="space-y-6">
+                              {group.map((exp, idx) => (
+                                <div
+                                  key={`${exp._id}-${exp.startDate}`}
+                                  className="relative pl-6 border-l-2 border-primary/20"
+                                >
+                                  <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-2 border-background shadow-sm" />
+                                  <div className="space-y-3">
+                                    <div>
+                                      <h4 className="text-lg font-semibold text-foreground mb-1">
+                                        {exp.position}
+                                      </h4>
+                                      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                                        <Calendar size={12} className="flex-shrink-0" />
+                                        <span>
+                                          {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
+                                          {exp.endDate
+                                            ? format(new Date(exp.endDate), 'MMM yyyy')
+                                            : 'Present'}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <ul className="space-y-2.5">
+                                      {exp.achievements.map((ach, i) => (
+                                        <li
+                                          key={i}
+                                          className="text-sm leading-relaxed text-muted-foreground flex items-start gap-2.5"
+                                        >
+                                          <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-primary/60 mt-2" />
+                                          <div className="flex-1 prose prose-sm dark:prose-invert max-w-none">
+                                            <ReactMarkdown
+                                              components={{
+                                                p: ({ children }) => <span>{children}</span>,
+                                                strong: ({ children }) => (
+                                                  <strong className="font-semibold text-foreground">
+                                                    {children}
+                                                  </strong>
+                                                ),
+                                                em: ({ children }) => (
+                                                  <em className="italic">{children}</em>
+                                                ),
+                                                a: ({ href, children }) => (
+                                                  <a
+                                                    href={href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-primary hover:underline font-medium"
+                                                  >
+                                                    {children}
+                                                  </a>
+                                                ),
+                                                ul: ({ children }) => (
+                                                  <ul className="list-disc list-inside space-y-1 my-2">
+                                                    {children}
+                                                  </ul>
+                                                ),
+                                                ol: ({ children }) => (
+                                                  <ol className="list-decimal list-inside space-y-1 my-2">
+                                                    {children}
+                                                  </ol>
+                                                ),
+                                                li: ({ children }) => (
+                                                  <li className="text-sm">{children}</li>
+                                                ),
+                                              }}
+                                            >
+                                              {ach}
+                                            </ReactMarkdown>
+                                          </div>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            {group[0].website && (
+                              <div className="flex justify-end mt-6 pt-4 border-t border-border/50">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+                                  onClick={() => window.open(group[0].website, '_blank')}
+                                >
+                                  Visit Website
+                                  <ExternalLink size={14} className="flex-shrink-0" />
+                                </Button>
+                              </div>
+                            )}
+                          </CardContent>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </Card>
+                </motion.div>
+              ) : (
                 <motion.div
-                  className="absolute left-4 md:left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5 md:-ml-1.5"
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: [0, 1.2, 1] } : { scale: 0 }}
-                  transition={{ delay: 0.2 + groupIdx * 0.2, duration: 0.5 }}
-                />
-
-                <Card
-                  className={`transition-all duration-300 hover:scale-[1.03] hover:shadow-lg border-0 shadow-md overflow-hidden ${
-                    groupIdx % 2 === 0 ? 'md:ml-auto md:mr-16' : 'md:mr-auto md:ml-16'
-                  }`}
-                  style={{ minHeight: '320px' }}
+                  key={group[0]._id}
+                  variants={item}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                  transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                  className="relative mb-12 pl-12 md:pl-0"
                 >
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center gap-4 mb-1 flex-wrap sm:flex-nowrap">
-                      {group[0].logoUrl && (
-                        <div className="relative w-12 h-12 flex-shrink-0 overflow-hidden rounded-md border border-border/30 bg-background p-1">
-                          <Image
-                            src={group[0].logoUrl || '/placeholder.svg'}
-                            alt={`${group[0].company} logo`}
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <CardTitle className="text-xl line-clamp-2">{group[0].company}</CardTitle>
-                        <div className="text-lg font-medium text-muted-foreground mt-0.5 line-clamp-1">
-                          {group[0].description}
-                        </div>
-                        <div className="flex items-center mt-1.5 text-sm text-muted-foreground">
-                          <Calendar size={14} className="mr-1.5 flex-shrink-0" />
-                          <span>
-                            {format(new Date(group[group.length - 1].startDate), 'MMM yyyy')} -
-                            {group[0].endDate
-                              ? format(new Date(group[0].endDate), ' MMM yyyy')
-                              : ' Present'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardHeader>
+                  {/* Timeline dot - with pulse animation */}
+                  <motion.div
+                    className="absolute left-4 md:left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5 md:-ml-1.5"
+                    initial={{ scale: 0 }}
+                    animate={isInView ? { scale: [0, 1.2, 1] } : { scale: 0 }}
+                    transition={{ delay: 0.2 + groupIdx * 0.2, duration: 0.5 }}
+                  />
 
-                  <CardContent>
-                    <div className="relative pl-8">
-                      {/* Timeline line */}
-                      <div className="absolute left-2 top-0 bottom-0 w-px bg-border" />
-                      {group.map((exp, idx) => (
-                        <div key={exp.position} className="relative mb-6">
-                          {/* Timeline dot */}
-                          <div className="absolute left-[-8px] top-2 w-2 h-2 rounded-full bg-primary" />
-                          <div className="pl-4">
-                            <div className="font-semibold">{exp.position}</div>
-                            <div className="text-sm text-muted-foreground">
-                              {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
-                              {exp.endDate ? format(new Date(exp.endDate), 'MMM yyyy') : 'Present'}
-                            </div>
-                            <ul className="list-disc pl-5 space-y-1">
-                              {exp.achievements.map((ach, i) => (
-                                <li key={i} className="text-sm">
-                                  {ach}
-                                </li>
-                              ))}
-                            </ul>
+                  <Card
+                    className={`group transition-all duration-300 hover:shadow-xl border border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden ${
+                      groupIdx % 2 === 0 ? 'md:ml-auto md:mr-16' : 'md:mr-auto md:ml-16'
+                    }`}
+                  >
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        {group[0].logoUrl && (
+                          <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden rounded-xl border-2 border-border/50 bg-background p-2 shadow-sm group-hover:border-primary/30 transition-colors">
+                            <ImageWithSkeleton
+                              src={group[0].logoUrl || '/placeholder.svg'}
+                              alt={`${group[0].company} logo`}
+                              fill
+                              className="object-contain"
+                            />
                           </div>
+                        )}
+                        <div className="flex-1 min-w-0 space-y-2">
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex-1 min-w-0">
+                              <CardTitle className="text-xl font-bold mb-1.5 leading-tight">
+                                {group[0].company}
+                              </CardTitle>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Calendar size={14} className="flex-shrink-0" />
+                                <span className="font-medium">
+                                  {format(new Date(group[group.length - 1].startDate), 'MMM yyyy')}{' '}
+                                  -{' '}
+                                  {group[0].endDate
+                                    ? format(new Date(group[0].endDate), 'MMM yyyy')
+                                    : 'Present'}
+                                </span>
+                              </div>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="flex-shrink-0 h-9 w-9 p-0 rounded-lg hover:bg-muted self-center"
+                              onClick={() => toggleCard(group[0]._id)}
+                              aria-label={expandedCards.has(group[0]._id) ? 'Collapse' : 'Expand'}
+                            >
+                              <motion.div
+                                animate={{
+                                  rotate: expandedCards.has(group[0]._id) ? 180 : 0,
+                                }}
+                                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                              >
+                                <ChevronDown className="h-4 w-4" />
+                              </motion.div>
+                            </Button>
+                          </div>
+                          <p className="text-base leading-relaxed text-muted-foreground">
+                            {group[0].description}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-
-                    {group[0].website && (
-                      <div className="flex justify-end mt-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="flex items-center gap-1 text-primary hover:text-primary/80 hover:bg-primary/5 -mr-2"
-                          onClick={() => window.open(group[0].website, '_blank')}
-                        >
-                          Visit company <ExternalLink size={14} className="flex-shrink-0" />
-                        </Button>
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
-            )
-          )}
+                    </CardHeader>
+
+                    <AnimatePresence>
+                      {expandedCards.has(group[0]._id) && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                          style={{ overflow: 'hidden' }}
+                        >
+                          <CardContent className="pt-0 pb-6">
+                            <div className="space-y-6">
+                              {group.map((exp, idx) => (
+                                <div
+                                  key={`${exp._id}-${exp.startDate}`}
+                                  className="relative pl-6 border-l-2 border-primary/20"
+                                >
+                                  <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-2 border-background shadow-sm" />
+                                  <div className="space-y-3">
+                                    <div>
+                                      <h4 className="text-lg font-semibold text-foreground mb-1">
+                                        {exp.position}
+                                      </h4>
+                                      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                                        <Calendar size={12} className="flex-shrink-0" />
+                                        <span>
+                                          {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
+                                          {exp.endDate
+                                            ? format(new Date(exp.endDate), 'MMM yyyy')
+                                            : 'Present'}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <ul className="space-y-2.5">
+                                      {exp.achievements.map((ach, i) => (
+                                        <li
+                                          key={i}
+                                          className="text-sm leading-relaxed text-muted-foreground flex items-start gap-2.5"
+                                        >
+                                          <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-primary/60 mt-2" />
+                                          <div className="flex-1 prose prose-sm dark:prose-invert max-w-none">
+                                            <ReactMarkdown
+                                              components={{
+                                                p: ({ children }) => <span>{children}</span>,
+                                                strong: ({ children }) => (
+                                                  <strong className="font-semibold text-foreground">
+                                                    {children}
+                                                  </strong>
+                                                ),
+                                                em: ({ children }) => (
+                                                  <em className="italic">{children}</em>
+                                                ),
+                                                a: ({ href, children }) => (
+                                                  <a
+                                                    href={href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-primary hover:underline font-medium"
+                                                  >
+                                                    {children}
+                                                  </a>
+                                                ),
+                                                ul: ({ children }) => (
+                                                  <ul className="list-disc list-inside space-y-1 my-2">
+                                                    {children}
+                                                  </ul>
+                                                ),
+                                                ol: ({ children }) => (
+                                                  <ol className="list-decimal list-inside space-y-1 my-2">
+                                                    {children}
+                                                  </ol>
+                                                ),
+                                                li: ({ children }) => (
+                                                  <li className="text-sm">{children}</li>
+                                                ),
+                                              }}
+                                            >
+                                              {ach}
+                                            </ReactMarkdown>
+                                          </div>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            {group[0].website && (
+                              <div className="flex justify-end mt-6 pt-4 border-t border-border/50">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+                                  onClick={() => window.open(group[0].website, '_blank')}
+                                >
+                                  Visit Website
+                                  <ExternalLink size={14} className="flex-shrink-0" />
+                                </Button>
+                              </div>
+                            )}
+                          </CardContent>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </Card>
+                </motion.div>
+              )
+            )}
+          </AnimatePresence>
         </motion.div>
+
+        {/* Show More / Collapse All Buttons - Outside timeline container */}
+        {(hasMore || isAllExpanded) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex justify-center mt-8 gap-3"
+          >
+            {hasMore && (
+              <Button variant="outline" onClick={handleShowMore} className="gap-2">
+                Show {Math.min(3, groupedExperiences.length - visibleCount)} More
+              </Button>
+            )}
+            {isAllExpanded && (
+              <Button variant="outline" onClick={handleCollapseAll} className="gap-2">
+                Collapse All
+              </Button>
+            )}
+          </motion.div>
+        )}
       </div>
     </motion.section>
   );

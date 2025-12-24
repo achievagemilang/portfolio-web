@@ -1,11 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { TypeAnimation } from 'react-type-animation';
 import SocialLinks from '@/components/shared/social-links';
+import { Button } from '@/components/ui/button';
+import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { TypeAnimation } from 'react-type-animation';
 
 export default function Hero() {
   const fadeInAnimation = {
@@ -29,12 +29,11 @@ export default function Hero() {
             className="mx-auto mb-8 relative"
           >
             <div className="relative w-64 h-64 mx-auto rounded-full overflow-hidden border-4 border-primary/20">
-              <Image
+              <ImageWithSkeleton
                 src="/profile-hero.jpeg?height=256&width=256"
                 alt="Achieva Futura Gemilang"
                 fill
                 className="object-cover"
-                priority
               />
             </div>
           </motion.div>
@@ -62,7 +61,7 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.7 }}
           >
             A life-long learner <span className="text-red-800">Software Engineer</span> with a
-            business-driven mindset, blending technical expertise with strategic thinking.
+            product-driven mindset, blending technical expertise with strategic thinking.
           </motion.p>
 
           {/* Social Links */}
@@ -83,7 +82,7 @@ export default function Hero() {
           >
             <Button asChild size="lg">
               <Link href="https://drive.google.com/drive/folders/1GJxg0jQSK2cSS-4r4W7QKeSIfZIAyRKB?usp=drive_link">
-                Resume/CV
+                Resume
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg">

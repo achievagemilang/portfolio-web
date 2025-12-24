@@ -1,13 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import BlogCard from '@/components/blogs/blog-card';
+import BlogCardSkeleton from '@/components/blogs/blog-card-skeleton';
 import SearchBar from '@/components/molecule/search-bar';
 import TagFilter from '@/components/molecule/tag-filter';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Post } from '@/content-config';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Filter } from 'lucide-react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 
 interface PostsProps {
   posts: Post[];
@@ -21,8 +27,22 @@ export default function BlogClientPage({ posts }: PostsProps) {
   const [filteredPosts, setFilteredPosts] = useState(allPosts);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedYears, setSelectedYears] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const allTags = Array.from(new Set(allPosts.flatMap((post) => post.tags || [])));
+
+  // Get unique years from posts
+  const availableYears = useMemo(() => {
+    const years = new Set<number>();
+    allPosts.forEach((post) => {
+      if (post.date) {
+        const year = new Date(post.date).getFullYear();
+        years.add(year);
+      }
+    });
+    return Array.from(years).sort((a, b) => b - a);
+  }, [allPosts]);
 
   useEffect(() => {
     let result = allPosts;
@@ -41,8 +61,16 @@ export default function BlogClientPage({ posts }: PostsProps) {
       result = result.filter((post) => post.tags?.includes(selectedTag));
     }
 
+    if (selectedYears.length > 0) {
+      result = result.filter((post) => {
+        if (!post.date) return false;
+        const year = new Date(post.date).getFullYear();
+        return selectedYears.includes(year);
+      });
+    }
+
     setFilteredPosts(result);
-  }, [searchQuery, selectedTag, allPosts]);
+  }, [searchQuery, selectedTag, selectedYears, allPosts]);
 
   const postsPerPage = 6;
   const totalPosts = filteredPosts.length;
@@ -54,48 +82,162 @@ export default function BlogClientPage({ posts }: PostsProps) {
 
   const handleSearch = (query: string) => {
     if (query === searchQuery) return;
-
+    setIsLoading(true);
     setSearchQuery(query);
     window.history.replaceState({}, '', '?page=1');
+    setTimeout(() => setIsLoading(false), 300);
   };
 
   const handleTagSelect = (tag: string | null) => {
     if (tag === selectedTag) return;
-
+    setIsLoading(true);
     setSelectedTag(tag);
     window.history.replaceState({}, '', '?page=1');
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  const toggleYear = (year: number) => {
+    setIsLoading(true);
+    setSelectedYears((prev) =>
+      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
+    );
+    window.history.replaceState({}, '', '?page=1');
+    setTimeout(() => setIsLoading(false), 300);
   };
 
   const clearFilters = () => {
+    setIsLoading(true);
     setSearchQuery('');
     setSelectedTag(null);
+    setSelectedYears([]);
     window.history.replaceState({}, '', '?page=1');
+    setTimeout(() => setIsLoading(false), 300);
   };
+
+  const hasActiveFilters = searchQuery || selectedTag || selectedYears.length > 0;
 
   return (
     <div className="container mx-auto py-12">
       <h1 className="text-4xl font-bold mb-8">All Writes</h1>
 
-      <SearchBar onSearch={handleSearch} initialQuery={searchQuery} />
-      <div className="mb-8 mt-4 flex flex-col md:flex-row gap-4">
-        <TagFilter tags={allTags} onTagSelect={handleTagSelect} initialTag={selectedTag} />
+      {/* Search and Year Filter - Side by Side */}
+      <div className="mb-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <div className="flex-1 w-full">
+          <SearchBar onSearch={handleSearch} initialQuery={searchQuery} />
+        </div>
+
+        {/* Year Filter Popover */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="gap-2">
+              <Filter className="h-4 w-4" />
+              Year
+              {selectedYears.length > 0 && (
+                <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded-full">
+                  {selectedYears.length}
+                </span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-56">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <h4 className="font-medium text-sm">Filter by Year</h4>
+                <div className="space-y-2">
+                  {availableYears.map((year) => (
+                    <div key={year} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`year-${year}`}
+                        checked={selectedYears.includes(year)}
+                        onCheckedChange={() => toggleYear(year)}
+                      />
+                      <Label
+                        htmlFor={`year-${year}`}
+                        className="text-sm font-normal cursor-pointer flex-1"
+                      >
+                        {year}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
-      {filteredPosts.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-lg text-muted-foreground">No writes found matching your criteria.</p>
-          <Button variant="outline" className="mt-4" onClick={clearFilters}>
+      {/* Tag Filter and Clear Button */}
+      <div className="mb-8 flex flex-col md:flex-row gap-4 items-start md:items-center">
+        <TagFilter tags={allTags} onTagSelect={handleTagSelect} initialTag={selectedTag} />
+
+        {hasActiveFilters && (
+          <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-2">
             Clear Filters
           </Button>
-        </div>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {currentPosts.map((post) => (
-              <BlogCard key={post._id} post={post} />
-            ))}
-          </div>
+        )}
+      </div>
 
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {Array.from({ length: 6 }).map((_, index) => (
+              <BlogCardSkeleton key={index} />
+            ))}
+          </motion.div>
+        ) : filteredPosts.length === 0 ? (
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="text-center py-12"
+          >
+            <p className="text-lg text-muted-foreground">No writes found matching your criteria.</p>
+            <Button variant="outline" className="mt-4" onClick={clearFilters}>
+              Clear Filters
+            </Button>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="posts-grid"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <AnimatePresence>
+                {currentPosts.map((post, index) => (
+                  <motion.div
+                    key={post._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: index * 0.05,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
+                  >
+                    <BlogCard post={post} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {filteredPosts.length > 0 && (
+        <>
           {totalPosts > 0 && (
             <div className="flex justify-center items-center gap-2 mt-12">
               {currentPage > 1 && (

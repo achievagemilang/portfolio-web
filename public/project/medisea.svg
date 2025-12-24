@@ -1,0 +1,25 @@
+<svg width="260" height="64" viewBox="0 0 260 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Medisea Logo">
+  <style>
+    /* Fonts matching: Inter, Plus Jakarta Sans
+      Falls back to system-ui for portability 
+    */
+    .medisea-text { font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif; }
+  </style>
+  
+  <g stroke="#005d48" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 6 C20 10, 12 22, 12 34 c0 13, 9 24, 20 24 s20-11,20-24 C52 22,44 10,32 6 Z" />
+    <path d="M32 12 L32 52" />
+    <path d="M32 28 C26 26, 22 22, 18 18" />
+    <path d="M32 36 C38 34, 42 30, 46 26" />
+  </g>
+
+  <g class="medisea-text">
+    <text x="80" y="32" font-size="21" font-weight="700" letter-spacing="0.5" fill="#005d48" style="text-transform: uppercase;">
+      Medisea
+    </text>
+    
+    <text x="80" y="52" font-size="12" font-weight="400" letter-spacing="-0.2" fill="#72757e">
+      Your trusted apothecary
+    </text>
+  </g>
+</svg>
