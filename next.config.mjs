@@ -48,6 +48,13 @@ const nextConfig = {
       ...config.experiments,
       topLevelAwait: true,
     };
+    
+    // Configure SVG imports as React components
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+    
     return config;
   },
 };
