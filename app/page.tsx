@@ -3,8 +3,9 @@ import Experience from '@/components/home/experience';
 import Hero from '@/components/home/hero';
 import Projects from '@/components/home/projects';
 import PageTransition from '@/components/util/page-transition';
-import { experiencesList, featuredProjectIds, projectList } from '@/constant/constant';
-import { getAllPosts } from '@/lib/mdx';
+import { experiencesList } from '@/constant/constant';
+import { createBlogPostRepository } from '@/infrastructure/config/repositories.config';
+import { createProjectService } from '@/infrastructure/config/repositories.config';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -35,33 +36,14 @@ export const metadata: Metadata = {
 export default async function Home() {
   const experiences = experiencesList;
 
-  let posts = await getAllPosts();
-  posts = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
+  // Use repository for blog posts
+  const blogPostRepository = createBlogPostRepository();
+  const posts = await blogPostRepository.getAllPosts();
   const recentPosts = posts;
 
-  try {
-    // Dynamic import to avoid build errors
-    // This is a workaround and won't actually work at runtime
-    // We'll use the fallback data instead
-    // In a real app, you'd set up proper content files and Contentlayer config
-  } catch (error) {
-    console.log('Using fallback data for experiences and posts');
-  }
-
-  // Featured projects - if featuredProjectIds is specified, use those; otherwise fallback to latest 4
-  const featuredProjects =
-    featuredProjectIds.length > 0
-      ? featuredProjectIds
-          .map((id) => projectList.find((project) => project.id === id))
-          .filter((project): project is NonNullable<typeof project> => project !== undefined)
-      : [...projectList]
-          .sort((a, b) => {
-            const yearDiff = (b.year || 0) - (a.year || 0);
-            if (yearDiff !== 0) return yearDiff;
-            return b.id - a.id;
-          })
-          .slice(0, 4);
+  // Use service for featured projects
+  const projectService = createProjectService();
+  const featuredProjects = projectService.getFeaturedProjects();
 
   return (
     <PageTransition>

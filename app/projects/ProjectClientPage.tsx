@@ -7,8 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import PageTransition from '@/components/util/page-transition';
-import { projectList } from '@/constant/constant';
-import { getTechStackInfo } from '@/lib/tech-stack-logos';
+import { createProjectService } from '@/infrastructure/config/repositories.config';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Filter, X } from 'lucide-react';
 import Link from 'next/link';
@@ -16,84 +15,48 @@ import { useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 const TECH_STACKS = ['Go', 'Spring Boot', 'Flutter', 'Next.js / React'] as const;
+const PROJECTS_PER_PAGE = 6;
 
 export default function ProjectClientPage() {
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || '1';
 
+  // Initialize service (using useMemo to avoid recreating on each render)
+  const projectService = useMemo(() => createProjectService(), []);
+
+  // Get all projects and sort them
   const allProjects = useMemo(() => {
-    return [...projectList].sort((a, b) => {
-      const yearDiff = (b.year || 0) - (a.year || 0);
-      if (yearDiff !== 0) return yearDiff;
-      return b.id - a.id;
-    });
-  }, []);
+    const projects = projectService.getAllProjects();
+    return projectService.sortProjects(projects);
+  }, [projectService]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYears, setSelectedYears] = useState<number[]>([]);
   const [selectedTechStacks, setSelectedTechStacks] = useState<string[]>([]);
 
-  // Get unique years from projects
+  // Get unique years from projects using service
   const availableYears = useMemo(() => {
-    const years = new Set<number>();
-    allProjects.forEach((project) => {
-      if (project.year) years.add(project.year);
-    });
-    return Array.from(years).sort((a, b) => b - a);
-  }, [allProjects]);
+    return projectService.getAvailableYears(allProjects);
+  }, [allProjects, projectService]);
 
+  // Filter projects using service
   const filteredProjects = useMemo(() => {
-    let filtered = allProjects;
+    return projectService.filterProjects(allProjects, {
+      searchQuery,
+      selectedYears,
+      selectedTechStacks,
+    });
+  }, [searchQuery, selectedYears, selectedTechStacks, allProjects, projectService]);
 
-    // Search filter
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (project) =>
-          project.title.toLowerCase().includes(query) ||
-          project.description.toLowerCase().includes(query)
-      );
-    }
-
-    // Year filter
-    if (selectedYears.length > 0) {
-      filtered = filtered.filter((project) => project.year && selectedYears.includes(project.year));
-    }
-
-    // Tech stack filter
-    if (selectedTechStacks.length > 0) {
-      filtered = filtered.filter((project) => {
-        return project.tags.some((tag) => {
-          const techInfo = getTechStackInfo(tag);
-          if (!techInfo) return false;
-
-          // Check if tag matches any selected tech stack
-          return selectedTechStacks.some((selected) => {
-            // Handle Next.js / React combined filter
-            if (selected === 'Next.js / React') {
-              return techInfo.name === 'Next.js' || techInfo.name === 'React';
-            }
-            // For other tech stacks, exact match
-            return techInfo.name === selected;
-          });
-        });
-      });
-    }
-
-    return filtered;
-  }, [searchQuery, selectedYears, selectedTechStacks, allProjects]);
-
-  const projectsPerPage = 6;
+  // Paginate projects
   const totalProjects = filteredProjects.length;
-  const totalPages = Math.ceil(totalProjects / projectsPerPage);
+  const totalPages = Math.ceil(totalProjects / PROJECTS_PER_PAGE);
   const currentPage = useMemo(() => {
     return Math.min(Math.max(parseInt(page, 10), 1), totalPages || 1);
   }, [page, totalPages]);
   const currentProjects = useMemo(() => {
-    const startIndex = (currentPage - 1) * projectsPerPage;
-    const endIndex = startIndex + projectsPerPage;
-    return filteredProjects.slice(startIndex, endIndex);
-  }, [filteredProjects, currentPage, projectsPerPage]);
+    return projectService.paginateProjects(filteredProjects, currentPage, PROJECTS_PER_PAGE);
+  }, [filteredProjects, currentPage, projectService]);
 
   const handleSearch = (query: string) => {
     if (query === searchQuery) return;
