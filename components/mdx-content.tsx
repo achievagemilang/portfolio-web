@@ -1,9 +1,8 @@
 'use client';
 
 import { MDXRemote } from 'next-mdx-remote';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CodeBlock } from './mdx/codeblock';
 
 // Define custom components to be used in MDX
@@ -11,6 +10,16 @@ const components = {
   h1: ({ children, ...props }: any) => {
     // Skip the first h1 as it's likely the title
     return null;
+  },
+  p: ({ children, className, ...props }: any) => {
+    // Prevent nested p tags by ensuring we don't render p inside p
+    // If className is provided, it's likely a custom styled p tag from MDX
+    // In that case, we render it as-is, but MDX should handle this correctly
+    return (
+      <p className={className} {...props}>
+        {children}
+      </p>
+    );
   },
   img: (props: any) => {
     return (

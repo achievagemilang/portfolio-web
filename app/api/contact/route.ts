@@ -1,57 +1,34 @@
+import { createContactService } from '@/infrastructure/config/services.config';
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
+/**
+ * POST /api/contact
+ * Handle contact form submissions
+ */
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, message } = await request.json();
+    const body = await request.json();
+    const contactService = createContactService();
+    const result = await contactService.sendContactForm(body);
 
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    return NextResponse.json(result, { status: 200 });
+  } catch (error) {
+    console.error('Contact form error:', error);
+
+    // Handle validation errors
+    if (error instanceof Error && error.message.includes('Validation failed')) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
-    }
-
-    if (!process.env.RESEND_API_KEY) {
-      console.error('RESEND_API_KEY not configured');
+    // Handle service configuration errors
+    if (error instanceof Error && error.message.includes('required')) {
       return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
     }
 
-    const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact <onboarding@resend.dev>',
-      to: ['achievafuturagemilang@gmail.com'],
-      subject: `New Contact Form Message from ${name} - Portfolio Web`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">New Contact Form Submission</h2>
-          <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Message:</strong></p>
-            <div style="background-color: white; padding: 15px; border-radius: 4px; margin-top: 10px;">
-              ${message.replace(/\n/g, '<br>')}
-            </div>
-          </div>
-          <p style="color: #666; font-size: 14px;">
-            This message was sent from your portfolio contact form.
-          </p>
-        </div>
-      `,
-      replyTo: email,
-    });
-
-    if (error) {
-      console.error('Resend error:', error);
-      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
-    }
-
-    return NextResponse.json({ message: 'Email sent successfully', id: data?.id }, { status: 200 });
-  } catch (error) {
-    console.error('Contact form error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    // Handle generic errors
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
