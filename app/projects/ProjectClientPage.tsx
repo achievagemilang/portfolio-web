@@ -2,7 +2,6 @@
 
 import SearchBar from '@/components/molecule/search-bar';
 import ProjectCard from '@/components/projects/project-card';
-import ProjectCardSkeleton from '@/components/projects/project-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -16,7 +15,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
-const TECH_STACKS = ['Go', 'Spring Boot', 'Flutter', 'Next.js', 'React'] as const;
+const TECH_STACKS = ['Go', 'Spring Boot', 'Flutter', 'Next.js / React'] as const;
 
 export default function ProjectClientPage() {
   const searchParams = useSearchParams();
@@ -33,7 +32,6 @@ export default function ProjectClientPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYears, setSelectedYears] = useState<number[]>([]);
   const [selectedTechStacks, setSelectedTechStacks] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Get unique years from projects
   const availableYears = useMemo(() => {
@@ -71,12 +69,9 @@ export default function ProjectClientPage() {
 
           // Check if tag matches any selected tech stack
           return selectedTechStacks.some((selected) => {
-            // Handle Next.js and React separately
-            if (selected === 'Next.js') {
-              return techInfo.name === 'Next.js';
-            }
-            if (selected === 'React') {
-              return techInfo.name === 'React';
+            // Handle Next.js / React combined filter
+            if (selected === 'Next.js / React') {
+              return techInfo.name === 'Next.js' || techInfo.name === 'React';
             }
             // For other tech stacks, exact match
             return techInfo.name === selected;
@@ -91,44 +86,40 @@ export default function ProjectClientPage() {
   const projectsPerPage = 6;
   const totalProjects = filteredProjects.length;
   const totalPages = Math.ceil(totalProjects / projectsPerPage);
-  const currentPage = Math.min(Math.max(parseInt(page, 10), 1), totalPages || 1);
-  const startIndex = (currentPage - 1) * projectsPerPage;
-  const endIndex = startIndex + projectsPerPage;
-  const currentProjects = filteredProjects.slice(startIndex, endIndex);
+  const currentPage = useMemo(() => {
+    return Math.min(Math.max(parseInt(page, 10), 1), totalPages || 1);
+  }, [page, totalPages]);
+  const currentProjects = useMemo(() => {
+    const startIndex = (currentPage - 1) * projectsPerPage;
+    const endIndex = startIndex + projectsPerPage;
+    return filteredProjects.slice(startIndex, endIndex);
+  }, [filteredProjects, currentPage, projectsPerPage]);
 
   const handleSearch = (query: string) => {
     if (query === searchQuery) return;
-    setIsLoading(true);
     setSearchQuery(query);
     window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
   };
 
   const toggleYear = (year: number) => {
-    setIsLoading(true);
     setSelectedYears((prev) =>
       prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
     );
     window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
   };
 
   const toggleTechStack = (tech: string) => {
-    setIsLoading(true);
     setSelectedTechStacks((prev) =>
       prev.includes(tech) ? prev.filter((t) => t !== tech) : [...prev, tech]
     );
     window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
   };
 
   const clearFilters = () => {
-    setIsLoading(true);
     setSearchQuery('');
     setSelectedYears([]);
     setSelectedTechStacks([]);
     window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
   };
 
   const hasActiveFilters = searchQuery || selectedYears.length > 0 || selectedTechStacks.length > 0;
@@ -236,20 +227,7 @@ export default function ProjectClientPage() {
           </div>
         </div>
         <AnimatePresence mode="wait">
-          {isLoading ? (
-            <motion.div
-              key="loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {Array.from({ length: 6 }).map((_, index) => (
-                <ProjectCardSkeleton key={index} />
-              ))}
-            </motion.div>
-          ) : filteredProjects.length === 0 ? (
+          {filteredProjects.length === 0 ? (
             <motion.div
               key="empty"
               initial={{ opacity: 0, y: 20 }}

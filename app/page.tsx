@@ -3,7 +3,7 @@ import Experience from '@/components/home/experience';
 import Hero from '@/components/home/hero';
 import Projects from '@/components/home/projects';
 import PageTransition from '@/components/util/page-transition';
-import { experiencesList, projectList } from '@/constant/constant';
+import { experiencesList, featuredProjectIds, projectList } from '@/constant/constant';
 import { getAllPosts } from '@/lib/mdx';
 import { Metadata } from 'next';
 
@@ -49,14 +49,19 @@ export default async function Home() {
     console.log('Using fallback data for experiences and posts');
   }
 
-  // Featured projects (sorted by year descending, then by ID descending if year is same, limit to 4)
-  const featuredProjects = [...projectList]
-    .sort((a, b) => {
-      const yearDiff = (b.year || 0) - (a.year || 0);
-      if (yearDiff !== 0) return yearDiff;
-      return b.id - a.id;
-    })
-    .slice(0, 4);
+  // Featured projects - if featuredProjectIds is specified, use those; otherwise fallback to latest 4
+  const featuredProjects =
+    featuredProjectIds.length > 0
+      ? featuredProjectIds
+          .map((id) => projectList.find((project) => project.id === id))
+          .filter((project): project is NonNullable<typeof project> => project !== undefined)
+      : [...projectList]
+          .sort((a, b) => {
+            const yearDiff = (b.year || 0) - (a.year || 0);
+            if (yearDiff !== 0) return yearDiff;
+            return b.id - a.id;
+          })
+          .slice(0, 4);
 
   return (
     <PageTransition>
