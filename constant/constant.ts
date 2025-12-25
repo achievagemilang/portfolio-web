@@ -93,7 +93,7 @@ export const professionalExperiencesList = [
 
 export const educationExperiencesList = [
   {
-    _id: 'exp-7',
+    _id: 'edu-1',
     company: 'University of Indonesia',
     position: 'Bachelor of Computer Science',
     startDate: '2021-08-01',
@@ -108,7 +108,7 @@ export const educationExperiencesList = [
     website: 'https://cs.ui.ac.id/',
   },
   {
-    _id: 'exp-8',
+    _id: 'edu-2',
     company: 'SMA S Al Kautsar Bandar Lampung',
     position: 'High School Student',
     startDate: '2018-08-01',
@@ -227,6 +227,9 @@ export const experiencesList = [
   ...volunteerExperiencesList.map((exp) => ({ ...exp, category: 'volunteer' as const })),
 ];
 
+// Featured project IDs - update this array to select which projects appear on the home page
+export const featuredProjectIds: number[] = [9, 8, 7, 6];
+
 export const projectList = [
   {
     id: 1,
@@ -295,7 +298,7 @@ export const projectList = [
       "A real-time mobility companion for the University of Indonesia, helping students track and navigate the 'Bis Kuning' campus bus network.",
     image: '/project/bikuntracker.png?height=300&width=500',
     link: 'https://bikun.ui.ac.id/',
-    tags: ['Flutter', 'Dart', 'GCP', 'Firebase'],
+    tags: ['Flutter', 'Go', 'GCP', 'Dart', 'Firebase'],
     year: 2024,
   },
   {
@@ -304,7 +307,38 @@ export const projectList = [
     description: `A modern digital portal delivering high-speed, real-time news reporting and updates directly from the TVRI network.`,
     image: '/project/citizen-journalism.png?height=300&width=500',
     link: 'https://play.google.com/store/apps/details?id=com.tvri.citizenjournalism&hl=en&pli=1',
-    tags: ['Flutter', 'Dart'],
+    tags: ['Flutter', 'Go', 'Dart'],
     year: 2024,
+  },
+
+  {
+    id: 9,
+    title: 'Medisea',
+    description: `A high-performance pharmaceutical marketplace engineered with enterprise-grade fault tolerance to support secure transactions and sub-100ms latency for 100K+ monthly active users.`,
+    image: '/project/medisea.svg?height=300&width=500',
+    link: 'https://sea.com/shopee',
+    tags: [
+      'Go',
+      'Docker',
+      'SPACE',
+      'React',
+      'Vite.js',
+      'Vitest',
+      'Meilisearch',
+      'Grafana',
+      'k6',
+      'TypeScript',
+    ],
+    year: 2025,
+  },
+
+  {
+    id: 10,
+    title: 'Dare AI',
+    description: `An AI-powered party game that revitalizes the classic Truth or Dare experience with endlessly generated, creative challenges for social gatherings.`,
+    image: '/project/dare-ai.png?height=300&width=500',
+    link: 'https://dare-ai.lovable.app/',
+    tags: ['Next.js', 'Lovable', 'Gemini API', 'TypeScript', 'Vite.js'],
+    year: 2025,
   },
 ];

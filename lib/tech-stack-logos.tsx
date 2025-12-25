@@ -37,12 +37,24 @@ export const techStackLogos: Record<
   Tailwind: { name: 'Tailwind', color: '#06B6D4', url: 'https://tailwindcss.com' },
   Django: { name: 'Django', color: '#092E20', url: 'https://www.djangoproject.com' },
   Grafana: { name: 'Grafana', color: '#F46800', url: 'https://grafana.com' },
+  Docker: { name: 'Docker', color: '#2496ED', url: 'https://www.docker.com' },
+  SPACE: {
+    name: 'SPACE',
+    color: '#000000',
+    url: 'https://www.sea.com/products/shopee',
+  },
+  'Vite.js': { name: 'Vite.js', color: '#646CFF', url: 'https://vitejs.dev' },
+  Vitest: { name: 'Vitest', color: '#6E9F18', url: 'https://vitest.dev' },
+  k6: { name: 'k6', color: '#7D64FF', url: 'https://k6.io' },
+  Lovable: { name: 'Lovable', color: '#000000', url: 'https://lovable.dev' },
+  'Gemini API': { name: 'Gemini API', color: '#4285F4', url: 'https://ai.google.dev' },
+  Meilisearch: { name: 'Meilisearch', color: '#FF5CAA', url: 'https://www.meilisearch.com' },
 };
 
 // Check if a tag matches a tech stack (case-insensitive, partial match)
 export function getTechStackInfo(
   tag: string
-): { name: string; color: string; icon?: string; url?: string } | null {
+): { name: string; color: string; url?: string } | null {
   const normalizedTag = tag.trim();
 
   // Direct match
@@ -79,6 +91,46 @@ export function getTechStackInfo(
   // React
   if (lowerTag === 'react' || lowerTag === 'reactjs') {
     return techStackLogos['React'];
+  }
+
+  // Docker
+  if (lowerTag === 'docker') {
+    return techStackLogos['Docker'];
+  }
+
+  // SPACE
+  if (lowerTag === 'space') {
+    return techStackLogos['SPACE'];
+  }
+
+  // Vite
+  if (lowerTag === 'vite') {
+    return techStackLogos['Vite'];
+  }
+
+  // Vitest
+  if (lowerTag === 'vitest') {
+    return techStackLogos['Vitest'];
+  }
+
+  // k6
+  if (lowerTag === 'k6') {
+    return techStackLogos['k6'];
+  }
+
+  // Lovable
+  if (lowerTag === 'lovable') {
+    return techStackLogos['Lovable'];
+  }
+
+  // Gemini API
+  if (lowerTag === 'gemini api' || lowerTag === 'gemini-api' || lowerTag === 'gemini') {
+    return techStackLogos['Gemini API'];
+  }
+
+  // Meilisearch
+  if (lowerTag === 'meilisearch' || lowerTag === 'meili-search') {
+    return techStackLogos['Meilisearch'];
   }
 
   // Other tech stacks

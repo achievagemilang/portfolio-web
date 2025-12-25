@@ -44,11 +44,23 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
+        {project.year && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur-sm border border-border/50 shadow-lg"
+          >
+            <span className="text-xs font-semibold text-foreground tracking-wide">
+              {project.year}
+            </span>
+          </motion.div>
+        )}
       </div>
-      <CardContent className="pt-6 px-6 flex-grow flex flex-col">
+      <CardContent className="pt-6 px-6 flex-grow flex flex-col items-start">
         <h3 className="text-xl font-bold mb-2">{project.title}</h3>
         <p className="text-muted-foreground mb-4 line-clamp-3">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mt-auto">
+        <div className="flex flex-wrap gap-2 mt-auto content-start">
           {/* Tech stack logos - always show first 3 */}
           {techStackTags.slice(0, 3).map((tag) => (
             <TechStackBadge key={tag} tag={tag} />
