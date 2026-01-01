@@ -2,9 +2,19 @@
 
 import { MDXRemote } from 'next-mdx-remote';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import Callout from './mdx/callout';
 import { CodeBlock } from './mdx/codeblock';
+import MDXImage from './mdx/mdx-image';
+
+// Context to track if we're inside a figure tag
+const FigureContext = createContext(false);
+
+// Wrapper component for images that can access context
+const MDXImageWrapper = (props: any) => {
+  const inFigure = useContext(FigureContext);
+  return <MDXImage {...props} showCaption={!inFigure} />;
+};
 
 // Define custom components to be used in MDX
 const components = {
@@ -22,23 +32,7 @@ const components = {
       </p>
     );
   },
-  img: (props: any) => {
-    return (
-      <>
-        <img
-          {...props}
-          width={props.width || 624}
-          height={props.height || 376}
-          alt={props.alt || 'Blog image'}
-          className="mx-auto max-w-full h-auto rounded-xl block"
-          style={{ margin: '1rem auto' }}
-        />
-        <span className="block text-sm text-gray-500 mt-1 text-center">
-          <em>{props.alt}</em>
-        </span>
-      </>
-    );
-  },
+  img: MDXImageWrapper,
   a: (props: any) => (
     <Link {...props} className="text-primary underline hover:text-primary/80">
       {props.children}
@@ -56,6 +50,25 @@ const components = {
     );
   },
   Callout,
+  figure: ({ children, className, ...props }: any) => {
+    return (
+      <FigureContext.Provider value={true}>
+        <figure className={className || 'text-center mx-auto max-w-full'} {...props}>
+          {children}
+        </figure>
+      </FigureContext.Provider>
+    );
+  },
+  figcaption: ({ children, className, ...props }: any) => {
+    return (
+      <figcaption
+        className={className || 'text-md md:text-lg text-gray-500 dark:text-gray-400 mt-1'}
+        {...props}
+      >
+        {children}
+      </figcaption>
+    );
+  },
 };
 
 interface MDXContentProps {
