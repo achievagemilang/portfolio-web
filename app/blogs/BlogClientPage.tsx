@@ -12,7 +12,7 @@ import { Post } from '@/content-config';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Filter } from 'lucide-react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 interface PostsProps {
@@ -20,6 +20,7 @@ interface PostsProps {
 }
 
 export default function BlogClientPage({ posts }: PostsProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || '1';
 
@@ -32,7 +33,6 @@ export default function BlogClientPage({ posts }: PostsProps) {
 
   const allTags = Array.from(new Set(allPosts.flatMap((post) => post.tags || [])));
 
-  // Get unique years from posts
   const availableYears = useMemo(() => {
     const years = new Set<number>();
     allPosts.forEach((post) => {
@@ -70,39 +70,51 @@ export default function BlogClientPage({ posts }: PostsProps) {
     }
 
     setFilteredPosts(result);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 100);
+    return () => clearTimeout(timer);
   }, [searchQuery, selectedTag, selectedYears, allPosts]);
 
   const postsPerPage = 6;
   const totalPosts = filteredPosts.length;
-  const totalPages = Math.ceil(totalPosts / postsPerPage);
-  const currentPage = Math.min(Math.max(parseInt(page, 10), 1), totalPages || 1);
-  const startIndex = (currentPage - 1) * postsPerPage;
-  const endIndex = startIndex + postsPerPage;
-  const currentPosts = filteredPosts.slice(startIndex, endIndex);
+  const totalPages = useMemo(
+    () => Math.ceil(totalPosts / postsPerPage),
+    [totalPosts, postsPerPage]
+  );
+
+  const currentPage = useMemo(() => {
+    const pageNum = parseInt(page, 10);
+    return Math.min(Math.max(pageNum, 1), totalPages || 1);
+  }, [page, totalPages]);
+
+  const currentPosts = useMemo(() => {
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return filteredPosts.slice(startIndex, endIndex);
+  }, [filteredPosts, currentPage, postsPerPage]);
 
   const handleSearch = (query: string) => {
     if (query === searchQuery) return;
     setIsLoading(true);
     setSearchQuery(query);
-    window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
+    router.replace('?page=1', { scroll: false });
   };
 
   const handleTagSelect = (tag: string | null) => {
     if (tag === selectedTag) return;
     setIsLoading(true);
     setSelectedTag(tag);
-    window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
+    router.replace('?page=1', { scroll: false });
   };
 
   const toggleYear = (year: number) => {
     setIsLoading(true);
-    setSelectedYears((prev) =>
-      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
-    );
-    window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
+    const newSelectedYears = selectedYears.includes(year)
+      ? selectedYears.filter((y) => y !== year)
+      : [...selectedYears, year];
+    setSelectedYears(newSelectedYears);
+    router.replace('?page=1', { scroll: false });
   };
 
   const clearFilters = () => {
@@ -110,8 +122,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
     setSearchQuery('');
     setSelectedTag(null);
     setSelectedYears([]);
-    window.history.replaceState({}, '', '?page=1');
-    setTimeout(() => setIsLoading(false), 300);
+    router.replace('?page=1', { scroll: false });
   };
 
   const hasActiveFilters = searchQuery || selectedTag || selectedYears.length > 0;

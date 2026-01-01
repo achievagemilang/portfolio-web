@@ -1,10 +1,12 @@
 'use client';
 
-import Link from 'next/link';
+import { BookOpen, Github, Instagram, Linkedin, Mail } from 'lucide-react';
 import Image from 'next/image';
-import { Github, Linkedin, Mail, ExternalLink, BookOpen, Instagram } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
+  const currentYear: number = new Date().getFullYear();
+
   return (
     <footer className="py-6 border-t border-border">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
@@ -24,9 +26,8 @@ export default function Footer() {
           </Link>
         </div>
 
-        {/* Copyright in the middle */}
         <div className="text-sm text-muted-foreground mb-4 md:mb-0 text-center md:text-left w-full md:w-auto">
-          © 2025 Achieva Futura Gemilang. All rights reserved.
+          © {currentYear} Achieva Futura Gemilang. All rights reserved.
         </div>
 
         {/* Social links on the right */}

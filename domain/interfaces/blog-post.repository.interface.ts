@@ -7,3 +7,4 @@ export interface IBlogPostRepository {
   getAllPosts(): Promise<Post[]>;
   getPostBySlug(slug: string): Promise<Post | null>;
 }
+

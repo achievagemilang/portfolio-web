@@ -12,3 +12,4 @@ export interface ContactFormResponse {
   message: string;
   id?: string;
 }
+

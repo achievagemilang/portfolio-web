@@ -40,3 +40,4 @@ export class EmailTemplateService {
     return this.escapeHtml(message).replace(/\n/g, '<br>');
   }
 }
+
