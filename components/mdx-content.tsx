@@ -3,6 +3,7 @@
 import { MDXRemote } from 'next-mdx-remote';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import Callout from './mdx/callout';
 import { CodeBlock } from './mdx/codeblock';
 
 // Define custom components to be used in MDX
@@ -54,6 +55,7 @@ const components = {
       </CodeBlock>
     );
   },
+  Callout,
 };
 
 interface MDXContentProps {
@@ -61,7 +63,6 @@ interface MDXContentProps {
 }
 
 export default function MDXContent({ source }: MDXContentProps) {
-  // Only render MDX when we're on the client side
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

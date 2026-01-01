@@ -42,3 +42,4 @@ export class ResendEmailService implements IEmailService {
     return { id: data.id };
   }
 }
+

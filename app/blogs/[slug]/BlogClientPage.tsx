@@ -16,40 +16,131 @@ interface BlogPostClientProps {
 }
 
 export default function BlogPostClient({ post }: BlogPostClientProps) {
+  const url = `https://achievagemilang.live/blogs/${post.slug}`;
+  const publishedTime = new Date(post.date).toISOString();
+  
+  // Generate JSON-LD structured data for SEO
+  const blogPostingJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    image: 'https://achievagemilang.live/AGLogoRevamped.png',
+    datePublished: publishedTime,
+    dateModified: publishedTime,
+    author: {
+      '@type': 'Person',
+      name: 'Achieva Futura Gemilang',
+      url: 'https://achievagemilang.live',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Achieva Futura Gemilang',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://achievagemilang.live/AGLogoRevamped.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
+    },
+    keywords: post.tags?.join(', ') || '',
+    articleSection: post.tags?.[0] || 'Blog',
+    timeRequired: `PT${post.readingTime}M`,
+  };
+
+  // Breadcrumb structured data
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://achievagemilang.live',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Writes',
+        item: 'https://achievagemilang.live/blogs',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: url,
+      },
+    ],
+  };
+
   return (
-    <div className="container mx-auto py-12">
-      <article className="prose dark:prose-invert max-w-none">
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-        <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
-          <div className="flex flex-wrap items-center gap-2">
-            <time dateTime={post.date}>{format(new Date(post.date), 'MMMM d, yyyy')}</time>
-            <span className="hidden sm:inline">•</span>
-          </div>
-
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            <span>{post.readingTime} min read</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
-            {post.tags?.map((tag) => (
-              <span key={tag} className="bg-muted px-2 py-1 rounded-md text-xs">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="px-8 py-4 border border-border rounded-md">
-          {post.mdxSource ? (
-            <div className="mdx-content">
-              <MDXContent source={post.mdxSource} />
+    <>
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      
+      <div className="container mx-auto py-12">
+        <article 
+          className="prose dark:prose-invert max-w-none"
+          itemScope
+          itemType="https://schema.org/BlogPosting"
+        >
+          <h1 className="text-4xl font-bold mb-4" itemProp="headline">
+            {post.title}
+          </h1>
+          
+          <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-2">
+              <time 
+                dateTime={post.date}
+                itemProp="datePublished"
+              >
+                {format(new Date(post.date), 'MMMM d, yyyy')}
+              </time>
+              <span className="hidden sm:inline">•</span>
             </div>
-          ) : (
-            <div className="bg-muted/20">{'No content available'}</div>
-          )}
-        </div>
-      </article>
-    </div>
+
+            <div className="flex items-center gap-1" itemProp="timeRequired">
+              <Clock className="w-4 h-4" />
+              <span>{post.readingTime} min read</span>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
+              {post.tags?.map((tag) => (
+                <span 
+                  key={tag} 
+                  className="bg-muted px-2 py-1 rounded-md text-xs"
+                  itemProp="keywords"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div 
+            className="px-8 py-4 border border-border rounded-md"
+            itemProp="articleBody"
+          >
+            {post.mdxSource ? (
+              <div className="mdx-content">
+                <MDXContent source={post.mdxSource} />
+              </div>
+            ) : (
+              <div className="bg-muted/20">{'No content available'}</div>
+            )}
+          </div>
+        </article>
+      </div>
+    </>
   );
 }

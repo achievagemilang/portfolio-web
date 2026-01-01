@@ -8,3 +8,4 @@ export interface IProjectRepository {
   getProjectById(id: number): Project | undefined;
   getFeaturedProjects(ids?: number[]): Project[];
 }
+

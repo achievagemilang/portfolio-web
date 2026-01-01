@@ -6,3 +6,4 @@ import type { ContactFormRequest } from '../dtos/contact.dto';
 export interface IEmailService {
   sendContactFormEmail(request: ContactFormRequest): Promise<{ id: string }>;
 }
+

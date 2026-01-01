@@ -9,3 +9,4 @@ export interface AiChatResponse {
   message: string;
   shouldScheduleMeeting: boolean;
 }
+

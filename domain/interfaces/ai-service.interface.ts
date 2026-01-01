@@ -8,3 +8,4 @@ export interface IAiService {
   detectSchedulingIntent(message: string): boolean;
 }
 
+
