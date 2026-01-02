@@ -1,11 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
 import ProjectCard from '@/components/projects/project-card';
+import { Button } from '@/components/ui/button';
+import { motion, useInView } from 'framer-motion';
+import Link from 'next/link';
+import { useRef } from 'react';
 
 interface Project {
   id: number;
@@ -68,7 +67,7 @@ export default function Projects({ projects }: ProjectsProps) {
           animate={isInView ? 'show' : 'hidden'}
         >
           {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard key={project.id} project={project} variant="featured" />
           ))}
         </motion.div>
       </div>

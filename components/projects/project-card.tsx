@@ -26,63 +26,105 @@ interface Project {
 interface ProjectCardProps {
   project: Project;
   isLoading?: boolean;
+  variant?: 'default' | 'featured';
 }
 
-export default function ProjectCard({ project, isLoading = false }: ProjectCardProps) {
+export default function ProjectCard({
+  project,
+  isLoading = false,
+  variant = 'default',
+}: ProjectCardProps) {
   const [showAllTags, setShowAllTags] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Show skeleton when explicitly in loading state
-  // Note: ImageWithSkeleton handles individual image loading states internally
   if (isLoading) {
     return <ProjectCardSkeleton />;
   }
 
-  // Separate tech stack tags from other tags
   const techStackTags = project.tags.filter((tag) => getTechStackInfo(tag) !== null);
   const otherTags = project.tags.filter((tag) => getTechStackInfo(tag) === null);
-
-  // Show first 3 tech stack tags, rest are collapsed
-  const visibleTechTags = showAllTags ? techStackTags : techStackTags.slice(0, 3);
   const hasMoreTechTags = techStackTags.length > 3;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="group relative"
     >
-      <Card className="overflow-hidden h-full flex flex-col transition-all duration-200 hover:scale-[1.03] hover:shadow-lg p-0 pb-8">
-        <div className="relative w-full h-48 overflow-hidden group flex-shrink-0">
+      {/* Gradient border glow effect */}
+      <motion.div
+        className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-primary/50 via-purple-500/50 to-pink-500/50 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100"
+        animate={{ opacity: isHovered ? 0.6 : 0 }}
+      />
+
+      <Card className="relative overflow-hidden h-full flex flex-col bg-background/80 backdrop-blur-xl border-border/40 rounded-2xl shadow-lg transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/10 group-hover:border-primary/20 p-0">
+        {/* Image Container */}
+        <div
+          className={`relative w-full overflow-hidden flex-shrink-0 ${variant === 'featured' ? 'aspect-[16/8]' : 'aspect-[16/10]'}`}
+        >
           <ImageWithSkeleton
             src={project.image || '/placeholder.svg'}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+
+          {/* Gradient overlay for better text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+
+          {/* Year badge with premium styling */}
           {project.year && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-              className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur-sm border border-border/50 shadow-lg"
+              initial={{ opacity: 0, scale: 0.8, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="absolute top-4 right-4"
             >
-              <span className="text-xs font-semibold text-foreground tracking-wide">
-                {project.year}
-              </span>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-500 rounded-full blur-md opacity-40" />
+                <div className="relative px-4 py-1.5 rounded-full bg-background/95 backdrop-blur-md border border-border/50 shadow-xl">
+                  <span className="text-xs font-bold text-foreground tracking-wider">
+                    {project.year}
+                  </span>
+                </div>
+              </div>
             </motion.div>
           )}
         </div>
-        <CardContent className="pt-6 px-6 flex-grow flex flex-col items-start">
-          <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-          <p className="text-muted-foreground mb-4 line-clamp-3">{project.description}</p>
-          <div className="flex flex-wrap gap-2 mt-auto content-start">
-            {/* Tech stack logos - always show first 3 */}
-            {techStackTags.slice(0, 3).map((tag) => (
-              <TechStackBadge key={tag} tag={tag} />
+
+        {/* Content */}
+        <CardContent className="pt-5 px-6 flex-grow flex flex-col">
+          {/* Title with gradient on hover */}
+          <motion.h3
+            className={`font-bold mb-2 tracking-tight bg-gradient-to-r from-foreground to-foreground bg-clip-text transition-all duration-300 group-hover:from-primary group-hover:to-purple-500 group-hover:text-transparent ${variant === 'featured' ? 'text-2xl' : 'text-xl'}`}
+          >
+            {project.title}
+          </motion.h3>
+
+          {/* Description */}
+          <p
+            className={`text-muted-foreground/90 leading-relaxed mb-5 line-clamp-3 ${variant === 'featured' ? 'text-base' : 'text-sm'}`}
+          >
+            {project.description}
+          </p>
+
+          {/* Tech Stack Tags */}
+          <div className="flex flex-wrap gap-2 mt-auto">
+            {techStackTags.slice(0, 3).map((tag, index) => (
+              <motion.div
+                key={tag}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+              >
+                <TechStackBadge tag={tag} />
+              </motion.div>
             ))}
 
-            {/* Collapsible additional tech stack tags */}
             <AnimatePresence>
               {showAllTags && hasMoreTechTags && (
                 <>
@@ -105,81 +147,69 @@ export default function ProjectCard({ project, isLoading = false }: ProjectCardP
               )}
             </AnimatePresence>
 
-            {/* Expand/Collapse button */}
             {hasMoreTechTags && (
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <motion.button
                       onClick={() => setShowAllTags(!showAllTags)}
-                      className="flex items-center justify-center gap-1 px-2 py-1 rounded-md bg-muted hover:bg-muted/80 transition-colors text-xs font-medium"
+                      className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/80 hover:bg-muted border border-border/50 transition-all duration-200 text-xs font-medium hover:border-primary/30"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
                     >
                       {showAllTags ? (
                         <>
-                          <motion.div
-                            initial={{ rotate: -180 }}
-                            animate={{ rotate: 0 }}
-                            transition={{ duration: 0.3, ease: 'easeInOut' }}
-                          >
-                            <ChevronUp className="h-3 w-3" />
-                          </motion.div>
-                          <span>Show less</span>
+                          <ChevronUp className="h-3 w-3" />
+                          <span>Less</span>
                         </>
                       ) : (
                         <>
-                          <span>+{techStackTags.length - 3} more</span>
-                          <motion.div
-                            initial={{ rotate: 180 }}
-                            animate={{ rotate: 0 }}
-                            transition={{ duration: 0.3, ease: 'easeInOut' }}
-                          >
-                            <ChevronDown className="h-3 w-3" />
-                          </motion.div>
+                          <span>+{techStackTags.length - 3}</span>
+                          <ChevronDown className="h-3 w-3" />
                         </>
                       )}
                     </motion.button>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      {showAllTags
-                        ? `Click to collapse and show only 3 tech stacks`
-                        : `Click to show all ${techStackTags.length} tech stacks`}
+                  <TooltipContent side="top" className="bg-popover/95 backdrop-blur-sm">
+                    <p className="text-xs">
+                      {showAllTags ? 'Show less' : `Show all ${techStackTags.length} technologies`}
                     </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             )}
 
-            {/* Other tags as text (non-tech stack) */}
             {otherTags.map((tag) => (
-              <span key={tag} className="bg-muted px-2 py-1 rounded-md text-xs">
+              <span
+                key={tag}
+                className="bg-muted/60 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium border border-border/30"
+              >
                 {tag}
               </span>
             ))}
           </div>
         </CardContent>
-        <CardFooter className="px-6 pt-4">
+
+        {/* Footer with buttons */}
+        <CardFooter className="px-6 pb-6 pt-4">
           <div className="flex flex-col sm:flex-row w-full gap-3">
             <Button
               asChild
-              className="group flex-1 relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary transition-all duration-300"
+              className="group/btn flex-1 relative overflow-hidden bg-gradient-to-r from-primary via-primary to-purple-600 hover:from-primary/90 hover:via-purple-500 hover:to-purple-600 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 rounded-xl h-11"
             >
               <Link href={`/projects/${project.slug}`}>
-                <span>View Details</span>
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="font-medium">View Details</span>
+                <ArrowRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover/btn:translate-x-1" />
               </Link>
             </Button>
             <Button
               asChild
               variant="outline"
-              className="group flex-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+              className="group/btn flex-1 bg-background/50 backdrop-blur-sm border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 rounded-xl h-11"
             >
               <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                <span>Visit Website</span>
-                <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                <span className="font-medium">Visit Website</span>
+                <ExternalLink className="h-4 w-4 ml-1 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-3" />
               </Link>
             </Button>
           </div>
