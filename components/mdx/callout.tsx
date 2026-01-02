@@ -8,9 +8,11 @@ interface CalloutProps {
 
 export default function Callout({ emoji = '💡', type = 'info', children }: CalloutProps) {
   const styles = {
-    info: 'bg-blue-50 border-blue-200 text-blue-900',
-    warning: 'bg-yellow-50 border-yellow-200 text-yellow-900',
-    danger: 'bg-red-50 border-red-200 text-red-900',
+    info: 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-200',
+    warning:
+      'bg-yellow-50 border-yellow-200 text-yellow-900 dark:bg-yellow-900/30 dark:border-yellow-800 dark:text-yellow-200',
+    danger:
+      'bg-red-50 border-red-200 text-red-900 dark:bg-red-900/30 dark:border-red-800 dark:text-red-200',
   };
 
   return (
