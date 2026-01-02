@@ -5,7 +5,10 @@ interface RouteParams {
   params: Promise<{ slug: string }>;
 }
 
-// GET /api/blog-views/[slug] - Get view count for a blog post
+// Cache GET requests for 5 minutes to reduce Redis calls
+export const revalidate = 300;
+
+// GET /api/blog-views/[slug] - Get view count for a blog post (cached for 60s)
 export async function GET(request: Request, { params }: RouteParams) {
   const { slug } = await params;
 
@@ -14,10 +17,19 @@ export async function GET(request: Request, { params }: RouteParams) {
   }
 
   const views = await getBlogViewCount(slug);
-  return NextResponse.json({ views });
+
+  // Add cache headers for CDN/browser caching
+  return NextResponse.json(
+    { views },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
+    }
+  );
 }
 
-// POST /api/blog-views/[slug] - Increment view count for a blog post
+// POST /api/blog-views/[slug] - Increment view count for a blog post (not cached)
 export async function POST(request: Request, { params }: RouteParams) {
   const { slug } = await params;
 
@@ -26,5 +38,14 @@ export async function POST(request: Request, { params }: RouteParams) {
   }
 
   const views = await incrementBlogViewCount(slug);
-  return NextResponse.json({ views });
+
+  // No caching for POST - always fresh
+  return NextResponse.json(
+    { views },
+    {
+      headers: {
+        'Cache-Control': 'no-store',
+      },
+    }
+  );
 }
