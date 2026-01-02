@@ -5,8 +5,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Post } from '@/content-config';
 import { useBlogViewCount } from '@/hooks/use-blog-view-count';
 import { format } from 'date-fns';
-import { Clock, Eye } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Calendar, Clock, Eye } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 // Import MDXContent with dynamic import to ensure it only runs on the client
 const MDXContent = dynamic(() => import('@/components/mdx-content'), {
@@ -104,45 +106,96 @@ export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) 
           itemScope
           itemType="https://schema.org/BlogPosting"
         >
-          <h1 className="text-4xl font-bold mb-4" itemProp="headline">
-            {post.title}
-          </h1>
+          {/* Enhanced Header Section */}
+          <div className="not-prose space-y-6 mb-12">
+            {/* Animated Title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-foreground via-foreground to-foreground bg-clip-text transition-all duration-500 hover:from-primary hover:via-purple-500 hover:to-pink-500 hover:text-transparent cursor-default"
+              itemProp="headline"
+            >
+              {post.title}
+            </motion.h1>
 
-          <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
-            <div className="flex flex-wrap items-center gap-2">
-              <time dateTime={post.date} itemProp="datePublished">
-                {format(new Date(post.date), 'MMMM d, yyyy')}
-              </time>
-              <span className="hidden sm:inline">•</span>
-            </div>
+            {/* Author Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex items-center gap-3"
+            >
+              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-border shadow-sm">
+                <Image
+                  src="/AGLogoRevamped.png"
+                  alt="Achieva Futura Gemilang"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-foreground font-semibold">Achieva Futura Gemilang</span>
+                <span className="text-muted-foreground text-xs">Author</span>
+              </div>
+            </motion.div>
 
-            <div className="flex items-center gap-1" itemProp="timeRequired">
-              <Clock className="w-4 h-4" />
-              <span>{post.readingTime} min read</span>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <Eye className="w-4 h-4" />
-              {isViewCountLoading ? (
-                <Skeleton className="h-4 w-12" />
-              ) : (
-                <span>
-                  {viewCount.toLocaleString()} {viewCount === 1 ? 'view' : 'views'}
-                </span>
-              )}
-            </div>
-
-            <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
-              {post.tags?.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-muted px-2 py-1 rounded-md text-xs"
-                  itemProp="keywords"
+            {/* Stats Grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-wrap gap-2"
+            >
+              <div className="flex items-center gap-1.5 bg-muted/50 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm">
+                <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
+                <time
+                  dateTime={post.date}
+                  itemProp="datePublished"
+                  className="text-muted-foreground whitespace-nowrap"
                 >
-                  {tag}
+                  {format(new Date(post.date), 'MMM d, yyyy')}
+                </time>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-muted/50 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm">
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
+                <span className="text-muted-foreground whitespace-nowrap" itemProp="timeRequired">
+                  {post.readingTime} min
                 </span>
-              ))}
-            </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-muted/50 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm">
+                <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
+                {isViewCountLoading ? (
+                  <Skeleton className="h-3.5 w-8" />
+                ) : (
+                  <span className="text-muted-foreground whitespace-nowrap">
+                    {viewCount.toLocaleString()}
+                  </span>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex flex-wrap gap-2"
+              >
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-medium hover:bg-primary/20 transition-colors cursor-default"
+                    itemProp="keywords"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </motion.div>
+            )}
           </div>
 
           <div className="px-8 py-4 border border-border rounded-md" itemProp="articleBody">

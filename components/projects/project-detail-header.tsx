@@ -60,25 +60,25 @@ export default function ProjectDetailHeader({
             </div>
           </div>
 
-          {/* Stats - grid layout for mobile, flex for desktop */}
-          <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-4">
-            <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
-              <Calendar className="w-4 h-4 text-primary" />
-              <span className="text-muted-foreground">{year}</span>
+          {/* Stats - flex wrap layout for better mobile */}
+          <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-1.5 bg-muted/50 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm">
+              <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
+              <span className="text-muted-foreground whitespace-nowrap">{year}</span>
             </div>
 
-            <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
-              <Clock className="w-4 h-4 text-primary" />
-              <span className="text-muted-foreground">{readTime}</span>
+            <div className="flex items-center gap-1.5 bg-muted/50 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm">
+              <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
+              <span className="text-muted-foreground whitespace-nowrap">{readTime}</span>
             </div>
 
-            <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
-              <Eye className="w-4 h-4 text-primary" />
+            <div className="flex items-center gap-1.5 bg-muted/50 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm">
+              <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
               {isViewCountLoading ? (
-                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-3.5 w-8" />
               ) : (
-                <span className="text-muted-foreground">
-                  {viewCount.toLocaleString()} {viewCount === 1 ? 'view' : 'views'}
+                <span className="text-muted-foreground whitespace-nowrap">
+                  {viewCount.toLocaleString()}
                 </span>
               )}
             </div>
