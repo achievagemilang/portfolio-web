@@ -67,7 +67,7 @@ export default function TableOfContents({ sections, projectUrl }: TableOfContent
         <div className="pt-4 border-t border-border">
           <Button asChild className="w-full group">
             <a href={projectUrl} target="_blank" rel="noopener noreferrer">
-              <span>Visit Live Site</span>
+              <span>Visit Project</span>
               <ExternalLink className="h-4 w-4 ml-2 transition-transform group-hover:scale-110" />
             </a>
           </Button>

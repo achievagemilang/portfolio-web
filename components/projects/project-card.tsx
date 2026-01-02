@@ -208,7 +208,7 @@ export default function ProjectCard({
               className="group/btn flex-1 bg-background/50 backdrop-blur-sm border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 rounded-xl h-11"
             >
               <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                <span className="font-medium">Visit Website</span>
+                <span className="font-medium">Visit Project</span>
                 <ExternalLink className="h-4 w-4 ml-1 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-3" />
               </Link>
             </Button>
