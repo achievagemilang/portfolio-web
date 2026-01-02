@@ -5,6 +5,7 @@ import ProjectDetailHeader from '@/components/projects/project-detail-header';
 import RelatedProjects from '@/components/projects/related-projects';
 import TableOfContents from '@/components/projects/table-of-contents';
 import type { Project } from '@/content-config';
+import { useViewCount } from '@/hooks/use-view-count';
 import { TechStackBadge } from '@/lib/tech-stack-logos';
 import { motion } from 'framer-motion';
 
@@ -14,6 +15,12 @@ interface ProjectContentProps {
 }
 
 export default function ProjectContent({ project, allProjects }: ProjectContentProps) {
+  // Fetch and increment view count from Redis
+  const { viewCount, isLoading: isViewCountLoading } = useViewCount(project.slug || '', {
+    initialCount: project.viewCount || 0,
+    incrementOnMount: true,
+  });
+
   const sections = [
     { id: 'tldr', label: 'TL;DR' },
     { id: 'description', label: 'Description' },
@@ -34,7 +41,8 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
         }
         year={project.year || new Date().getFullYear()}
         readTime={project.readTime || '5 min read'}
-        viewCount={project.viewCount || 1000}
+        viewCount={viewCount || project.viewCount || 0}
+        isViewCountLoading={isViewCountLoading}
         tags={project.tags}
         image={project.image}
         url={project.link}

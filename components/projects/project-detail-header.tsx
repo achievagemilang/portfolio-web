@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Eye } from 'lucide-react';
 import Image from 'next/image';
@@ -13,6 +14,7 @@ interface ProjectDetailHeaderProps {
   year: number;
   readTime: string;
   viewCount: number;
+  isViewCountLoading?: boolean;
   tags: string[];
   image: string;
   url?: string;
@@ -24,6 +26,7 @@ export default function ProjectDetailHeader({
   year,
   readTime,
   viewCount,
+  isViewCountLoading = false,
   tags,
   image,
   url,
@@ -71,7 +74,13 @@ export default function ProjectDetailHeader({
 
             <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
               <Eye className="w-4 h-4 text-primary" />
-              <span className="text-muted-foreground">{viewCount.toLocaleString()}</span>
+              {isViewCountLoading ? (
+                <Skeleton className="h-4 w-12" />
+              ) : (
+                <span className="text-muted-foreground">
+                  {viewCount.toLocaleString()} {viewCount === 1 ? 'view' : 'views'}
+                </span>
+              )}
             </div>
           </div>
         </motion.div>
