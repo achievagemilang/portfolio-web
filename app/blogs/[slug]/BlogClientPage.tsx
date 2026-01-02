@@ -1,9 +1,10 @@
 'use client';
 
+import RelatedBlogs from '@/components/blogs/related-blogs';
 import { Post } from '@/content-config';
 import { format } from 'date-fns';
+import { Clock } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { Clock } from 'lucide-react'; // Add this import for a nice icon
 
 // Import MDXContent with dynamic import to ensure it only runs on the client
 const MDXContent = dynamic(() => import('@/components/mdx-content'), {
@@ -13,12 +14,13 @@ const MDXContent = dynamic(() => import('@/components/mdx-content'), {
 
 interface BlogPostClientProps {
   post: Post;
+  allPosts: Post[];
 }
 
-export default function BlogPostClient({ post }: BlogPostClientProps) {
+export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) {
   const url = `https://achievagemilang.live/blogs/${post.slug}`;
   const publishedTime = new Date(post.date).toISOString();
-  
+
   // Generate JSON-LD structured data for SEO
   const blogPostingJsonLd = {
     '@context': 'https://schema.org',
@@ -87,9 +89,9 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      
+
       <div className="container mx-auto py-12">
-        <article 
+        <article
           className="prose dark:prose-invert max-w-none"
           itemScope
           itemType="https://schema.org/BlogPosting"
@@ -97,13 +99,10 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           <h1 className="text-4xl font-bold mb-4" itemProp="headline">
             {post.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
             <div className="flex flex-wrap items-center gap-2">
-              <time 
-                dateTime={post.date}
-                itemProp="datePublished"
-              >
+              <time dateTime={post.date} itemProp="datePublished">
                 {format(new Date(post.date), 'MMMM d, yyyy')}
               </time>
               <span className="hidden sm:inline">•</span>
@@ -116,8 +115,8 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
 
             <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
               {post.tags?.map((tag) => (
-                <span 
-                  key={tag} 
+                <span
+                  key={tag}
                   className="bg-muted px-2 py-1 rounded-md text-xs"
                   itemProp="keywords"
                 >
@@ -127,10 +126,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             </div>
           </div>
 
-          <div 
-            className="px-8 py-4 border border-border rounded-md"
-            itemProp="articleBody"
-          >
+          <div className="px-8 py-4 border border-border rounded-md" itemProp="articleBody">
             {post.mdxSource ? (
               <div className="mdx-content">
                 <MDXContent source={post.mdxSource} />
@@ -140,6 +136,9 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             )}
           </div>
         </article>
+
+        {/* Related Posts Section */}
+        <RelatedBlogs currentPostSlug={post.slug} posts={allPosts} />
       </div>
     </>
   );

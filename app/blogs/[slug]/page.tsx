@@ -3,42 +3,37 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './BlogClientPage';
 
-type tParams = Promise<{ slug: string }>;
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
 
-  // If we have actual posts, use them; otherwise fall back to our hardcoded ones
-  const allPosts = posts;
-
-  return allPosts.map((post) => ({
+  return posts.map((post) => ({
     slug: post!.slug,
   }));
 }
 
-export async function generateMetadata({ params }: { params: tParams }): Promise<Metadata> {
-  const { slug }: { slug: string } = await params;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
 
-  // Try to get the real post first
   const post = await getPostBySlug(slug);
 
-  // Fall back to hardcoded data if needed
-  const finalPost = post;
-
-  if (!finalPost) {
+  if (!post) {
     return {
       title: 'Post Not Found',
     };
   }
 
   const url = `https://achievagemilang.live/blogs/${slug}`;
-  const publishedTime = new Date(finalPost.date).toISOString();
-  const tags = finalPost.tags || [];
+  const publishedTime = new Date(post.date).toISOString();
+  const tags = post.tags || [];
   const keywords = tags.join(', ');
 
   return {
-    title: `${finalPost.title} | Achieva Futura Gemilang`,
-    description: finalPost.excerpt,
+    title: `${post.title} | Achieva Futura Gemilang`,
+    description: post.excerpt,
     keywords: keywords,
     authors: [{ name: 'Achieva Futura Gemilang', url: 'https://achievagemilang.live' }],
     creator: 'Achieva Futura Gemilang',
@@ -47,8 +42,8 @@ export async function generateMetadata({ params }: { params: tParams }): Promise
       canonical: url,
     },
     openGraph: {
-      title: `${finalPost.title} | Achieva Futura Gemilang`,
-      description: finalPost.excerpt,
+      title: `${post.title} | Achieva Futura Gemilang`,
+      description: post.excerpt,
       url: url,
       type: 'article',
       publishedTime: publishedTime,
@@ -60,14 +55,14 @@ export async function generateMetadata({ params }: { params: tParams }): Promise
           url: 'https://achievagemilang.live/AGLogoRevamped.png',
           width: 1200,
           height: 630,
-          alt: finalPost.title,
+          alt: post.title,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${finalPost.title} | Achieva Futura Gemilang`,
-      description: finalPost.excerpt,
+      title: `${post.title} | Achieva Futura Gemilang`,
+      description: post.excerpt,
       creator: '@achievagemilang',
       images: ['https://achievagemilang.live/AGLogoRevamped.png'],
     },
@@ -79,18 +74,17 @@ export async function generateMetadata({ params }: { params: tParams }): Promise
   };
 }
 
-export default async function BlogPostPage({ params }: { params: tParams }) {
-  const { slug }: { slug: string } = await params;
+export default async function BlogPostPage({ params }: PageProps) {
+  const { slug } = await params;
 
-  // Try to get the real post first
   const post = await getPostBySlug(slug);
 
-  // Fall back to hardcoded data if needed
-  const finalPost = post;
-
-  if (!finalPost) {
+  if (!post) {
     notFound();
   }
 
-  return <BlogPostClient post={finalPost} />;
+  // Get all posts for related blogs section
+  const allPosts = await getAllPosts();
+
+  return <BlogPostClient post={post} allPosts={allPosts} />;
 }
