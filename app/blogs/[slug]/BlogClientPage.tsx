@@ -1,9 +1,11 @@
 'use client';
 
 import RelatedBlogs from '@/components/blogs/related-blogs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Post } from '@/content-config';
+import { useBlogViewCount } from '@/hooks/use-blog-view-count';
 import { format } from 'date-fns';
-import { Clock } from 'lucide-react';
+import { Clock, Eye } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 // Import MDXContent with dynamic import to ensure it only runs on the client
@@ -20,6 +22,12 @@ interface BlogPostClientProps {
 export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) {
   const url = `https://achievagemilang.live/blogs/${post.slug}`;
   const publishedTime = new Date(post.date).toISOString();
+
+  // Fetch and increment view count from Redis
+  const { viewCount, isLoading: isViewCountLoading } = useBlogViewCount(post.slug, {
+    initialCount: 0,
+    incrementOnMount: true,
+  });
 
   // Generate JSON-LD structured data for SEO
   const blogPostingJsonLd = {
@@ -111,6 +119,17 @@ export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) 
             <div className="flex items-center gap-1" itemProp="timeRequired">
               <Clock className="w-4 h-4" />
               <span>{post.readingTime} min read</span>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <Eye className="w-4 h-4" />
+              {isViewCountLoading ? (
+                <Skeleton className="h-4 w-12" />
+              ) : (
+                <span>
+                  {viewCount.toLocaleString()} {viewCount === 1 ? 'view' : 'views'}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-wrap gap-2 mt-2 sm:mt-0 w-full sm:w-auto">

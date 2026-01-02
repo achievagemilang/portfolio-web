@@ -344,7 +344,6 @@ export const projectList = [
       avatar: '/AGLogoRevamped.png',
     },
     readTime: '8 min read',
-    viewCount: 12543,
     tldr: [
       'High-performance pharma marketplace with 100K+ MAU',
       'Sub-100ms latency using Go and optimized database queries',
@@ -383,7 +382,6 @@ We utilized a microservices-inspired architecture (modular monolith) to ensure s
       avatar: '/AGLogoRevamped.png',
     },
     readTime: '4 min read',
-    viewCount: 3420,
     tldr: [
       'AI-generated dares using Gemini API',
       'Real-time multiplayer experience',
