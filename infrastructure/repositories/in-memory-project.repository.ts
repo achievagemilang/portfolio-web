@@ -1,6 +1,6 @@
-import type { IProjectRepository } from '@/domain/interfaces/project.repository.interface';
+import { featuredProjectIds, projectList } from '@/constant/constant';
 import type { Project } from '@/content-config';
-import { projectList, featuredProjectIds } from '@/constant/constant';
+import type { IProjectRepository } from '@/domain/interfaces/project.repository.interface';
 
 /**
  * In-memory project repository implementation
@@ -18,6 +18,14 @@ export class InMemoryProjectRepository implements IProjectRepository {
       link: p.link,
       tags: p.tags,
       year: p.year,
+      slug: p.slug,
+      author: p.author,
+      readTime: p.readTime,
+      viewCount: p.viewCount,
+      tldr: p.tldr,
+      fullDescription: p.fullDescription,
+      features: p.features,
+      lessonsLearned: p.lessonsLearned,
     }));
   }
 
@@ -42,5 +50,3 @@ export class InMemoryProjectRepository implements IProjectRepository {
       });
   }
 }
-
-

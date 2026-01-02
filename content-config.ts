@@ -31,4 +31,15 @@ export interface Project {
   tags: string[];
   year?: number;
   featured?: boolean;
+  slug?: string;
+  author?: {
+    name: string;
+    avatar: string;
+  };
+  readTime?: string;
+  viewCount?: number;
+  tldr?: string[];
+  fullDescription?: string;
+  features?: string[];
+  lessonsLearned?: string[];
 }

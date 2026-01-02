@@ -234,6 +234,7 @@ export const projectList = [
   {
     id: 1,
     title: 'Share Eat',
+    slug: 'share-eat',
     description:
       'A sustainability-focused solution launched based on MACS-G20 to actively combat food loss and waste through smart resource management.',
     image: '/project/share-eat.png?height=300&width=500',
@@ -244,6 +245,7 @@ export const projectList = [
   {
     id: 2,
     title: 'MovieTek',
+    slug: 'movietek',
     description:
       'A mobile app to discover your next binge-worthy obsession with a sleek, all-in-one guide to the world of movies and TV series.',
     image: '/project/movietek.png?height=300&width=500',
@@ -254,6 +256,7 @@ export const projectList = [
   {
     id: 3,
     title: 'Pet Daycare',
+    slug: 'pet-daycare',
     description:
       'A versatile pet care platform featuring a flexible payment ecosystem that integrates Pet Coins, vouchers, and major e-wallets.',
     image: '/project/pet-daycare.png?height=300&width=500',
@@ -264,6 +267,7 @@ export const projectList = [
   {
     id: 4,
     title: 'Mobile Bansos',
+    slug: 'mobile-bansos',
     description:
       'A digital infrastructure designed to ensure the transparent, efficient, and targeted distribution of social assistance across Indonesia.',
     image: '/project/djpb.jpg?height=300&width=500',
@@ -274,6 +278,7 @@ export const projectList = [
   {
     id: 5,
     title: 'HouseSpot',
+    slug: 'housespot',
     description:
       'An end-to-end property companion that simplifies homeownership by combining price estimation, trusted vendor connections, and marketplace discovery.',
     image: '/project/housespot.png?height=300&width=500',
@@ -284,6 +289,7 @@ export const projectList = [
   {
     id: 6,
     title: 'Questify',
+    slug: 'questify',
     description:
       'A gamified research platform that redefines academic engagement by connecting communities through incentivized, prize-based questionnaires.',
     image: '/project/questify.png?height=300&width=500',
@@ -294,6 +300,7 @@ export const projectList = [
   {
     id: 7,
     title: 'Bikun Tracker Mobile',
+    slug: 'bikun-tracker-mobile',
     description:
       "A real-time mobility companion for the University of Indonesia, helping students track and navigate the 'Bis Kuning' campus bus network.",
     image: '/project/bikuntracker.png?height=300&width=500',
@@ -304,6 +311,7 @@ export const projectList = [
   {
     id: 8,
     title: 'Citizen Journalism',
+    slug: 'citizen-journalism',
     description: `A modern digital portal delivering high-speed, real-time news reporting and updates directly from the TVRI network.`,
     image: '/project/citizen-journalism.png?height=300&width=500',
     link: 'https://play.google.com/store/apps/details?id=com.tvri.citizenjournalism&hl=en&pli=1',
@@ -314,6 +322,7 @@ export const projectList = [
   {
     id: 9,
     title: 'Medisea',
+    slug: 'medisea',
     description: `A high-performance pharmaceutical marketplace engineered with enterprise-grade fault tolerance to support secure transactions and sub-100ms latency for 100K+ monthly active users.`,
     image: '/project/medisea.svg?height=300&width=500',
     link: 'https://sea.com/shopee',
@@ -330,15 +339,66 @@ export const projectList = [
       'TypeScript',
     ],
     year: 2025,
+    author: {
+      name: 'Achieva Futura Gemilang',
+      avatar: '/AGLogoRevamped.png',
+    },
+    readTime: '8 min read',
+    viewCount: 12543,
+    tldr: [
+      'High-performance pharma marketplace with 100K+ MAU',
+      'Sub-100ms latency using Go and optimized database queries',
+      'Fault-tolerant payment system with circuit breakers',
+      'Real-time search with Meilisearch',
+    ],
+    fullDescription: `Medisea is a comprehensive pharmaceutical marketplace designed to bridge the gap between pharmacies and consumers. Built during the Sea Labs program, it tackles the challenge of high-concurrency transactions and reliable inventory management. The platform features a robust backend capable of handling over 100k monthly active users with sub-100ms latency, ensuring a smooth user experience even during peak demand.
+
+We utilized a microservices-inspired architecture (modular monolith) to ensure scalability while maintaining development velocity. The frontend, built with React and Vite, offers a snappy, responsive interface, while the Go backend ensures type safety and performance.`,
+    features: [
+      'Real-time drug inventory management',
+      'Secure payment gateway integration',
+      'Distance-based pharmacy search',
+      'Prescription upload and verification flow',
+      'Admin dashboard for order management',
+    ],
+    lessonsLearned: [
+      'Importance of database indexing for query performance',
+      'Strategies for handling distributed transactions',
+      'Effective caching policies to reduce database load',
+      'Writing comprehensive unit and integration tests',
+    ],
   },
 
   {
     id: 10,
     title: 'Dare AI',
+    slug: 'dare-ai',
     description: `An AI-powered party game that revitalizes the classic Truth or Dare experience with endlessly generated, creative challenges for social gatherings.`,
     image: '/project/dare-ai.png?height=300&width=500',
     link: 'https://dare-ai.lovable.app/',
     tags: ['Next.js', 'Lovable', 'Gemini API', 'TypeScript', 'Vite.js'],
     year: 2025,
+    author: {
+      name: 'Achieva Futura Gemilang',
+      avatar: '/AGLogoRevamped.png',
+    },
+    readTime: '4 min read',
+    viewCount: 3420,
+    tldr: [
+      'AI-generated dares using Gemini API',
+      'Real-time multiplayer experience',
+      'Mobile-first responsive design',
+    ],
+    fullDescription: `Dare AI brings a modern twist to the classic party game. By leveraging Google's Gemini API, we generate context-aware, fun, and safe dares that adapt to the players' preferences. The project explores the potential of Generative AI in casual gaming and social interaction.`,
+    features: [
+      'AI-powered challenge generation',
+      'Customizable difficulty levels',
+      'Social sharing capabilities',
+    ],
+    lessonsLearned: [
+      'Prompt engineering for consistent AI outputs',
+      'Managing API rate limits and costs',
+      'Building engaging mobile-first UI',
+    ],
   },
 ];

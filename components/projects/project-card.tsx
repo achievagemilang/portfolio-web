@@ -1,12 +1,14 @@
 'use client';
 
+import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { TechStackBadge, getTechStackInfo } from '@/lib/tech-stack-logos';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import ProjectCardSkeleton from './project-card-skeleton';
 
@@ -18,6 +20,7 @@ interface Project {
   link: string;
   tags: string[];
   year?: number;
+  slug?: string;
 }
 
 interface ProjectCardProps {
@@ -158,12 +161,28 @@ export default function ProjectCard({ project, isLoading = false }: ProjectCardP
             ))}
           </div>
         </CardContent>
-        <CardFooter className="px-6">
-          <Button asChild>
-            <a href={project.link} target="_blank" rel="noopener noreferrer">
-              View Project
-            </a>
-          </Button>
+        <CardFooter className="px-6 pt-4">
+          <div className="flex flex-col sm:flex-row w-full gap-3">
+            <Button
+              asChild
+              className="group flex-1 relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary transition-all duration-300"
+            >
+              <Link href={`/projects/${project.slug}`}>
+                <span>View Details</span>
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="group flex-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+            >
+              <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                <span>Visit Website</span>
+                <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+              </Link>
+            </Button>
+          </div>
         </CardFooter>
       </Card>
     </motion.div>
