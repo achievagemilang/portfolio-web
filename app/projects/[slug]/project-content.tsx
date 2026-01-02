@@ -43,12 +43,12 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Main Content */}
         <div className="lg:col-span-8 space-y-12">
-          {/* TL;DR Section */}
-          {project.tldr && (
-            <section id="tldr" className="scroll-mt-24">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <span className="text-primary">#</span> TL;DR
-              </h2>
+          {/* TL;DR Section - Always render */}
+          <section id="tldr" className="scroll-mt-24">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-primary">#</span> TL;DR
+            </h2>
+            {project.tldr && project.tldr.length > 0 ? (
               <Callout emoji="🚀" type="info">
                 <ul className="list-disc pl-5 space-y-2">
                   {project.tldr.map((item, index) => (
@@ -56,8 +56,12 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
                   ))}
                 </ul>
               </Callout>
-            </section>
-          )}
+            ) : (
+              <Callout emoji="📝" type="info">
+                <p className="text-muted-foreground italic">Key highlights coming soon...</p>
+              </Callout>
+            )}
+          </section>
 
           {/* Description Section */}
           <section id="description" className="scroll-mt-24">
@@ -69,36 +73,40 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
             </div>
           </section>
 
-          {/* Tech Stack Section */}
+          {/* Tech Stack Section - Smaller badges */}
           <section id="tech-stack" className="scroll-mt-24">
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
               <span className="text-primary">#</span> Tech Stack
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {project.tags.map((tag, index) => (
-                <motion.div
-                  key={tag}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  className="p-4 rounded-xl border bg-card hover:bg-muted/50 transition-colors flex flex-col items-center justify-center gap-3 text-center"
-                >
-                  <div className="scale-125">
+            {project.tags && project.tags.length > 0 ? (
+              <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                {project.tags.map((tag, index) => (
+                  <motion.div
+                    key={tag}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.03 }}
+                    className="p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors flex flex-col items-center justify-center gap-2 text-center"
+                  >
                     <TechStackBadge tag={tag} />
-                  </div>
-                  <span className="font-medium text-sm">{tag}</span>
-                </motion.div>
-              ))}
-            </div>
+                    <span className="font-medium text-xs text-muted-foreground">{tag}</span>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="p-6 rounded-lg border bg-muted/30 text-center">
+                <p className="text-muted-foreground italic">Tech stack details coming soon...</p>
+              </div>
+            )}
           </section>
 
-          {/* Features Section */}
-          {project.features && (
-            <section id="features" className="scroll-mt-24">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <span className="text-primary">#</span> Features
-              </h2>
+          {/* Features Section - Always render */}
+          <section id="features" className="scroll-mt-24">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-primary">#</span> Features
+            </h2>
+            {project.features && project.features.length > 0 ? (
               <ul className="grid grid-cols-1 gap-3">
                 {project.features.map((feature, index) => (
                   <motion.li
@@ -114,15 +122,19 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
                   </motion.li>
                 ))}
               </ul>
-            </section>
-          )}
+            ) : (
+              <div className="p-6 rounded-lg border bg-muted/30 text-center">
+                <p className="text-muted-foreground italic">Feature list coming soon...</p>
+              </div>
+            )}
+          </section>
 
-          {/* Lessons Learned Section */}
-          {project.lessonsLearned && (
-            <section id="lessons-learned" className="scroll-mt-24">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <span className="text-primary">#</span> Lessons Learned
-              </h2>
+          {/* Lessons Learned Section - Always render */}
+          <section id="lessons-learned" className="scroll-mt-24">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-primary">#</span> Lessons Learned
+            </h2>
+            {project.lessonsLearned && project.lessonsLearned.length > 0 ? (
               <div className="space-y-4">
                 {project.lessonsLearned.map((lesson, index) => (
                   <Callout key={index} emoji="💡" type="warning">
@@ -130,13 +142,17 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
                   </Callout>
                 ))}
               </div>
-            </section>
-          )}
+            ) : (
+              <Callout emoji="🎓" type="warning">
+                <p className="text-muted-foreground italic">Lessons and insights coming soon...</p>
+              </Callout>
+            )}
+          </section>
         </div>
 
         {/* Sidebar */}
         <div className="lg:col-span-4 hidden lg:block">
-          <TableOfContents sections={sections} />
+          <TableOfContents sections={sections} projectUrl={project.link} />
         </div>
       </div>
 
