@@ -23,9 +23,32 @@ const components = {
     return null;
   },
   p: ({ children, className, ...props }: any) => {
-    // Prevent nested p tags by ensuring we don't render p inside p
-    // If className is provided, it's likely a custom styled p tag from MDX
-    // In that case, we render it as-is, but MDX should handle this correctly
+    // Check if children contain block-level elements (like images wrapped in our MDXImage)
+    // If so, render as a div to prevent invalid HTML nesting
+    const hasBlockChildren = (() => {
+      const childArray = Array.isArray(children) ? children : [children];
+      return childArray.some((child: any) => {
+        if (!child) return false;
+        // Check for MDXImage or other block elements
+        if (child.type === MDXImageWrapper) return true;
+        if (child.type === 'img') return true;
+        if (
+          typeof child.type === 'string' &&
+          ['div', 'figure', 'pre', 'ul', 'ol', 'table'].includes(child.type)
+        )
+          return true;
+        return false;
+      });
+    })();
+
+    if (hasBlockChildren) {
+      return (
+        <div className={className} {...props}>
+          {children}
+        </div>
+      );
+    }
+
     return (
       <p className={className} {...props}>
         {children}
