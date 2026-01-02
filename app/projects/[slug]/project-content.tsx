@@ -1,6 +1,7 @@
 'use client';
 
 import Callout from '@/components/mdx/callout';
+import MobileTableOfContents from '@/components/projects/mobile-table-of-contents';
 import ProjectDetailHeader from '@/components/projects/project-detail-header';
 import RelatedProjects from '@/components/projects/related-projects';
 import TableOfContents from '@/components/projects/table-of-contents';
@@ -165,6 +166,9 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
       </div>
 
       <RelatedProjects currentProjectId={project.id} projects={allProjects} />
+
+      {/* Mobile floating ToC */}
+      <MobileTableOfContents sections={sections} projectUrl={project.link} />
     </div>
   );
 }

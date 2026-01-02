@@ -1,8 +1,9 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Eye } from 'lucide-react';
+import { Calendar, Clock, ExternalLink, Eye } from 'lucide-react';
 import Image from 'next/image';
 
 interface ProjectDetailHeaderProps {
@@ -97,6 +98,23 @@ export default function ProjectDetailHeader({
           <Image src={image} alt={title} fill className="object-cover" priority />
         </motion.div>
       </div>
+
+      {/* Mobile-only Visit Project button */}
+      {url && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="lg:hidden mx-8"
+        >
+          <Button asChild className="w-full group">
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              <span>Visit Project</span>
+              <ExternalLink className="h-4 w-4 ml-2 transition-transform group-hover:scale-110" />
+            </a>
+          </Button>
+        </motion.div>
+      )}
     </div>
   );
 }
