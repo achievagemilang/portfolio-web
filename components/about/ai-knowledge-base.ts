@@ -343,7 +343,7 @@ export const aiKnowledgeBase = {
     'Software Engineering',
   ],
   funFacts: [
-    'I love to sing. It also means that I love doing music. I played guitar a little bit, but more proficient in singing. I mostly prefer Pop, RnB, J-Pop, and K-Pop music genres. You can find me singing on my Instagram highlight or through my TikTok: @asheva10.',
+    'I love to sing. It also means that I love doing music. I played guitar a little bit, but more proficient in singing. I mostly prefer Pop, RnB, J-Pop, and K-Pop music genres. You can find me singing on my Instagram highlight or through my TikTok: @shioshev.',
     'I love to read, especially when I am alone. Right now, I have read more than 50+ books. My favorite genre to read is Self-Improvement and Business. My favorite book is "The Alchemist" by Paulo Coelho. The reason why I love to read is because I believe that reading is the best way to network with amazing authors and learn new things from it. It\'s like having coffee chat with them.',
     'I love playing games, especially Mobile Legends, I achieved the highest rank in the game: Mythical Immortal. My signature hero is "Beatrix" with 75%+ win rate with 440+ games played.',
   ],

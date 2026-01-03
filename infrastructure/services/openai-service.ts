@@ -1,41 +1,25 @@
 import { aiKnowledgeBase } from '@/components/about/ai-knowledge-base';
 import type { AiChatRequest, AiChatResponse } from '@/domain/dtos/ai-chat.dto';
 import type { IAiService } from '@/domain/interfaces/ai-service.interface';
+import OpenAI from 'openai';
 
 /**
- * Gemini AI service implementation
+ * OpenAI service implementation
  */
-export class GeminiAiService implements IAiService {
-  private apiKey: string;
-  private apiUrl: string;
-  private maxRetries: number;
-  private baseDelay: number;
+export class OpenAiService implements IAiService {
+  private openai: OpenAI;
+  private model: string;
 
-  constructor(apiKey: string, apiUrl: string, maxRetries = 3, baseDelay = 1000) {
+  constructor(apiKey: string, model = 'gpt-5-nano') {
     if (!apiKey) {
-      throw new Error('Gemini API key is required');
+      throw new Error('OpenAI API key is required');
     }
-    this.apiKey = apiKey;
-    this.apiUrl = apiUrl;
-    this.maxRetries = maxRetries;
-    this.baseDelay = baseDelay;
+    this.openai = new OpenAI({ apiKey });
+    this.model = model;
   }
 
   detectSchedulingIntent(message: string): boolean {
-    const schedulingKeywords = [
-      'schedule',
-      'book',
-      'meeting',
-      'call',
-      'consultation',
-      'discuss',
-      'talk',
-      'appointment',
-      'meet',
-      'chat',
-      'conversation',
-      'project discussion',
-    ];
+    const schedulingKeywords = ['schedule', 'book', 'appointment', 'consultation'];
 
     const lowerMessage = message.toLowerCase();
     return schedulingKeywords.some((keyword) => lowerMessage.includes(keyword));
@@ -43,34 +27,42 @@ export class GeminiAiService implements IAiService {
 
   async generateResponse(request: AiChatRequest): Promise<AiChatResponse> {
     const hasSchedulingIntent = this.detectSchedulingIntent(request.message);
-    const prompt = this.buildPrompt(request.message, hasSchedulingIntent);
+    const systemPrompt = this.buildPrompt(hasSchedulingIntent);
 
     try {
-      const data = await this.makeRequest(prompt);
+      const completion = await this.openai.chat.completions.create({
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: request.message },
+        ],
+        model: this.model,
+      });
+
       const aiMessage =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        completion.choices[0]?.message?.content ||
         "Sorry, I couldn't generate a response at this time.";
 
       return {
         message: aiMessage,
         shouldScheduleMeeting: hasSchedulingIntent,
       };
-    } catch (error) {
-      if (error instanceof Error && error.message === 'AI_SERVICE_OVERLOADED') {
+    } catch (error: any) {
+      console.error('OpenAI Error:', error);
+
+      // Handle Rate Limits (429) or Quota (Insuficient Quota)
+      if (error?.status === 429 || error?.code === 'insufficient_quota') {
         return {
           message:
-            "I'm experiencing high traffic right now and can't respond immediately. Please try again in a few moments, or feel free to reach out to me directly at achievafuturagemilang@gmail.com. I'll be happy to help you! 😊",
+            "I'm currently overloaded with requests (Rate Limit Exceeded). Please try again in a moment.",
           shouldScheduleMeeting: hasSchedulingIntent,
         };
       }
 
-      throw new Error(
-        `AI service error: ${error instanceof Error ? error.message : 'Unknown error'}`
-      );
+      throw new Error(`OpenAI service error: ${error?.message || 'Unknown error'}`);
     }
   }
 
-  private buildPrompt(userMessage: string, hasSchedulingIntent: boolean): string {
+  private buildPrompt(hasSchedulingIntent: boolean): string {
     const schedulingContext = hasSchedulingIntent
       ? `
 IMPORTANT SCHEDULING CONTEXT:
@@ -181,8 +173,6 @@ Languages: ${aiKnowledgeBase.languages.map((l) => `${l.language} (${l.proficienc
 
 Personal Interests: ${aiKnowledgeBase.interests.join(', ')}
 
-User: ${userMessage}
-
 Instructions:
 1. Provide helpful, accurate responses based on the knowledge base
 2. Be conversational and professional
@@ -191,59 +181,7 @@ Instructions:
 5. If asked about services, highlight the most relevant ones based on the user's needs
 6. If asked about pricing, explain the different models and suggest scheduling a consultation
 7. When scheduling intent is detected, mention available time slots naturally in the conversation
-8. Use **bold** and *italic* formatting to make responses more readable
-
-AI:`;
-  }
-
-  private async makeRequest(prompt: string, retryCount = 0): Promise<any> {
-    try {
-      const response = await fetch(this.apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': this.apiKey,
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-
-        // Check if it's a 503 overload error
-        if (
-          response.status === 503 ||
-          errorData?.error?.status === 'UNAVAILABLE' ||
-          errorData?.error?.message?.includes('overloaded')
-        ) {
-          if (retryCount < this.maxRetries) {
-            // Exponential backoff: 1s, 2s, 4s
-            const delayMs = this.baseDelay * Math.pow(2, retryCount);
-            console.log(
-              `Gemini API overloaded, retrying in ${delayMs}ms (attempt ${retryCount + 1}/${this.maxRetries})`
-            );
-            await this.delay(delayMs);
-            return this.makeRequest(prompt, retryCount + 1);
-          } else {
-            throw new Error('AI_SERVICE_OVERLOADED');
-          }
-        }
-
-        throw new Error(`Gemini API error: ${response.status} - ${JSON.stringify(errorData)}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof Error && error.message === 'AI_SERVICE_OVERLOADED') {
-        throw error;
-      }
-      throw new Error(`Request failed: ${error}`);
-    }
-  }
-
-  private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+9. ALWAYS format links using Markdown syntax: [Link Text](URL). Never output raw URLs. For the booking link, use [Book Appointment Here](https://calendar.app.google/cEJRExr9jLsgHj469)
+`;
   }
 }

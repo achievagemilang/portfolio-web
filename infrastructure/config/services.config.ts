@@ -4,7 +4,7 @@
 
 import { AiChatService } from '@/application/services/ai-chat.service';
 import { ContactService } from '@/application/services/contact.service';
-import { GeminiAiService } from '../services/gemini-ai.service';
+import { OpenAiService } from '../services/openai-service';
 import { ResendEmailService } from '../services/resend-email.service';
 
 /**
@@ -25,19 +25,15 @@ export function createEmailService(): ResendEmailService {
 /**
  * Create and configure AI service
  */
-export function createAiService(): GeminiAiService {
-  const apiKey = process.env.GEMINI_API_KEY;
-  const apiUrl = process.env.GEMINI_API_URL;
+export function createAiService(): OpenAiService {
+  const apiKey = process.env.OPENAI_API_KEY;
+  const model = process.env.OPENAI_MODEL || 'gpt-5-nano';
 
   if (!apiKey) {
-    throw new Error('GEMINI_API_KEY environment variable is required');
+    throw new Error('OPENAI_API_KEY environment variable is required');
   }
 
-  if (!apiUrl) {
-    throw new Error('GEMINI_API_URL environment variable is required');
-  }
-
-  return new GeminiAiService(apiKey, apiUrl);
+  return new OpenAiService(apiKey, model);
 }
 
 /**
@@ -55,4 +51,3 @@ export function createAiChatService(): AiChatService {
   const aiService = createAiService();
   return new AiChatService(aiService);
 }
-

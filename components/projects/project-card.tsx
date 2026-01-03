@@ -195,7 +195,7 @@ export default function ProjectCard({
           <div className="flex flex-col sm:flex-row w-full gap-3">
             <Button
               asChild
-              className="group/btn flex-1 relative overflow-hidden bg-gradient-to-r from-primary via-primary to-purple-600 hover:from-primary/90 hover:via-purple-500 hover:to-purple-600 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 rounded-xl h-11"
+              className="group/btn flex-1 relative overflow-hidden bg-gradient-to-r from-primary via-primary to-red-600 hover:from-primary/90 hover:via-red-600 hover:to-red-600 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 rounded-xl h-11"
             >
               <Link href={`/projects/${project.slug}`}>
                 <span className="font-medium">View Details</span>
