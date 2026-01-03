@@ -4,8 +4,11 @@ import SocialLinks from '@/components/shared/social-links';
 import { Button } from '@/components/ui/button';
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { TypeAnimation } from 'react-type-animation';
+
+const ThreeDOrbit = dynamic(() => import('@/components/home/three-d-orbit'), { ssr: false });
 
 export default function Hero() {
   const fadeInAnimation = {
@@ -18,6 +21,8 @@ export default function Hero() {
     <section className="relative py-20 md:py-32 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10 dark:to-primary/5" />
+
+      <ThreeDOrbit />
 
       <div className="container relative z-10">
         <motion.div {...fadeInAnimation} className="max-w-3xl mx-auto text-center">
