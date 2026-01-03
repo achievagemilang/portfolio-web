@@ -5,13 +5,13 @@ export const id: Dictionary = {
     home: 'Beranda',
     about: 'Tentang',
     projects: 'Proyek',
-    blog: 'Blog',
+    blog: 'Tulisan',
   },
   hero: {
-    greeting: 'Halo, saya',
+    greeting: 'Hi, aku',
     role: 'Software Engineer',
     description:
-      'Saya membangun aplikasi web berkualitas tinggi menggunakan teknologi modern. Saya berfokus pada pembuatan kode yang dapat diskalakan, mudah dipelihara, dan berkinerja tinggi.',
+      'Seorang **Software Engineer** dan pembelajar seumur hidup, dengan pola pikir berbasis produk, memadukan keahlian teknis dengan pemikiran strategis bisnis.',
     cta: 'Lihat Karya Saya',
     contact: 'Hubungi Saya',
     about: 'Tentang Saya',

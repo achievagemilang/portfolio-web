@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -6,9 +8,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/context/language-context';
+import { usePathname, useRouter } from 'next/navigation';
 
 export function LanguageSwitcher() {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const switchLanguage = (newLang: 'en' | 'id') => {
+    if (!pathname) return;
+
+    // Split pathname to replace the language segment
+    const segments = pathname.split('/');
+    // segments[0] is empty, segments[1] is the locale (en/id)
+    segments[1] = newLang;
+    const newPath = segments.join('/');
+
+    router.push(newPath);
+  };
 
   return (
     <DropdownMenu>
@@ -18,11 +35,11 @@ export function LanguageSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setLanguage('en')} className="gap-2 cursor-pointer">
+        <DropdownMenuItem onClick={() => switchLanguage('en')} className="gap-2 cursor-pointer">
           <span className="text-lg">🇺🇸</span>
           <span>English</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setLanguage('id')} className="gap-2 cursor-pointer">
+        <DropdownMenuItem onClick={() => switchLanguage('id')} className="gap-2 cursor-pointer">
           <span className="text-lg">🇮🇩</span>
           <span>Indonesian</span>
         </DropdownMenuItem>

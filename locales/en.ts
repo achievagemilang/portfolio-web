@@ -9,7 +9,7 @@ export const en = {
     greeting: "Hi, I'm",
     role: 'Software Engineer',
     description:
-      'A life-long learner Software Engineer with a product-driven mindset, blending technical expertise with strategic thinking.',
+      'A life-long learner **Software Engineer** with a product-driven mindset, blending technical expertise with strategic thinking.',
     cta: 'View My Work',
     contact: 'Contact Me',
     about: 'About Me',

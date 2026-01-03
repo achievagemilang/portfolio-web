@@ -7,6 +7,7 @@ import { useLanguage } from '@/context/language-context';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 import { TypeAnimation } from 'react-type-animation';
 
 const ThreeDOrbit = dynamic(() => import('@/components/home/three-d-orbit'), { ssr: false });
@@ -61,14 +62,21 @@ export default function Hero() {
             />
           </motion.h1>
 
-          <motion.p
+          <motion.div
             className="text-xl md:text-2xl text-muted-foreground mb-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.7 }}
           >
-            {t.hero.description}
-          </motion.p>
+            <ReactMarkdown
+              components={{
+                strong: ({ node, ...props }) => <span className="text-red-800" {...props} />,
+                p: ({ node, ...props }) => <p className="inline" {...props} />,
+              }}
+            >
+              {t.hero.description}
+            </ReactMarkdown>
+          </motion.div>
 
           {/* Social Links */}
           <motion.div

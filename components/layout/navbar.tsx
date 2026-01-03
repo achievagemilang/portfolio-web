@@ -17,13 +17,13 @@ export default function Navbar() {
   const isMobile = useMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const navLinks = [
-    { href: '/', label: t.nav.home },
-    { href: '/projects', label: t.nav.projects },
-    { href: '/blogs', label: t.nav.blog },
-    { href: '/about', label: t.nav.about },
+    { href: `/${language}`, label: t.nav.home },
+    { href: `/${language}/projects`, label: t.nav.projects },
+    { href: `/${language}/blogs`, label: t.nav.blog },
+    { href: `/${language}/about`, label: t.nav.about },
   ];
 
   // Handle hydration by only running client-side logic after mount
@@ -93,7 +93,8 @@ export default function Navbar() {
                 href={link.href}
                 className={cn(
                   'px-2 py-2 text-sm font-medium transition-colors hover:text-primary',
-                  pathname === link.href
+                  pathname === link.href ||
+                    (pathname.startsWith(link.href) && link.href !== `/${language}`)
                     ? 'text-foreground bg-muted rounded-md'
                     : 'text-muted-foreground'
                 )}

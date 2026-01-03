@@ -14,16 +14,21 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('en');
+export function LanguageProvider({
+  children,
+  initialLang,
+}: {
+  children: ReactNode;
+  initialLang?: Language;
+}) {
+  const [language, setLanguageState] = useState<Language>(initialLang || 'en');
 
   useEffect(() => {
-    // Check local storage or browser preference
-    const saved = localStorage.getItem('language') as Language;
-    if (saved && (saved === 'en' || saved === 'id')) {
-      setLanguageState(saved);
+    // Sync with prop if it changes (e.g. navigation)
+    if (initialLang) {
+      setLanguageState(initialLang);
     }
-  }, []);
+  }, [initialLang]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
