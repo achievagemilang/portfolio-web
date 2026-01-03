@@ -4,6 +4,7 @@ import Navbar from '@/components/layout/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { AIChatProvider } from '@/context/ai-chat-context';
+import { LanguageProvider } from '@/context/language-context';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -39,14 +40,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AIChatProvider>
-            <div className="flex flex-col min-h-screen">
-              <Navbar />
-              <main className="flex-grow">{children}</main>
-              <Analytics />
-              <Footer />
-            </div>
-            <Toaster />
-            <GlobalAIChat />
+            <LanguageProvider>
+              {' '}
+              {/* Added LanguageProvider */}
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <main className="flex-grow">{children}</main>
+                <Analytics />
+                <Footer />
+              </div>
+              <Toaster />
+              <GlobalAIChat />
+            </LanguageProvider>{' '}
+            {/* Closed LanguageProvider */}
           </AIChatProvider>
         </ThemeProvider>
       </body>

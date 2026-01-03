@@ -1,10 +1,12 @@
 'use client';
 
+import { useLanguage } from '@/context/language-context';
 import { BookOpen, Github, Instagram, Linkedin, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const currentYear: number = new Date().getFullYear();
 
   return (
@@ -27,7 +29,7 @@ export default function Footer() {
         </div>
 
         <div className="text-sm text-muted-foreground mb-4 md:mb-0 text-center md:text-left w-full md:w-auto">
-          © {currentYear} Achieva Futura Gemilang. All rights reserved.
+          © {currentYear} Achieva Futura Gemilang. {t.footer.rights}
         </div>
 
         {/* Social links on the right */}

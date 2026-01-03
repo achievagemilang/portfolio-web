@@ -3,6 +3,7 @@
 import SocialLinks from '@/components/shared/social-links';
 import { Button } from '@/components/ui/button';
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
+import { useLanguage } from '@/context/language-context';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -11,6 +12,7 @@ import { TypeAnimation } from 'react-type-animation';
 const ThreeDOrbit = dynamic(() => import('@/components/home/three-d-orbit'), { ssr: false });
 
 export default function Hero() {
+  const { t } = useLanguage();
   const fadeInAnimation = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -49,7 +51,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.7 }}
           >
-            Hi, I'm{' '}
+            {t.hero.greeting}{' '}
             <TypeAnimation
               sequence={['Achieva Gemilang']}
               wrapper="span"
@@ -65,8 +67,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.7 }}
           >
-            A life-long learner <span className="text-red-800">Software Engineer</span> with a
-            product-driven mindset, blending technical expertise with strategic thinking.
+            {t.hero.description}
           </motion.p>
 
           {/* Social Links */}
@@ -91,7 +92,7 @@ export default function Hero() {
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="/about">About Me</Link>
+              <Link href="/about">{t.hero.about}</Link>
             </Button>
           </motion.div>
         </motion.div>

@@ -1,27 +1,30 @@
 'use client';
 
+import { ModeToggle } from '@/components/mode-toggle';
+import { Button } from '@/components/ui/button';
+import { LanguageSwitcher } from '@/components/ui/language-switcher';
+import { useLanguage } from '@/context/language-context';
+import { useMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
+import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { ModeToggle } from '@/components/mode-toggle';
-import { Menu, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useMobile } from '@/hooks/use-mobile';
-import Image from 'next/image';
-
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/blogs', label: 'Writes' },
-  { href: '/about', label: 'About' },
-];
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const pathname = usePathname();
   const isMobile = useMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { href: '/', label: t.nav.home },
+    { href: '/projects', label: t.nav.projects },
+    { href: '/blogs', label: t.nav.blog },
+    { href: '/about', label: t.nav.about },
+  ];
 
   // Handle hydration by only running client-side logic after mount
   useEffect(() => {
@@ -69,6 +72,7 @@ export default function Navbar() {
 
         {/* Right side elements */}
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           <ModeToggle />
 
           {mounted && isMobile && (
