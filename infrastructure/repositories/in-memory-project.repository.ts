@@ -21,7 +21,7 @@ export class InMemoryProjectRepository implements IProjectRepository {
       slug: p.slug,
       author: p.author,
       readTime: p.readTime,
-      viewCount: p.viewCount,
+      viewCount: (p as any).viewCount || 0,
       tldr: p.tldr,
       fullDescription: p.fullDescription,
       features: p.features,
