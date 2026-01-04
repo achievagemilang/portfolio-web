@@ -8,3 +8,4 @@ export interface IBlogPostRepository {
   getPostBySlug(slug: string): Promise<Post | null>;
 }
 
+

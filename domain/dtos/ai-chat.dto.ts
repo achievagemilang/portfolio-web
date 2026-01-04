@@ -10,3 +10,4 @@ export interface AiChatResponse {
   shouldScheduleMeeting: boolean;
 }
 
+

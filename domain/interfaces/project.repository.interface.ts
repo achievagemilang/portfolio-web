@@ -9,3 +9,4 @@ export interface IProjectRepository {
   getFeaturedProjects(ids?: number[]): Project[];
 }
 
+

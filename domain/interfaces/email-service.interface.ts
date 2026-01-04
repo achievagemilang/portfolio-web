@@ -7,3 +7,4 @@ export interface IEmailService {
   sendContactFormEmail(request: ContactFormRequest): Promise<{ id: string }>;
 }
 
+
