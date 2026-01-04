@@ -45,6 +45,10 @@ export const techStackSvgMap: Record<string, string> = {
   'Google Cloud Platform': 'Google-Cloud.svg',
   'Tailwind CSS': 'Tailwind-CSS.svg',
   'Nest.js': 'Nest.js.svg',
+  Nginx: 'NGINX.svg',
+  Caddy: 'Caddy.svg',
+  DigitalOcean: 'Digital-Ocean.svg',
+  WebSocket: 'WebSocket.png',
 };
 
 /**

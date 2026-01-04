@@ -49,6 +49,15 @@ export const techStackLogos: Record<
   Lovable: { name: 'Lovable', color: '#000000', url: 'https://lovable.dev' },
   'Gemini API': { name: 'Gemini API', color: '#4285F4', url: 'https://ai.google.dev' },
   Meilisearch: { name: 'Meilisearch', color: '#FF5CAA', url: 'https://www.meilisearch.com' },
+  Nginx: { name: 'Nginx', color: '#009639', url: 'https://nginx.org' },
+  Caddy: { name: 'Caddy', color: '#11C928', url: 'https://caddyserver.com' },
+  DigitalOcean: { name: 'DigitalOcean', color: '#0080FF', url: 'https://www.digitalocean.com' },
+  Redis: { name: 'Redis', color: '#DC382D', url: 'https://redis.io' },
+  WebSocket: {
+    name: 'WebSocket',
+    color: '#010101',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API',
+  },
 };
 
 // Check if a tag matches a tech stack (case-insensitive, partial match)

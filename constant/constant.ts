@@ -305,7 +305,7 @@ export const projectList = [
       "A real-time mobility companion for the University of Indonesia, helping students track and navigate the 'Bis Kuning' campus bus network.",
     image: '/project/bikuntracker.png?height=300&width=500',
     link: 'https://bikun.ui.ac.id/',
-    tags: ['Flutter', 'Go', 'GCP', 'Dart', 'Firebase'],
+    tags: ['Flutter', 'Go', 'WebSocket', 'GCP', 'Dart', 'Firebase'],
     year: 2024,
   },
   {
@@ -331,6 +331,7 @@ export const projectList = [
       'Docker',
       'SPACE',
       'React',
+      'Nginx',
       'Vite.js',
       'Vitest',
       'Meilisearch',
@@ -397,6 +398,53 @@ We utilized a microservices-inspired architecture (modular monolith) to ensure s
       'Prompt engineering for consistent AI outputs',
       'Managing API rate limits and costs',
       'Building engaging mobile-first UI',
+    ],
+  },
+  {
+    id: 11,
+    title: 'Dino Multiplayer',
+    slug: 'dino-multiplayer',
+    description:
+      'A real-time, 1v1 competitive arcade game inspired by the classic Chrome Dino runner, synchronizing gameplay between two remote players.',
+    image: '/project/dino-multiplayer.png?height=300&width=500',
+    link: 'https://dino.achievagemilang.live',
+    tags: [
+      'Next.js',
+      'Go',
+      'WebSocket',
+      'Docker',
+      'PostgreSQL',
+      'Redis',
+      'Tailwind',
+      'Caddy',
+      'DigitalOcean',
+    ],
+    year: 2026,
+    author: {
+      name: 'Achieva Futura Gemilang',
+      avatar: '/AGLogoRevamped.png',
+    },
+    readTime: '6 min read',
+    tldr: [
+      'Real-time 1v1 gameplay with deterministic lockstep',
+      'Zero-latency synchronization using seeded RNG',
+      'Scalable backend with Go and Microservices',
+    ],
+    fullDescription: `Dino Multiplayer is a real-time, 1v1 competitive arcade game inspired by the classic Chrome Dino runner. Unlike the single-player original, this application synchronizes gameplay between two remote players, allowing them to race against each other in real-time.
+
+The application follows a Client-Server model with a Microservices-lite approach using Docker Compose. It uses a deterministic lockstep synchronization method to ensure fairness without high bandwidth usage.`,
+    features: [
+      'Real-time 1v1 Multiplayer',
+      'Deterministic Lockstep Synchronization',
+      'WebSocket Communication',
+      'Anti-Cheat System',
+      'Leaderboard with PostgreSQL',
+    ],
+    lessonsLearned: [
+      'Implementing deterministic simulation for network efficiency',
+      'Handling stateful WebSocket connections in Go',
+      'Orchestrating microservices with Docker Compose',
+      'Designing anti-cheat heuristics for client-side games',
     ],
   },
 ];
