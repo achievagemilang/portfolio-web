@@ -13,7 +13,7 @@ export default function NotFoundContent() {
   const { t, language } = useLanguage();
 
   return (
-    <div className="relative min-h-[calc(100vh-200px)] flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-[calc(100vh-200px)] flex items-center justify-center overflow-hidden py-8">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10 dark:to-primary/5" />
 
