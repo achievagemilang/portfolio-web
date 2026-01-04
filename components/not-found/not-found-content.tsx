@@ -4,7 +4,10 @@ import { GoBackButton } from '@/components/not-found/go-back-button';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/language-context';
 import { Home, Search } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
+
+const ThreeDOrbit = dynamic(() => import('@/components/home/three-d-orbit'), { ssr: false });
 
 export default function NotFoundContent() {
   const { t, language } = useLanguage();
@@ -13,6 +16,8 @@ export default function NotFoundContent() {
     <div className="relative min-h-[calc(100vh-200px)] flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10 dark:to-primary/5" />
+
+      <ThreeDOrbit />
 
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
