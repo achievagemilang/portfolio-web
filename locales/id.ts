@@ -16,6 +16,14 @@ export const id: Dictionary = {
     contact: 'Hubungi Saya',
     about: 'Tentang Saya',
   },
+  notFound: {
+    title: 'Halaman Tidak Ditemukan',
+    description:
+      'Oops! Halaman yang Anda cari sepertinya telah hilang ke dalam kehampaan digital. Mari kita kembalikan Anda ke jalur yang benar.',
+    goHome: 'Ke Beranda',
+    browseBlog: 'Lihat Blog',
+    goBack: 'Kembali',
+  },
   footer: {
     rights: 'Hak cipta dilindungi undang-undang.',
     builtWith: 'Dibuat dengan Next.js dan Tailwind CSS',
