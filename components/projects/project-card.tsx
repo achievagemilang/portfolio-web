@@ -56,7 +56,7 @@ export default function ProjectCard({
     >
       {/* Gradient border glow effect */}
       <motion.div
-        className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-primary/50 via-purple-500/50 to-pink-500/50 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100"
+        className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-primary/50 via-red-500/50 to-orange-500/50 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100"
         animate={{ opacity: isHovered ? 0.6 : 0 }}
       />
 
@@ -85,7 +85,7 @@ export default function ProjectCard({
               className="absolute top-4 right-4"
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-500 rounded-full blur-md opacity-40" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-red-500 rounded-full blur-md opacity-40" />
                 <div className="relative px-4 py-1.5 rounded-full bg-background/95 backdrop-blur-md border border-border/50 shadow-xl">
                   <span className="text-xs font-bold text-foreground tracking-wider">
                     {project.year}
@@ -100,7 +100,7 @@ export default function ProjectCard({
         <CardContent className="pt-5 px-6 flex-grow flex flex-col">
           {/* Title with gradient on hover */}
           <motion.h3
-            className={`font-bold mb-2 tracking-tight bg-gradient-to-r from-foreground to-foreground bg-clip-text transition-all duration-300 group-hover:from-primary group-hover:to-purple-500 group-hover:text-transparent ${variant === 'featured' ? 'text-2xl' : 'text-xl'}`}
+            className={`font-bold mb-2 tracking-tight bg-gradient-to-r from-foreground to-foreground bg-clip-text transition-all duration-300 group-hover:from-primary group-hover:to-red-500 group-hover:text-transparent ${variant === 'featured' ? 'text-2xl' : 'text-xl'}`}
           >
             {project.title}
           </motion.h3>

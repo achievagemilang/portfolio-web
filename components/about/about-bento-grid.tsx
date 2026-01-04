@@ -103,7 +103,7 @@ export default function AboutBentoGrid() {
 
       {/* 3. Tech Stack - Medium */}
       <BentoCard className="md:col-span-1" delay={0.3}>
-        <div className="flex items-center gap-2 mb-4 text-purple-500">
+        <div className="flex items-center gap-2 mb-4 text-red-500">
           <Laptop className="h-5 w-5" />
           <h2 className="font-semibold">Tech Stack</h2>
         </div>

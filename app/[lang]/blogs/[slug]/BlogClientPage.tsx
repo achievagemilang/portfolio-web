@@ -113,7 +113,7 @@ export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-foreground via-foreground to-foreground bg-clip-text transition-all duration-500 hover:from-primary hover:via-purple-500 hover:to-pink-500 hover:text-transparent cursor-default"
+              className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-foreground via-foreground to-foreground bg-clip-text transition-all duration-500 hover:from-primary hover:via-red-500 hover:to-orange-500 hover:text-transparent cursor-default"
               itemProp="headline"
             >
               {post.title}
