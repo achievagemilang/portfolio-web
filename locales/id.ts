@@ -100,4 +100,37 @@ export const id: Dictionary = {
       title: 'Baca Juga',
     },
   },
+  project: {
+    title: 'Semua Proyek',
+    filter: {
+      year: 'Tahun',
+      filterByYear: 'Filter berdasarkan Tahun',
+      techStack: 'Teknologi',
+      filterByTechStack: 'Filter berdasarkan Teknologi',
+      clear: 'Hapus',
+      clearFilters: 'Hapus Filter',
+    },
+    empty: {
+      noProjects: 'Tidak ada proyek yang ditemukan sesuai kriteria Anda.',
+      loading: 'Memuat proyek...',
+    },
+    pagination: {
+      previous: 'Sebelumnya',
+      next: 'Selanjutnya',
+    },
+    card: {
+      viewDetails: 'Lihat Detail',
+      visitProject: 'Kunjungi Proyek',
+      less: 'Lebih Sedikit',
+      showMore: 'Lihat semua {count} teknologi',
+      showLess: 'Lihat lebih sedikit',
+    },
+    related: {
+      title: 'Baca Juga',
+    },
+    detail: {
+      author: 'Penulis',
+      visitProject: 'Kunjungi Proyek',
+    },
+  },
 };

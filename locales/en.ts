@@ -98,6 +98,39 @@ export const en = {
       title: 'Read More',
     },
   },
+  project: {
+    title: 'All Projects',
+    filter: {
+      year: 'Year',
+      filterByYear: 'Filter by Year',
+      techStack: 'Tech Stack',
+      filterByTechStack: 'Filter by Tech Stack',
+      clear: 'Clear',
+      clearFilters: 'Clear Filters',
+    },
+    empty: {
+      noProjects: 'No projects found matching your criteria.',
+      loading: 'Loading projects...',
+    },
+    pagination: {
+      previous: 'Previous',
+      next: 'Next',
+    },
+    card: {
+      viewDetails: 'View Details',
+      visitProject: 'Visit Project',
+      less: 'Less',
+      showMore: 'Show all {count} technologies',
+      showLess: 'Show less',
+    },
+    related: {
+      title: 'Read More',
+    },
+    detail: {
+      author: 'Author',
+      visitProject: 'Visit Project',
+    },
+  },
 };
 
 export type Dictionary = typeof en;

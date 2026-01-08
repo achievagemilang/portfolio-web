@@ -2,6 +2,7 @@
 
 import ProjectCard from '@/components/projects/project-card';
 import type { Project } from '@/content-config';
+import { useLanguage } from '@/context/language-context';
 import { useMemo } from 'react';
 
 interface RelatedProjectsProps {
@@ -20,6 +21,7 @@ function seededRandom(seed: number) {
 }
 
 export default function RelatedProjects({ currentProjectId, projects }: RelatedProjectsProps) {
+  const { t } = useLanguage();
   // Filter out current project and get 2 related projects using deterministic selection
   const relatedProjects = useMemo(() => {
     const otherProjects = projects.filter((p) => p.id !== currentProjectId);
@@ -39,7 +41,7 @@ export default function RelatedProjects({ currentProjectId, projects }: RelatedP
 
   return (
     <div className="mt-24 pt-12 border-t border-border">
-      <h2 className="text-3xl font-bold mb-8">Read More</h2>
+      <h2 className="text-3xl font-bold mb-8">{t.project.related.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {relatedProjects.map((project) => (
           <div key={project.id} className="h-full">

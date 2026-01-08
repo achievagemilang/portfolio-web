@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useLanguage } from '@/context/language-context';
 import { TechStackBadge, getTechStackInfo } from '@/lib/tech-stack-logos';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
@@ -34,6 +35,7 @@ export default function ProjectCard({
   isLoading = false,
   variant = 'default',
 }: ProjectCardProps) {
+  const { t, language } = useLanguage();
   const [showAllTags, setShowAllTags] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -160,7 +162,7 @@ export default function ProjectCard({
                       {showAllTags ? (
                         <>
                           <ChevronUp className="h-3 w-3" />
-                          <span>Less</span>
+                          <span>{t.project.card.less}</span>
                         </>
                       ) : (
                         <>
@@ -172,7 +174,9 @@ export default function ProjectCard({
                   </TooltipTrigger>
                   <TooltipContent side="top" className="bg-popover/95 backdrop-blur-sm">
                     <p className="text-xs">
-                      {showAllTags ? 'Show less' : `Show all ${techStackTags.length} technologies`}
+                      {showAllTags
+                        ? t.project.card.showLess
+                        : t.project.card.showMore.replace('{count}', String(techStackTags.length))}
                     </p>
                   </TooltipContent>
                 </Tooltip>
@@ -197,8 +201,8 @@ export default function ProjectCard({
               asChild
               className="group/btn flex-1 relative overflow-hidden bg-gradient-to-r from-primary via-primary to-red-600 hover:from-primary/90 hover:via-red-600 hover:to-red-600 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 rounded-xl h-11"
             >
-              <Link href={`/projects/${project.slug}`}>
-                <span className="font-medium">View Details</span>
+              <Link href={`/${language}/projects/${project.slug}`}>
+                <span className="font-medium">{t.project.card.viewDetails}</span>
                 <ArrowRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover/btn:translate-x-1" />
               </Link>
             </Button>
@@ -208,7 +212,7 @@ export default function ProjectCard({
               className="group/btn flex-1 bg-background/50 backdrop-blur-sm border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 rounded-xl h-11"
             >
               <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                <span className="font-medium">Visit Project</span>
+                <span className="font-medium">{t.project.card.visitProject}</span>
                 <ExternalLink className="h-4 w-4 ml-1 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-3" />
               </Link>
             </Button>

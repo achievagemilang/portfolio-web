@@ -14,10 +14,13 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
+import { useLanguage } from '@/context/language-context';
+
 const TECH_STACKS = ['Go', 'Spring Boot', 'Flutter', 'Next.js / React'] as const;
 const PROJECTS_PER_PAGE = 6;
 
 export default function ProjectClientPage() {
+  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || '1';
 
@@ -90,7 +93,7 @@ export default function ProjectClientPage() {
   return (
     <PageTransition>
       <div className="container mx-auto py-12">
-        <h1 className="text-4xl font-bold mb-8">All Projects</h1>
+        <h1 className="text-4xl font-bold mb-8">{t.project.title}</h1>
 
         {/* Search and Filters */}
         <div className="mb-8 space-y-4">
@@ -106,7 +109,7 @@ export default function ProjectClientPage() {
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="gap-2">
                     <Filter className="h-4 w-4" />
-                    Year
+                    {t.project.filter.year}
                     {selectedYears.length > 0 && (
                       <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded-full">
                         {selectedYears.length}
@@ -117,7 +120,7 @@ export default function ProjectClientPage() {
                 <PopoverContent align="end" className="w-56">
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <h4 className="font-medium text-sm">Filter by Year</h4>
+                      <h4 className="font-medium text-sm">{t.project.filter.filterByYear}</h4>
                       <div className="space-y-2">
                         {availableYears.map((year) => (
                           <div key={year} className="flex items-center space-x-2">
@@ -145,7 +148,7 @@ export default function ProjectClientPage() {
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="gap-2">
                     <Filter className="h-4 w-4" />
-                    Tech Stack
+                    {t.project.filter.techStack}
                     {selectedTechStacks.length > 0 && (
                       <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded-full">
                         {selectedTechStacks.length}
@@ -156,7 +159,7 @@ export default function ProjectClientPage() {
                 <PopoverContent align="end" className="w-56">
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <h4 className="font-medium text-sm">Filter by Tech Stack</h4>
+                      <h4 className="font-medium text-sm">{t.project.filter.filterByTechStack}</h4>
                       <div className="space-y-2">
                         {TECH_STACKS.map((tech) => (
                           <div key={tech} className="flex items-center space-x-2">
@@ -183,7 +186,7 @@ export default function ProjectClientPage() {
               {hasActiveFilters && (
                 <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-2">
                   <X className="h-4 w-4" />
-                  Clear
+                  {t.project.filter.clear}
                 </Button>
               )}
             </div>
@@ -199,11 +202,9 @@ export default function ProjectClientPage() {
               transition={{ duration: 0.3 }}
               className="text-center py-12"
             >
-              <p className="text-lg text-muted-foreground">
-                No projects found matching your criteria.
-              </p>
+              <p className="text-lg text-muted-foreground">{t.project.empty.noProjects}</p>
               <Button variant="outline" className="mt-4" onClick={clearFilters}>
-                Clear Filters
+                {t.project.filter.clearFilters}
               </Button>
             </motion.div>
           ) : (
@@ -255,8 +256,14 @@ export default function ProjectClientPage() {
                     strokeWidth={2}
                     d="M15 19l-7-7 7-7"
                   />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
-                Previous
+                {t.project.pagination.previous}
               </Link>
             )}
             <div className="flex items-center gap-1 px-2">
@@ -279,7 +286,7 @@ export default function ProjectClientPage() {
                 href={`?page=${currentPage + 1}`}
                 className="flex items-center px-4 py-2 text-sm font-medium rounded-md border bg-foreground hover:bg-gray-300 text-background transition-colors shadow-sm"
               >
-                Next
+                {t.project.pagination.next}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4 ml-1"

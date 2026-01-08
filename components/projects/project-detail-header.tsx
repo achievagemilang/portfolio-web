@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/context/language-context';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ExternalLink, Eye } from 'lucide-react';
 import Image from 'next/image';
@@ -32,6 +33,8 @@ export default function ProjectDetailHeader({
   image,
   url,
 }: ProjectDetailHeaderProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-8 mb-12">
       <div className="space-y-6">
@@ -57,7 +60,7 @@ export default function ProjectDetailHeader({
             </div>
             <div className="flex flex-col">
               <span className="text-foreground font-semibold">{author.name}</span>
-              <span className="text-muted-foreground text-xs">Author</span>
+              <span className="text-muted-foreground text-xs">{t.project.detail.author}</span>
             </div>
           </div>
 
@@ -109,7 +112,7 @@ export default function ProjectDetailHeader({
         >
           <Button asChild className="w-full group">
             <a href={url} target="_blank" rel="noopener noreferrer">
-              <span>Visit Project</span>
+              <span>{t.project.detail.visitProject}</span>
               <ExternalLink className="h-4 w-4 ml-2 transition-transform group-hover:scale-110" />
             </a>
           </Button>
