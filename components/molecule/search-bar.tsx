@@ -1,9 +1,10 @@
 'use client';
 
-import type React from 'react';
 import { Input } from '@/components/ui/input';
+import { useLanguage } from '@/context/language-context';
 import { Search, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 
 interface SearchBarProps {
   onSearch?: (query: string) => void;
@@ -12,6 +13,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSearch, type, initialQuery = '' }: SearchBarProps) {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState(initialQuery);
 
   useEffect(() => {
@@ -49,7 +51,9 @@ export default function SearchBar({ onSearch, type, initialQuery = '' }: SearchB
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
       <Input
         type="text"
-        placeholder={type === 'projects' ? 'Search projects...' : 'Search writes...'}
+        placeholder={
+          type === 'projects' ? t.blog.search.placeholderProjects : t.blog.search.placeholderWrites
+        }
         value={searchQuery}
         onChange={handleChange}
         className="pl-10 pr-10"

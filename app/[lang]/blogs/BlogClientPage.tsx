@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Post } from '@/content-config';
+import { useLanguage } from '@/context/language-context';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Filter } from 'lucide-react';
 import Link from 'next/link';
@@ -20,6 +21,7 @@ interface PostsProps {
 }
 
 export default function BlogClientPage({ posts }: PostsProps) {
+  const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || '1';
@@ -129,7 +131,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
 
   return (
     <div className="container mx-auto py-12">
-      <h1 className="text-4xl font-bold mb-8">All Writes</h1>
+      <h1 className="text-4xl font-bold mb-8">{t.blog.title}</h1>
 
       {/* Search and Year Filter - Side by Side */}
       <div className="mb-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
@@ -142,7 +144,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
           <PopoverTrigger asChild>
             <Button variant="outline" className="gap-2">
               <Filter className="h-4 w-4" />
-              Year
+              {t.blog.filter.year}
               {selectedYears.length > 0 && (
                 <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded-full">
                   {selectedYears.length}
@@ -153,7 +155,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
           <PopoverContent align="end" className="w-56">
             <div className="space-y-4">
               <div className="space-y-2">
-                <h4 className="font-medium text-sm">Filter by Year</h4>
+                <h4 className="font-medium text-sm">{t.blog.filter.filterByYear}</h4>
                 <div className="space-y-2">
                   {availableYears.map((year) => (
                     <div key={year} className="flex items-center space-x-2">
@@ -183,7 +185,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
 
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-2">
-            Clear Filters
+            {t.blog.filter.clearFilters}
           </Button>
         )}
       </div>
@@ -211,9 +213,9 @@ export default function BlogClientPage({ posts }: PostsProps) {
             transition={{ duration: 0.3 }}
             className="text-center py-12"
           >
-            <p className="text-lg text-muted-foreground">No writes found matching your criteria.</p>
+            <p className="text-lg text-muted-foreground">{t.blog.empty.noWrites}</p>
             <Button variant="outline" className="mt-4" onClick={clearFilters}>
-              Clear Filters
+              {t.blog.filter.clearFilters}
             </Button>
           </motion.div>
         ) : (
@@ -270,7 +272,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
                       d="M15 19l-7-7 7-7"
                     />
                   </svg>
-                  Previous
+                  {t.blog.pagination.previous}
                 </Link>
               )}
               <div className="flex items-center gap-1 px-2">
@@ -293,7 +295,7 @@ export default function BlogClientPage({ posts }: PostsProps) {
                   href={`?page=${currentPage + 1}`}
                   className="flex items-center px-4 py-2 text-sm font-medium rounded-md border bg-foreground hover:bg-gray-300 text-background transition-colors shadow-sm"
                 >
-                  Next
+                  {t.blog.pagination.next}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4 ml-1"

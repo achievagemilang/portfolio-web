@@ -71,6 +71,33 @@ export const en = {
       linkedin: 'LinkedIn',
     },
   },
+  blog: {
+    title: 'All Writes',
+    search: {
+      placeholderWrites: 'Search writes...',
+      placeholderProjects: 'Search projects...',
+    },
+    filter: {
+      year: 'Year',
+      filterByYear: 'Filter by Year',
+      clearFilters: 'Clear Filters',
+    },
+    empty: {
+      noWrites: 'No writes found matching your criteria.',
+      loading: 'Loading writes...',
+    },
+    pagination: {
+      previous: 'Previous',
+      next: 'Next',
+    },
+    card: {
+      minRead: 'min read',
+      readMore: 'Read More',
+    },
+    related: {
+      title: 'Read More',
+    },
+  },
 };
 
 export type Dictionary = typeof en;

@@ -1,15 +1,17 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Post } from '@/content-config';
+import { useLanguage } from '@/context/language-context';
 import { format } from 'date-fns';
 import { Clock } from 'lucide-react'; // Import clock icon
-import { Post } from '@/content-config';
+import Link from 'next/link';
 
 interface BlogCardProps {
   post: Post;
 }
 
 export default function BlogCard({ post }: BlogCardProps) {
+  const { t, language } = useLanguage();
   return (
     <Card className="h-full flex flex-col transition-all duration-200 hover:scale-[1.03] hover:shadow-lg">
       <CardContent className="pt-6 flex-grow">
@@ -17,7 +19,9 @@ export default function BlogCard({ post }: BlogCardProps) {
           <span>{format(new Date(post.date), 'MMMM d, yyyy')}</span>
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            <span>{post.readingTime} min read</span>
+            <span>
+              {post.readingTime} {t.blog.card.minRead}
+            </span>
           </span>
         </div>
         <h3 className="text-xl font-bold mb-2">{post.title}</h3>
@@ -32,7 +36,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild variant="outline">
-          <Link href={`/blogs/${post.slug}`}>Read More</Link>
+          <Link href={`/${language}/blogs/${post.slug}`}>{t.blog.card.readMore}</Link>
         </Button>
       </CardFooter>
     </Card>

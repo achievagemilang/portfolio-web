@@ -73,4 +73,31 @@ export const id: Dictionary = {
       linkedin: 'LinkedIn',
     },
   },
+  blog: {
+    title: 'Semua Tulisan',
+    search: {
+      placeholderWrites: 'Cari tulisan...',
+      placeholderProjects: 'Cari proyek...',
+    },
+    filter: {
+      year: 'Tahun',
+      filterByYear: 'Filter berdasarkan Tahun',
+      clearFilters: 'Hapus Filter',
+    },
+    empty: {
+      noWrites: 'Tidak ada tulisan yang ditemukan sesuai kriteria Anda.',
+      loading: 'Memuat tulisan...',
+    },
+    pagination: {
+      previous: 'Sebelumnya',
+      next: 'Selanjutnya',
+    },
+    card: {
+      minRead: 'menit baca',
+      readMore: 'Baca Selengkapnya',
+    },
+    related: {
+      title: 'Baca Juga',
+    },
+  },
 };
