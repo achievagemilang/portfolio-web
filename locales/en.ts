@@ -13,6 +13,33 @@ export const en = {
     cta: 'View My Work',
     contact: 'Contact Me',
     about: 'About Me',
+    resume: 'Resume',
+  },
+  home: {
+    hero: {
+      resume: 'Resume',
+    },
+    experience: {
+      title: 'Experiences',
+      professional: 'Professional',
+      work: 'Work',
+      education: 'Education',
+      edu: 'Edu',
+      volunteer: 'Org/Volunteering',
+      org: 'Volunteer',
+      present: 'Present',
+      visitWebsite: 'Visit Website',
+      showMore: 'Show {count} More',
+      collapseAll: 'Collapse All',
+    },
+    projects: {
+      title: 'Featured Projects',
+      viewAll: 'View All Projects',
+    },
+    blog: {
+      title: 'Latest Writes',
+      viewAll: 'View All Writes',
+    },
   },
   notFound: {
     title: 'Page Not Found',

@@ -20,7 +20,10 @@ interface ProjectsProps {
   projects: Project[];
 }
 
+import { useLanguage } from '@/context/language-context';
+
 export default function Projects({ projects }: ProjectsProps) {
+  const { t } = useLanguage();
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
@@ -54,9 +57,9 @@ export default function Projects({ projects }: ProjectsProps) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold">Featured Projects</h2>
+          <h2 className="text-3xl font-bold">{t.home.projects.title}</h2>
           <Button asChild variant="outline">
-            <Link href="/projects">View All Projects</Link>
+            <Link href="/projects">{t.home.projects.viewAll}</Link>
           </Button>
         </motion.div>
 

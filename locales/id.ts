@@ -15,6 +15,33 @@ export const id: Dictionary = {
     cta: 'Lihat Karya Saya',
     contact: 'Hubungi Saya',
     about: 'Tentang Saya',
+    resume: 'Resume',
+  },
+  home: {
+    hero: {
+      resume: 'Resume',
+    },
+    experience: {
+      title: 'Pengalaman',
+      professional: 'Profesional',
+      work: 'Kerja',
+      education: 'Pendidikan',
+      edu: 'Pendidikan',
+      volunteer: 'Org/Sukarelawan',
+      org: 'Sukarelawan',
+      present: 'Sekarang',
+      visitWebsite: 'Kunjungi Website',
+      showMore: 'Lihat {count} Lagi',
+      collapseAll: 'Tutup Semua',
+    },
+    projects: {
+      title: 'Proyek Unggulan',
+      viewAll: 'Lihat Semua Proyek',
+    },
+    blog: {
+      title: 'Tulisan Terbaru',
+      viewAll: 'Lihat Semua Tulisan',
+    },
   },
   notFound: {
     title: 'Halaman Tidak Ditemukan',

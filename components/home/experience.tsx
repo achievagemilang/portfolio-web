@@ -27,7 +27,10 @@ function groupExperiencesById(experiences: Experience[]) {
   return Object.values(groups);
 }
 
+import { useLanguage } from '@/context/language-context';
+
 export default function Experience({ experiences }: ExperienceProps) {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
   const [activeFilter, setActiveFilter] = useState<'professional' | 'education' | 'volunteer'>(
@@ -116,7 +119,7 @@ export default function Experience({ experiences }: ExperienceProps) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
         >
-          Experiences
+          {t.home.experience.title}
         </motion.h2>
 
         {/* Category Filter Tabs */}
@@ -133,8 +136,8 @@ export default function Experience({ experiences }: ExperienceProps) {
             className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3 py-1.5 sm:py-2"
           >
             <Briefcase size={12} className="sm:w-3.5 sm:h-3.5" />
-            <span className="hidden xs:inline">Professional</span>
-            <span className="xs:hidden">Work</span>
+            <span className="hidden xs:inline">{t.home.experience.professional}</span>
+            <span className="xs:hidden">{t.home.experience.work}</span>
           </Button>
           <Button
             variant={activeFilter === 'education' ? 'default' : 'outline'}
@@ -143,8 +146,8 @@ export default function Experience({ experiences }: ExperienceProps) {
             className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3 py-1.5 sm:py-2"
           >
             <GraduationCap size={12} className="sm:w-3.5 sm:h-3.5" />
-            <span className="hidden xs:inline">Education</span>
-            <span className="xs:hidden">Edu</span>
+            <span className="hidden xs:inline">{t.home.experience.education}</span>
+            <span className="xs:hidden">{t.home.experience.edu}</span>
           </Button>
           <Button
             variant={activeFilter === 'volunteer' ? 'default' : 'outline'}
@@ -153,8 +156,8 @@ export default function Experience({ experiences }: ExperienceProps) {
             className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3 py-1.5 sm:py-2"
           >
             <Heart size={12} className="sm:w-3.5 sm:h-3.5" />
-            <span className="hidden xs:inline">Org/Volunteering</span>
-            <span className="xs:hidden">Volunteer</span>
+            <span className="hidden xs:inline">{t.home.experience.volunteer}</span>
+            <span className="xs:hidden">{t.home.experience.org}</span>
           </Button>
         </motion.div>
 
@@ -222,7 +225,7 @@ export default function Experience({ experiences }: ExperienceProps) {
                                   -{' '}
                                   {group[0].endDate
                                     ? format(new Date(group[0].endDate), 'MMM yyyy')
-                                    : 'Present'}
+                                    : t.home.experience.present}
                                 </span>
                               </div>
                             </div>
@@ -278,7 +281,7 @@ export default function Experience({ experiences }: ExperienceProps) {
                                           {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
                                           {exp.endDate
                                             ? format(new Date(exp.endDate), 'MMM yyyy')
-                                            : 'Present'}
+                                            : t.home.experience.present}
                                         </span>
                                       </div>
                                     </div>
@@ -345,7 +348,7 @@ export default function Experience({ experiences }: ExperienceProps) {
                                   className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
                                   onClick={() => window.open(group[0].website, '_blank')}
                                 >
-                                  Visit Website
+                                  {t.home.experience.visitWebsite}
                                   <ExternalLink size={14} className="flex-shrink-0" />
                                 </Button>
                               </div>
@@ -405,7 +408,7 @@ export default function Experience({ experiences }: ExperienceProps) {
                                   -{' '}
                                   {group[0].endDate
                                     ? format(new Date(group[0].endDate), 'MMM yyyy')
-                                    : 'Present'}
+                                    : t.home.experience.present}
                                 </span>
                               </div>
                             </div>
@@ -461,7 +464,7 @@ export default function Experience({ experiences }: ExperienceProps) {
                                           {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
                                           {exp.endDate
                                             ? format(new Date(exp.endDate), 'MMM yyyy')
-                                            : 'Present'}
+                                            : t.home.experience.present}
                                         </span>
                                       </div>
                                     </div>
@@ -528,7 +531,7 @@ export default function Experience({ experiences }: ExperienceProps) {
                                   className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
                                   onClick={() => window.open(group[0].website, '_blank')}
                                 >
-                                  Visit Website
+                                  {t.home.experience.visitWebsite}
                                   <ExternalLink size={14} className="flex-shrink-0" />
                                 </Button>
                               </div>
@@ -554,12 +557,15 @@ export default function Experience({ experiences }: ExperienceProps) {
           >
             {hasMore && (
               <Button variant="outline" onClick={handleShowMore} className="gap-2">
-                Show {Math.min(3, groupedExperiences.length - visibleCount)} More
+                {t.home.experience.showMore.replace(
+                  '{count}',
+                  String(Math.min(3, groupedExperiences.length - visibleCount))
+                )}
               </Button>
             )}
             {isAllExpanded && (
               <Button variant="outline" onClick={handleCollapseAll} className="gap-2">
-                Collapse All
+                {t.home.experience.collapseAll}
               </Button>
             )}
           </motion.div>

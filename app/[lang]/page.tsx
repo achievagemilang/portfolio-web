@@ -4,34 +4,43 @@ import Hero from '@/components/home/hero';
 import Projects from '@/components/home/projects';
 import PageTransition from '@/components/util/page-transition';
 import { experiencesList } from '@/constant/constant';
-import { createBlogPostRepository } from '@/infrastructure/config/repositories.config';
-import { createProjectService } from '@/infrastructure/config/repositories.config';
-import { Metadata } from 'next';
+import {
+  createBlogPostRepository,
+  createProjectService,
+} from '@/infrastructure/config/repositories.config';
 
-export const metadata: Metadata = {
-  title: 'Home | Achieva Futura Gemilang',
-  description: 'Home page of Achieva Futura Gemilang, a lifelong learner and software engineer.',
-  openGraph: {
-    title: 'Home | Achieva Futura Gemilang',
-    description: 'Home page of Achieva Futura Gemilang, a lifelong learner and software engineer.',
-    url: 'https://achievagemilang.live/about',
-    type: 'website',
-    images: [
-      {
-        url: 'https://achievagemilang.live/AGLogoRevamped.png',
-        width: 1200,
-        height: 630,
-        alt: 'Achieva Futura Gemilang',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Home | Achieva Futura Gemilang',
-    description: 'Home page of Achieva Futura Gemilang, a lifelong learner and software engineer.',
-    images: ['https://achievagemilang.live/AGLogoRevamped.png'],
-  },
-};
+import { en } from '@/locales/en';
+import { id } from '@/locales/id';
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const t = lang === 'id' ? id : en;
+
+  return {
+    title: `Home | Achieva Futura Gemilang`,
+    description: t.hero.description,
+    openGraph: {
+      title: `Home | Achieva Futura Gemilang`,
+      description: t.hero.description,
+      url: `https://achievagemilang.live/${lang}`,
+      type: 'website',
+      images: [
+        {
+          url: 'https://achievagemilang.live/AGLogoRevamped.png',
+          width: 1200,
+          height: 630,
+          alt: 'Achieva Futura Gemilang',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `Home | Achieva Futura Gemilang`,
+      description: t.hero.description,
+      images: ['https://achievagemilang.live/AGLogoRevamped.png'],
+    },
+  };
+}
 
 export default async function Home() {
   const experiences = experiencesList;

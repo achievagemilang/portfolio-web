@@ -1,20 +1,22 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { format } from 'date-fns';
-import { useRef, useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
 import { Post } from '@/content-config';
+import { format } from 'date-fns';
+import { motion, useInView } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
 interface BlogPostsProps {
   posts: Post[];
 }
 
+import { useLanguage } from '@/context/language-context';
+
 export default function BlogPosts({ posts }: BlogPostsProps) {
+  const { t } = useLanguage();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -155,9 +157,9 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <h2 className="text-3xl font-bold">Latest Writes</h2>
+          <h2 className="text-3xl font-bold">{t.home.blog.title}</h2>
           <Button asChild variant="outline">
-            <Link href="/blogs">View All Writes</Link>
+            <Link href="/blogs">{t.home.blog.viewAll}</Link>
           </Button>
         </motion.div>
 
