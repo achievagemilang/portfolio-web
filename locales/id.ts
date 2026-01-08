@@ -28,4 +28,49 @@ export const id: Dictionary = {
     rights: 'Hak cipta dilindungi undang-undang.',
     builtWith: 'Dibuat dengan Next.js dan Tailwind CSS',
   },
+  about: {
+    bento: {
+      profile: {
+        greeting: 'Halo, Cip di sini!',
+        role: 'Software Engineer',
+        socials: 'Sosial',
+        resume: 'Resume',
+      },
+      mission: {
+        title: 'Misi Saya',
+        descriptionPart1:
+          'Saya memadukan keahlian teknis dengan pemikiran strategis untuk membangun solusi yang skalabel dan berpusat pada pengguna. Saat ini terpikat oleh ',
+        descriptionHighlight: 'AI Agents',
+        descriptionPart2: ' dan membangun produk generasi berikutnya.',
+      },
+      techStack: {
+        title: 'Teknologi',
+      },
+      learner: {
+        title: 'Pembelajar Seumur Hidup',
+        description:
+          'Saya percaya pada belajar di depan umum dan berkontribusi kembali kepada komunitas. Mendokumentasikan kegagalan dan kesuksesan untuk membantu orang lain berkembang.',
+        writing: 'Menulis',
+        sharing: 'Berbagi',
+        growing: 'Bertumbuh',
+      },
+      hobbies: {
+        title: 'Di Luar Coding',
+        music: 'Musik',
+        reading: 'Membaca',
+        gaming: 'Gaming',
+      },
+      contact: {
+        title: 'Mari Bicara!',
+        subtitle: 'Terbuka untuk peluang',
+      },
+    },
+    contactForm: {
+      title: 'Hubungi Saya',
+      descriptionPart1: 'Hubungi saya melalui email atau LinkedIn.',
+      descriptionPart2: 'Saya akan menghubungi Anda sesegera mungkin.',
+      email: 'Email Saya',
+      linkedin: 'LinkedIn',
+    },
+  },
 };

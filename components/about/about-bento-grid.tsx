@@ -3,6 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
+import { useLanguage } from '@/context/language-context';
 import { motion } from 'framer-motion';
 import {
   Code2,
@@ -39,6 +40,7 @@ const BentoCard = ({
 );
 
 export default function AboutBentoGrid() {
+  const { t } = useLanguage();
   const techStack = [
     { name: 'Go', icon: <Cpu size={14} /> },
     { name: 'Spring Boot', icon: <Code2 size={14} /> },
@@ -67,13 +69,13 @@ export default function AboutBentoGrid() {
           />
         </div>
         <h1 className="text-2xl font-bold mb-2">
-          Hi, Cip here! <span className="inline-block animate-wave">👋🏻</span>
+          {t.about.bento.profile.greeting} <span className="inline-block animate-wave">👋🏻</span>
         </h1>
-        <p className="text-muted-foreground mb-4">Software Engineer</p>
+        <p className="text-muted-foreground mb-4">{t.about.bento.profile.role}</p>
         <div className="flex gap-2 justify-center">
           <Button asChild size="sm" variant="outline" className="rounded-full">
             <Link href="https://linktr.ee/achieva.futura" target="_blank">
-              Socials
+              {t.about.bento.profile.socials}
             </Link>
           </Button>
           <Button asChild size="sm" className="rounded-full">
@@ -81,7 +83,7 @@ export default function AboutBentoGrid() {
               href="https://drive.google.com/drive/folders/1GJxg0jQSK2cSS-4r4W7QKeSIfZIAyRKB?usp=drive_link"
               target="_blank"
             >
-              Resume
+              {t.about.bento.profile.resume}
             </Link>
           </Button>
         </div>
@@ -91,13 +93,14 @@ export default function AboutBentoGrid() {
       <BentoCard className="md:col-span-2 flex flex-col justify-center" delay={0.2}>
         <div className="flex items-center gap-2 mb-4 text-primary">
           <Rocket className="h-5 w-5" />
-          <h2 className="font-semibold">My Mission</h2>
+          <h2 className="font-semibold">{t.about.bento.mission.title}</h2>
         </div>
         <p className="text-lg leading-relaxed">
-          I blend technical expertise with strategic thinking to build scalable, user-centric
-          solutions. Currently captivated by{' '}
-          <span className="font-semibold text-primary">AI Agents</span> and building next-gen
-          products.
+          {t.about.bento.mission.descriptionPart1}
+          <span className="font-semibold text-primary">
+            {t.about.bento.mission.descriptionHighlight}
+          </span>
+          {t.about.bento.mission.descriptionPart2}
         </p>
       </BentoCard>
 
@@ -105,7 +108,7 @@ export default function AboutBentoGrid() {
       <BentoCard className="md:col-span-1" delay={0.3}>
         <div className="flex items-center gap-2 mb-4 text-red-500">
           <Laptop className="h-5 w-5" />
-          <h2 className="font-semibold">Tech Stack</h2>
+          <h2 className="font-semibold">{t.about.bento.techStack.title}</h2>
         </div>
         <div className="flex flex-wrap gap-2">
           {techStack.map((tech) => (
@@ -120,16 +123,13 @@ export default function AboutBentoGrid() {
       <BentoCard className="md:col-span-1 flex flex-col justify-between" delay={0.4}>
         <div className="flex items-center gap-2 mb-3 text-blue-500">
           <Library className="h-5 w-5" />
-          <h2 className="font-semibold">Lifelong Learner</h2>
+          <h2 className="font-semibold">{t.about.bento.learner.title}</h2>
         </div>
-        <p className="text-sm text-muted-foreground">
-          I believe in learning in public and contributing back to the community. Documenting
-          failures and successes to help others grow.
-        </p>
+        <p className="text-sm text-muted-foreground">{t.about.bento.learner.description}</p>
         <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-          <span>Writing</span>
-          <span>Sharing</span>
-          <span>Growing</span>
+          <span>{t.about.bento.learner.writing}</span>
+          <span>{t.about.bento.learner.sharing}</span>
+          <span>{t.about.bento.learner.growing}</span>
         </div>
       </BentoCard>
 
@@ -137,20 +137,20 @@ export default function AboutBentoGrid() {
       <BentoCard className="md:col-span-2 flex flex-col justify-center" delay={0.5}>
         <div className="flex items-center gap-2 mb-4 text-pink-500">
           <Heart className="h-5 w-5" />
-          <h2 className="font-semibold">Beyond Coding</h2>
+          <h2 className="font-semibold">{t.about.bento.hobbies.title}</h2>
         </div>
         <div className="grid grid-cols-3 gap-4 text-center">
           <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
             <Music2 className="h-8 w-8 text-indigo-500" />
-            <span className="font-medium text-sm">Music</span>
+            <span className="font-medium text-sm">{t.about.bento.hobbies.music}</span>
           </div>
           <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
             <Library className="h-8 w-8 text-emerald-500" />
-            <span className="font-medium text-sm">Reading</span>
+            <span className="font-medium text-sm">{t.about.bento.hobbies.reading}</span>
           </div>
           <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
             <Gamepad2 className="h-8 w-8 text-orange-500" />
-            <span className="font-medium text-sm">Gaming</span>
+            <span className="font-medium text-sm">{t.about.bento.hobbies.gaming}</span>
           </div>
         </div>
       </BentoCard>
@@ -163,8 +163,8 @@ export default function AboutBentoGrid() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/80" />
         <div className="relative z-10 flex flex-col items-center">
           <Mail className="h-10 w-10 mb-3 group-hover:scale-110 transition-transform" />
-          <h3 className="font-bold text-lg mb-1">Let's Talk!</h3>
-          <p className="text-sm opacity-90">Open to opportunities</p>
+          <h3 className="font-bold text-lg mb-1">{t.about.bento.contact.title}</h3>
+          <p className="text-sm opacity-90">{t.about.bento.contact.subtitle}</p>
         </div>
       </BentoCard>
     </div>

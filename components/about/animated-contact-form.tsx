@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/context/language-context';
 import { motion } from 'framer-motion';
 import { Linkedin, Mail } from 'lucide-react';
 
@@ -14,18 +15,19 @@ const fadeInUp = {
 };
 
 export default function AnimatedContactForm() {
+  const { t } = useLanguage();
   return (
     <motion.div variants={fadeInUp}>
       <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-2 text-center">
-        Get in Touch
+        {t.about.contactForm.title}
       </motion.h2>
       <motion.p
         variants={fadeInUp}
         className="text-muted-foreground text-center mb-6 max-w-md mx-auto"
       >
-        Reach out to me via email or LinkedIn.
+        {t.about.contactForm.descriptionPart1}
         <br />
-        <span className="italic">I'll get back to you as soon as possible.</span>
+        <span className="italic">{t.about.contactForm.descriptionPart2}</span>
       </motion.p>
 
       {/* Contact Buttons */}
@@ -48,7 +50,7 @@ export default function AnimatedContactForm() {
               className="flex items-center justify-center w-full"
             >
               <Mail className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-              Email Me
+              {t.about.contactForm.email}
             </a>
           </Button>
         </motion.div>
@@ -65,7 +67,7 @@ export default function AnimatedContactForm() {
               className="flex items-center justify-center w-full"
             >
               <Linkedin className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-              LinkedIn
+              {t.about.contactForm.linkedin}
             </a>
           </Button>
         </motion.div>
