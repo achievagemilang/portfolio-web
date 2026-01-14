@@ -28,6 +28,7 @@ function groupExperiencesById(experiences: Experience[]) {
 }
 
 import { useLanguage } from '@/context/language-context';
+import StickyExperienceCard from './sticky-experience-card';
 
 export default function Experience({ experiences }: ExperienceProps) {
   const { t } = useLanguage();
@@ -104,6 +105,17 @@ export default function Experience({ experiences }: ExperienceProps) {
     show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
+  // Helper to calculate total items before the current group for flat indexing
+  const getFlatIndex = (groupIdx: number, itemIdx: number) => {
+    let count = 0;
+    for (let i = 0; i < groupIdx; i++) {
+      count += visibleExperiences[i].length;
+    }
+    return count + itemIdx;
+  };
+
+  const totalVisibleCards = visibleExperiences.reduce((acc, group) => acc + group.length, 0);
+
   return (
     <motion.section
       ref={sectionRef}
@@ -161,8 +173,28 @@ export default function Experience({ experiences }: ExperienceProps) {
           </Button>
         </motion.div>
 
+        {/* Mobile View - Sticky Deck */}
+        <div className="block md:hidden pb-12">
+          {/* Added pb-12 to ensure last card has space */}
+          <AnimatePresence mode="popLayout">
+            {visibleExperiences.map((group, groupIdx) =>
+              group.map((exp, itemIdx) => (
+                <StickyExperienceCard
+                  key={`${exp._id}-${exp.startDate}`}
+                  exp={exp}
+                  index={getFlatIndex(groupIdx, itemIdx)}
+                  totalCards={totalVisibleCards}
+                  isExpanded={expandedCards.has(exp._id)}
+                  onToggle={toggleCard}
+                />
+              ))
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Desktop View - Timeline */}
         <motion.div
-          className="relative max-w-3xl mx-auto"
+          className="hidden md:block relative max-w-3xl mx-auto"
           variants={container}
           initial="hidden"
           animate={isInView ? 'show' : 'hidden'}

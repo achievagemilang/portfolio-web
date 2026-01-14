@@ -62,7 +62,7 @@ export const professionalExperiencesList = [
       'Improved system reliability by identifying and resolving **5+ development issues**, ensuring **99.9% app uptime** and smooth user experiences.',
       'Optimized user workflows through intuitive search and filter features, **reducing time spent accessing key bansos data and reports** by an estimated **40%.**',
     ],
-    logoUrl: '/company/Kemenkeu.png',
+    logoUrl: '/company/MoF.png',
     website: 'https://www.kemenkeu.go.id/home',
     type: 'Contract',
   },
