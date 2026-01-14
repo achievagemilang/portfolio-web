@@ -21,7 +21,7 @@ export default function GlobalAIChat() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={openChat}
-            className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/30 transition-shadow hover:shadow-red-500/50"
+            className="fixed bottom-6 right-6 z-[9999] flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg shadow-red-500/30 transition-shadow hover:shadow-red-500/50"
             aria-label="Open AI Assistant"
           >
             <BotMessageSquareIcon className="h-6 w-6 animate-pulse" />
@@ -40,7 +40,7 @@ export default function GlobalAIChat() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 z-50 w-[90vw] max-w-[400px] h-[500px] rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5"
+            className="fixed bottom-24 right-6 z-[9999] w-[90vw] max-w-[400px] h-[500px] rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5"
           >
             <ChatInterface isFloating={true} onClose={close} onSwitchToVoice={openVoice} />
           </motion.div>

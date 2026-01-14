@@ -17,7 +17,7 @@ export default function Footer() {
           <Link href="/" className="flex items-center space-x-2">
             <div className="relative h-10 w-10 overflow-hidden">
               <Image
-                src="/AGLogoRevamped.png?height=40&width=40"
+                src="/AGLogoRevamped.png"
                 alt="Logo"
                 width={40}
                 height={40}

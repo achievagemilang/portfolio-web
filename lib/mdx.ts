@@ -2,7 +2,7 @@
  * @deprecated Use FileSystemBlogPostRepository instead
  * This file is kept for backward compatibility
  */
-import { createBlogPostRepository } from '@/infrastructure/config/repositories.config';
+import { createBlogPostRepository } from '@/infrastructure/config/blog-repositories.config';
 
 const repository = createBlogPostRepository();
 

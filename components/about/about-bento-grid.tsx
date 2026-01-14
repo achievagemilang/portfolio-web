@@ -62,7 +62,7 @@ export default function AboutBentoGrid() {
       >
         <div className="relative w-40 h-40 mb-6 rounded-full overflow-hidden border-4 border-primary/10 shadow-xl">
           <ImageWithSkeleton
-            src="/pas_foto_new.png?height=160&width=160"
+            src="/pas_foto_new.png"
             alt="Achieva Futura Gemilang"
             fill
             className="object-cover"

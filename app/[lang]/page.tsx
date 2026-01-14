@@ -4,10 +4,8 @@ import Hero from '@/components/home/hero';
 import Projects from '@/components/home/projects';
 import PageTransition from '@/components/util/page-transition';
 import { experiencesList } from '@/constant/constant';
-import {
-  createBlogPostRepository,
-  createProjectService,
-} from '@/infrastructure/config/repositories.config';
+import { createBlogPostRepository } from '@/infrastructure/config/blog-repositories.config';
+import { createProjectService } from '@/infrastructure/config/repositories.config';
 
 import { en } from '@/locales/en';
 import { id } from '@/locales/id';
