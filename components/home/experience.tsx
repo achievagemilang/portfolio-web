@@ -4,11 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
 import type { Experience } from '@/content-config';
+import { useLanguage } from '@/context/language-context';
 import { format } from 'date-fns';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { Briefcase, Calendar, ChevronDown, ExternalLink, GraduationCap, Heart } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import StickyExperienceCard from './sticky-experience-card';
 
 interface ExperienceProps {
   experiences: Experience[];
@@ -26,9 +28,6 @@ function groupExperiencesById(experiences: Experience[]) {
   );
   return Object.values(groups);
 }
-
-import { useLanguage } from '@/context/language-context';
-import StickyExperienceCard from './sticky-experience-card';
 
 export default function Experience({ experiences }: ExperienceProps) {
   const { t } = useLanguage();
@@ -183,7 +182,6 @@ export default function Experience({ experiences }: ExperienceProps) {
                   key={`${exp._id}-${exp.startDate}`}
                   exp={exp}
                   index={getFlatIndex(groupIdx, itemIdx)}
-                  totalCards={totalVisibleCards}
                   isExpanded={expandedCards.has(exp._id)}
                   onToggle={toggleCard}
                 />

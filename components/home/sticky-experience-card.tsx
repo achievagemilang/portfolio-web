@@ -8,13 +8,12 @@ import { useLanguage } from '@/context/language-context';
 import { format } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Calendar, ChevronDown, ExternalLink } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface StickyExperienceCardProps {
   exp: Experience;
   index: number;
-  totalCards: number; // useful if we want to reverse stack or do other calculations
   isExpanded: boolean;
   onToggle: (id: string) => void;
 }
@@ -27,42 +26,13 @@ export default function StickyExperienceCard({
 }: StickyExperienceCardProps) {
   const { t } = useLanguage();
 
-  // "Sticky Deck" logic
-  const stickyTop = 100 + index * 10;
+  // "Sticky Deck" logic functionality removed as per user request
   const cardRef = useRef<HTMLDivElement>(null);
-  const [isStuck, setIsStuck] = useState(false);
-
-  useEffect(() => {
-    // We always want to track stickiness if expanded to fade out content
-    if (!isExpanded) {
-      setIsStuck(false);
-      return;
-    }
-
-    const handleScroll = () => {
-      if (cardRef.current) {
-        const rect = cardRef.current.getBoundingClientRect();
-        // Check if card is at or above its sticky position (with small buffer)
-        setIsStuck(rect.top <= stickyTop + 1);
-      }
-    };
-
-    // Run once on mount/expand to check initial state
-    handleScroll();
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isExpanded, stickyTop]);
 
   return (
     <motion.div
       ref={cardRef}
       className="mb-4"
-      style={{
-        position: 'sticky',
-        top: stickyTop,
-        zIndex: index + 1, // Ensure natural stacking order
-      }}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -134,13 +104,12 @@ export default function StickyExperienceCard({
               initial={{ height: 0, opacity: 0 }}
               animate={{
                 height: 'auto',
-                opacity: isStuck ? 0 : 1, // Fade out when stuck
-                filter: isStuck ? 'blur(4px)' : 'blur(0px)', // Blur effect
+                opacity: 1,
+                filter: 'blur(0px)',
               }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               style={{ overflow: 'hidden' }}
-              className={isStuck ? 'pointer-events-none' : ''}
             >
               <CardContent className="pt-0 pb-6">
                 <div className="space-y-6">
