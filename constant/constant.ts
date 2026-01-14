@@ -95,8 +95,21 @@ export const professionalExperiencesList = [
       "Architected 'Medisea' (**Go/React**), a pharmaceutical marketplace, implementing **enterprise-grade resilience patterns** including **circuit breakers** and **exponential backoff**. Designed a **thread-safe in-memory caching** layer to reduce downstream latency.",
       'Optimized critical backend endpoints using **k6**, reducing **P95 latency by 85% (700ms to <100ms)** under heavy load conditions.',
     ],
-    logoUrl: './company/Shopee.svg',
+    logoUrl: '/company/Shopee.svg',
     website: 'https://www.sea.com/products/shopee',
+    type: 'Internship',
+  },
+  {
+    _id: 'exp-7',
+    company: 'Grab',
+    position: 'Software Engineer',
+    startDate: '2026-02-01',
+    endDate: '',
+    description:
+      'Leading superapp in Southeast Asia, providing ride-hailing, food delivery, and digital payments ($19.57B market cap).',
+    achievements: ['GrabFood 🛵🥘'],
+    logoUrl: '/company/Grab.jpg',
+    website: 'https://www.grab.com/',
     type: 'Internship',
   },
 ];
