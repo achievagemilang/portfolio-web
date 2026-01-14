@@ -31,7 +31,7 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
+    <div className="container mx-auto py-8 md:py-12">
       <ProjectDetailHeader
         title={project.title}
         author={
@@ -51,7 +51,7 @@ export default function ProjectContent({ project, allProjects }: ProjectContentP
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Main Content */}
-        <div className="lg:col-span-8 space-y-12">
+        <div className="lg:col-span-8 space-y-12 px-8 py-4 border border-border rounded-md">
           {/* TL;DR Section - Always render */}
           <section id="tldr" className="scroll-mt-24">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
