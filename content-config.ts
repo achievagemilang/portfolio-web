@@ -20,6 +20,7 @@ export interface Experience {
   logoUrl: string;
   website: string;
   category: string;
+  type?: string;
 }
 
 export interface Project {

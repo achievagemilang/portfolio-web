@@ -169,7 +169,7 @@ export default function Experience({ experiences }: ExperienceProps) {
         >
           {/* Timeline line - animate it growing */}
           <motion.div
-            className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border -ml-px md:ml-0"
+            className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-border"
             initial={{ height: 0 }}
             animate={isInView ? { height: '100%' } : { height: 0 }}
             transition={{ duration: 1.5 }}
@@ -186,11 +186,11 @@ export default function Experience({ experiences }: ExperienceProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                  className="relative mb-12 pl-12 md:pl-0"
+                  className="relative mb-8 md:mb-12 pl-0 md:pl-0"
                 >
                   {/* Timeline dot - with pulse animation */}
                   <motion.div
-                    className="absolute left-4 md:left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5 md:-ml-1.5"
+                    className="hidden md:block absolute left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5"
                     initial={{ scale: 0 }}
                     animate={isInView ? { scale: [0, 1.2, 1] } : { scale: 0 }}
                     transition={{ delay: 0.2 + groupIdx * 0.2, duration: 0.5 }}
@@ -275,14 +275,21 @@ export default function Experience({ experiences }: ExperienceProps) {
                                       <h4 className="text-lg font-semibold text-foreground mb-1">
                                         {exp.position}
                                       </h4>
-                                      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                                        <Calendar size={12} className="flex-shrink-0" />
-                                        <span>
-                                          {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
-                                          {exp.endDate
-                                            ? format(new Date(exp.endDate), 'MMM yyyy')
-                                            : t.home.experience.present}
-                                        </span>
+                                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-muted-foreground">
+                                        <div className="flex items-center gap-1.5">
+                                          <Calendar size={12} className="flex-shrink-0" />
+                                          <span>
+                                            {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
+                                            {exp.endDate
+                                              ? format(new Date(exp.endDate), 'MMM yyyy')
+                                              : t.home.experience.present}
+                                          </span>
+                                        </div>
+                                        {exp.type && (
+                                          <span className="inline-flex items-center rounded-md bg-secondary/50 px-2 py-0.5 text-xs text-secondary-foreground ring-1 ring-inset ring-secondary/50">
+                                            {exp.type}
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                     <ul className="space-y-2.5">
@@ -368,11 +375,11 @@ export default function Experience({ experiences }: ExperienceProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                  className="relative mb-12 pl-12 md:pl-0"
+                  className="relative mb-8 md:mb-12 pl-0 md:pl-0"
                 >
                   {/* Timeline dot - with pulse animation */}
                   <motion.div
-                    className="absolute left-4 md:left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5 md:-ml-1.5"
+                    className="hidden md:block absolute left-1/2 top-6 w-3 h-3 rounded-full bg-transparent -ml-1.5"
                     initial={{ scale: 0 }}
                     animate={isInView ? { scale: [0, 1.2, 1] } : { scale: 0 }}
                     transition={{ delay: 0.2 + groupIdx * 0.2, duration: 0.5 }}
