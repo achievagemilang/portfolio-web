@@ -91,6 +91,21 @@ export const professionalExperiencesList = [
     endDate: '2025-03-31',
     description: 'Leading e-commerce platform in Southeast Asia and Taiwan ($79.90B market cap).',
     achievements: [
+      'Rescinded due to a schedule conflict with my thesis work.',
+      'Received a letter of recommendation to attend the next batch.',
+    ],
+    logoUrl: '/company/Shopee.svg',
+    website: 'https://www.sea.com/products/shopee',
+    type: 'Internship',
+  },
+  {
+    _id: 'exp-6',
+    company: 'Shopee',
+    position: 'Software Engineer',
+    startDate: '2025-06-01',
+    endDate: '2025-12-31',
+    description: 'Leading e-commerce platform in Southeast Asia and Taiwan ($79.90B market cap).',
+    achievements: [
       'Emerged as the **Top Graduate (1st place) among 28+ trainees** selected from **1,000+ applicants (<3% acceptance rate)** for the intensive Sea Labs engineering bootcamp.',
       "Architected 'Medisea' (**Go/React**), a pharmaceutical marketplace, implementing **enterprise-grade resilience patterns** including **circuit breakers** and **exponential backoff**. Designed a **thread-safe in-memory caching** layer to reduce downstream latency.",
       'Optimized critical backend endpoints using **k6**, reducing **P95 latency by 85% (700ms to <100ms)** under heavy load conditions.',
