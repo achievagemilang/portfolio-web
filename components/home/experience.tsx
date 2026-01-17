@@ -104,15 +104,6 @@ export default function Experience({ experiences }: ExperienceProps) {
     show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  // Helper to calculate total items before the current group for flat indexing
-  const getFlatIndex = (groupIdx: number, itemIdx: number) => {
-    let count = 0;
-    for (let i = 0; i < groupIdx; i++) {
-      count += visibleExperiences[i].length;
-    }
-    return count + itemIdx;
-  };
-
   const totalVisibleCards = visibleExperiences.reduce((acc, group) => acc + group.length, 0);
 
   return (
@@ -176,17 +167,15 @@ export default function Experience({ experiences }: ExperienceProps) {
         <div className="block md:hidden pb-12">
           {/* Added pb-12 to ensure last card has space */}
           <AnimatePresence mode="popLayout">
-            {visibleExperiences.map((group, groupIdx) =>
-              group.map((exp, itemIdx) => (
-                <StickyExperienceCard
-                  key={`${exp._id}-${exp.startDate}`}
-                  exp={exp}
-                  index={getFlatIndex(groupIdx, itemIdx)}
-                  isExpanded={expandedCards.has(exp._id)}
-                  onToggle={toggleCard}
-                />
-              ))
-            )}
+            {visibleExperiences.map((group, groupIdx) => (
+              <StickyExperienceCard
+                key={group[0]._id}
+                experiences={group}
+                index={groupIdx}
+                isExpanded={expandedCards.has(group[0]._id)}
+                onToggle={toggleCard}
+              />
+            ))}
           </AnimatePresence>
         </div>
 
