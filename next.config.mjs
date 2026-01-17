@@ -5,9 +5,9 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     mdxRs: true,
-    turbo: {
-      root: process.cwd(),
-    },
+  },
+  turbopack: {
+    root: process.cwd(),
   },
   images: {
     remotePatterns: [
