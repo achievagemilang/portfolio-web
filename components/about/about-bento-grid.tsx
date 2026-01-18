@@ -6,20 +6,26 @@ import ImageWithSkeleton from '@/components/ui/image-with-skeleton';
 import { useLanguage } from '@/context/language-context';
 import { motion } from 'framer-motion';
 import {
+  Activity,
+  Atom,
+  Bot,
   Code2,
+  Coffee,
+  Cog,
+  Container,
   Cpu,
-  Gamepad2,
-  Globe,
+  Database,
+  Dumbbell,
+  Gamepad,
   Heart,
   Laptop,
   Library,
   Mail,
-  Music2,
   Rocket,
+  Smartphone,
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-
 const BentoCard = ({
   children,
   className,
@@ -43,14 +49,21 @@ export default function AboutBentoGrid() {
   const { t } = useLanguage();
   const techStack = [
     { name: 'Go', icon: <Cpu size={14} /> },
-    { name: 'Spring Boot', icon: <Code2 size={14} /> },
-    { name: 'Next.js', icon: <Globe size={14} /> },
-    { name: 'React', icon: <Code2 size={14} /> },
-    { name: 'Flutter', icon: <Code2 size={14} /> },
-    { name: 'Django', icon: <Code2 size={14} /> },
-    { name: 'NestJS', icon: <Code2 size={14} /> },
-    { name: 'ExpressJS', icon: <Code2 size={14} /> },
-    { name: 'Kotlin', icon: <Code2 size={14} /> },
+    { name: 'Java', icon: <Coffee size={14} /> },
+    { name: 'Python', icon: <Code2 size={14} /> },
+    { name: 'Rust', icon: <Cog size={14} /> },
+    { name: 'JavaScript', icon: <Code2 size={14} /> },
+    { name: 'TypeScript', icon: <Code2 size={14} /> },
+    { name: 'AI Agents', icon: <Bot size={14} /> },
+    { name: 'SQL', icon: <Database size={14} /> },
+    { name: 'NoSQL', icon: <Database size={14} /> },
+    { name: 'Docker', icon: <Container size={14} /> },
+    { name: 'K8s', icon: <Container size={14} /> },
+    { name: 'Terraform', icon: <Container size={14} /> },
+    { name: 'OpenTelemetry', icon: <Activity size={14} /> },
+    { name: 'Event Streaming', icon: <Activity size={14} /> },
+    { name: 'React', icon: <Atom size={14} /> },
+    { name: 'Flutter', icon: <Smartphone size={14} /> },
   ];
 
   return (
@@ -112,7 +125,12 @@ export default function AboutBentoGrid() {
         </div>
         <div className="flex flex-wrap gap-2">
           {techStack.map((tech) => (
-            <Badge key={tech.name} variant="secondary" className="px-2 py-1 text-xs">
+            <Badge
+              key={tech.name}
+              variant="secondary"
+              className="px-2 py-1 text-xs flex items-center gap-1"
+            >
+              {tech.icon}
               {tech.name}
             </Badge>
           ))}
@@ -141,16 +159,16 @@ export default function AboutBentoGrid() {
         </div>
         <div className="grid grid-cols-3 gap-4 text-center">
           <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
-            <Music2 className="h-8 w-8 text-indigo-500" />
-            <span className="font-medium text-sm">{t.about.bento.hobbies.music}</span>
+            <Gamepad className="h-8 w-8 text-indigo-500" />
+            <span className="font-medium text-sm">{t.about.bento.hobbies.gaming}</span>
           </div>
           <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
             <Library className="h-8 w-8 text-emerald-500" />
             <span className="font-medium text-sm">{t.about.bento.hobbies.reading}</span>
           </div>
           <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
-            <Gamepad2 className="h-8 w-8 text-orange-500" />
-            <span className="font-medium text-sm">{t.about.bento.hobbies.gaming}</span>
+            <Dumbbell className="h-8 w-8 text-orange-500" />
+            <span className="font-medium text-sm">{t.about.bento.hobbies.gym}</span>
           </div>
         </div>
       </BentoCard>

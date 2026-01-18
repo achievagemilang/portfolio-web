@@ -81,9 +81,9 @@ export const en = {
       },
       hobbies: {
         title: 'Beyond Coding',
-        music: 'Music',
-        reading: 'Reading',
         gaming: 'Gaming',
+        reading: 'Reading',
+        gym: 'Gym',
       },
       contact: {
         title: "Let's Talk!",

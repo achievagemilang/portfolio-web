@@ -83,9 +83,9 @@ export const id: Dictionary = {
       },
       hobbies: {
         title: 'Di Luar Coding',
-        music: 'Musik',
+        gaming: 'Ngegame',
         reading: 'Membaca',
-        gaming: 'Gaming',
+        gym: 'Olahraga',
       },
       contact: {
         title: 'Mari Bicara!',
